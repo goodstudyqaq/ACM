@@ -1,3 +1,9 @@
+/*
+给定一个图，u到v的最短路表示为 
+\sum\limits_{i=1}^{k}{w_{e_i}} - \max\limits_{i=1}^{k}{w_{e_i}} + \min\limits_{i=1}^{k}{w_{e_i}}
+ 求1到其他点的最短路
+*/
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -100,7 +106,7 @@ vector< pll > edges[maxn];
 long long d[maxn][3][3];
 
 int main() {
-	freopen("data.in", "r", stdin);
+	// freopen("data.in", "r", stdin);
 	int n, m;
 	scanf("%d %d", &n, &m);
 	int u, v, w;

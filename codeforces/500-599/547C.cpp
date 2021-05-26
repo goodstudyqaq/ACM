@@ -1,3 +1,8 @@
+/*
+给定一个数组，有一个集合S，最开始S为空，每次询问给定一个下标idx，
+如果下标在S里，就把它删掉，如果不在，就把它加进去，每次询问返回集合S里gcd=1的点对数
+*/
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -192,7 +197,7 @@ void work(int idx) {
 }
 
 int main() {
-	freopen("data1.in", "r", stdin);
+	// freopen("data1.in", "r", stdin);
 	int n, q;
 	init();	 //41538
 	// cout << id << endl;
