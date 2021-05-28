@@ -1,7 +1,7 @@
 /*
-求四元环，根号分治做法
+求四元环，图论做法
+https://blog.csdn.net/weixin_43466755/article/details/112985722
 */
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -95,150 +95,121 @@ void debug_out(Head H, Tail... T) {
 #else
 #define debug(...) 42
 #endif
+
 const int maxn = 1e5 + 5;
 vector< int > V[maxn];
-vector< int > big_idx, small_idx;
+int ax[2 * maxn], acnt;
+vector< int > g[maxn * 3], g2[maxn * 3];
+int rk[maxn * 3];
+int cnt[maxn * 3];
+vector< int > ans;
+int deg[maxn * 3];
+int f[maxn * 3];
 
-int ans1, ans2;
-
-int b[2 * maxn], bcnt;
 int n;
-bool vis[2 * maxn];
-bool check_big() {
-	for (int i = 0; i < big_idx.size(); i++) {
-		for (int j = 0; j < V[big_idx[i]].size(); j++) {
-			vis[V[big_idx[i]][j]] = 1;
-		}
-
-		for (int j = 1; j <= n; j++)
-			if (j != big_idx[i]) {
-				int cnt = 0;
-				for (int k = 0; k < V[j].size(); k++) {
-					if (vis[V[j][k]]) {
-						cnt++;
-					}
-				}
-				if (cnt >= 2) {
-					ans1 = big_idx[i], ans2 = j;
-					if (ans1 > ans2) {
-						swap(ans1, ans2);
-					}
-					return true;
-				}
-			}
-
-		for (int j = 0; j < V[big_idx[i]].size(); j++) {
-			vis[V[big_idx[i]][j]] = 0;
-		}
+bool cmp(int a, int b) {
+	if (deg[a] != deg[b]) {
+		return deg[a] < deg[b];
 	}
-	return false;
+	return a < b;
+}
+void init() {
+	for (int i = 1; i <= n; i++) {
+		V[i].clear();
+	}
+	acnt = 0;
+	ans.clear();
 }
 
-vector< pair< int, int > > g[maxn * 2];
-int id[maxn * 2];
-bool check_small() {
-
-	for (int i = 1; i <= bcnt; i++) {
+void init2() {
+	for (int i = 1; i <= n + acnt; i++) {
 		g[i].clear();
+		g2[i].clear();
+		cnt[i] = 0;
+		deg[i] = 0;
 	}
+}
 
-	for (int i = 0; i < small_idx.size(); i++) {
-		int idx = small_idx[i];
-		for (int j = 0; j < V[idx].size(); j++) {
-			for (int k = j + 1; k < V[idx].size(); k++) {
-				int val1 = V[idx][j];
-				int val2 = V[idx][k];
-				if (val1 > val2) {
-					swap(val1, val2);
-				}
-				g[val1].push_back({ val2, idx });
-			}
-		}
-	}
+bool check() {
 
-	for (int i = 1; i <= bcnt; i++) {
-		id[i] = 0;
-	}
-	for (int i = 1; i <= bcnt; i++) {
-		if (g[i].size()) {
-			for (auto v : g[i]) {
-				if (id[v.first]) {
-					ans1 = v.second;
-					ans2 = id[v.first];
-					if (ans1 > ans2) {
-						swap(ans1, ans2);
+	for (int u = 1; u <= n + acnt; u++) {
+		for (auto v : g[u]) {
+			for (auto w : g2[v]) {
+				if (rk[w] > rk[u]) {
+					if (cnt[w]) {
+						ans.push_back(u);
+						ans.push_back(v);
+						ans.push_back(w);
+						ans.push_back(cnt[w]);
+						sort(ans.begin(), ans.end());
 						return true;
 					}
+					cnt[w] = v;
 				}
-				id[v.first] = v.second;
 			}
-
-			for (auto v : g[i]) {
-				id[v.first] = 0;
+		}
+		for (auto v : g[u]) {
+			for (auto w : g2[v]) {
+				if (rk[w] > rk[u]) {
+					cnt[w] = 0;
+				}
 			}
 		}
 	}
-
 	return false;
 }
 
 int main() {
+	freopen("data.in", "r", stdin);
 	int T;
 	scanf("%d", &T);
 	while (T--) {
 		scanf("%d", &n);
-
-		for (int i = 1; i <= n; i++) {
-			V[i].clear();
-		}
-		big_idx.clear();
-		small_idx.clear();
-		bcnt = 0;
-
-		int cnt = 0;
+		init();
 		for (int i = 1; i <= n; i++) {
 			int k, a;
 			scanf("%d", &k);
-			cnt += k;
 			for (int j = 1; j <= k; j++) {
 				scanf("%d", &a);
 				V[i].push_back(a);
-				b[++bcnt] = a;
+				ax[++acnt] = a;
 			}
 		}
 
-		sort(b + 1, b + 1 + bcnt);
-		bcnt = unique(b + 1, b + 1 + bcnt) - b - 1;
-		debug(bcnt);
+		sort(ax + 1, ax + 1 + acnt);
+		acnt = unique(ax + 1, ax + 1 + acnt) - ax - 1;
+		init2();
+		debug(acnt);
 
 		for (int i = 1; i <= n; i++) {
 			for (int j = 0; j < V[i].size(); j++) {
-				int idx = lower_bound(b + 1, b + 1 + bcnt, V[i][j]) - b;
-				V[i][j] = idx;
+				int idx = lower_bound(ax + 1, ax + 1 + acnt, V[i][j]) - ax;
+				idx = idx + n;
+				g[i].push_back(idx);
+				g[idx].push_back(i);
+				deg[i]++;
+				deg[idx]++;
 			}
 		}
 
-		int m = sqrt(cnt);
-
-		for (int i = 1; i <= n; i++) {
-			if (V[i].size() > m) {
-				big_idx.push_back(i);
-			} else {
-				small_idx.push_back(i);
+		for (int i = 1; i <= n + acnt; i++) {
+			f[i] = i;
+		}
+		sort(f + 1, f + 1 + n + acnt, cmp);
+		for (int i = 1; i <= n + acnt; i++) {
+			rk[f[i]] = i;
+		}
+		for (int u = 1; u <= n + acnt; u++) {
+			for (auto v : g[u]) {
+				if (deg[u] < deg[v] || (deg[u] == deg[v] && u < v)) {
+					g2[u].push_back(v);
+				}
 			}
 		}
-
-		for (int i = 1; i <= bcnt; i++) {
-			vis[i] = 0;
-		}
-
-		if (check_big()) {
-			printf("%d %d\n", ans1, ans2);
-		} else if (check_small()) {
-			printf("%d %d\n", ans1, ans2);
+		if (check()) {
+			printf("%d %d\n", ans[0], ans[1]);
 		} else {
 			puts("-1");
 		}
 	}
-	return 0;
 }
