@@ -11,3 +11,7 @@
 - 重新定义最短路函数
   - 可以考虑分层，将一些状态加到dist上面
     - [CF1473E](../codeforces/1400-1499/1473E.cpp)
+
+## 四元环
+- [四元环讲解](./four_node_circle.md)
+- 裸题： [CF1468M](../codeforces/1400-1499/1468M.cpp)
