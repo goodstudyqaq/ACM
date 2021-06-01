@@ -1,3 +1,7 @@
+/*
+一个2*n的矩阵，里面的值大小1到n，能进行的操作是翻转matrix[1][j]和matrix[2][j]的值，最后使得这两行都是1到n的全排列，问最少操作数
+*/
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -193,7 +197,7 @@ int work() {
 }
 
 int main() {
-	freopen("data.in", "r", stdin);
+	// freopen("data.in", "r", stdin);
 	int T;
 	scanf("%d", &T);
 	while (T--) {

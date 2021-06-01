@@ -1,3 +1,6 @@
+/*	
+n个线段，删掉一个线段，使得剩下的线段Union后的线段个数最大，输出最大值。
+*/
 #include <bits/stdc++.h>
 
 using namespace std;
