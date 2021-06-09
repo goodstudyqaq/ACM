@@ -1,0 +1,277 @@
+{
+    "head_name": "Codeforces AC Codes",
+    "sub_head_name": "刷题日记",
+    "new_file_name": "./test.md",
+    "field_name": [
+        {
+            "name": "日期",
+            "value": "date"
+        },
+        {
+            "name": "题目",
+            "value": "problem"
+        },
+        {
+            "name": "题意",
+            "value": "title"
+        },
+        {
+            "name": "rating",
+            "value": "rating"
+        },
+        {
+            "name": "提交次数",
+            "value": "submit_number"
+        },
+        {
+            "name": "tag",
+            "value": "tag"
+        },
+        {
+            "name": "题解",
+            "value": "answer"
+        }
+    ],
+    "content": [
+        {
+            "date": "2021-06-03",
+            "problem": "[CF449D](https://codeforces.com/contest/449/problem/D)",
+            "title": "n个数，要求选k个数，满足这k个数相与等于0，输出方案个数%1e9+7",
+            "rating": 2400,
+            "submit_number": "1/1",
+            "tag": "dp 容斥 套路"
+        },
+        {
+            "problem": "[CF1263F](https://codeforces.com/contest/1263/problem/F)",
+            "title": "有两颗树，它们的叶子节点有一条边连向一个共同节点，且这条边在物理上不会相交。。要求切割掉尽量多的边，并且保证共同节点仍然能到一棵树的根。输出切掉的边的数量",
+            "rating": 2400,
+            "submit_number": "2/1",
+            "tag": "树形dp"
+        },
+        {
+            "date": "2021-06-02",
+            "problem": "[CF677D](https://codeforces.com/contest/677/problem/D)",
+            "title": "n*m的矩阵，每个点有一个值，最大的值为p，要求从1依次走到p(即先到等于1的点，再到等于2的点。。)的最小步数",
+            "rating": 2300,
+            "submit_number": "1/1",
+            "tag": "思维，最短路，分块"
+        },
+        {
+            "problem": "[CF1282E](https://codeforces.com/contest/1282/problem/E)",
+            "title": "一个n边形给出切割后的n-2个三角形的下标，求这个n边形的下标顺序，以及切三角形的顺序",
+            "rating": 2400,
+            "submit_number": "3/1",
+            "tag": "构造，拓扑排序"
+        },
+        {
+            "date": "2021-06-01",
+            "problem": "[CF1285E](https://codeforces.com/contest/1285/problem/E)",
+            "title": "n个线段，删掉一个线段，使得剩下的线段Union后的线段个数最大，输出最大值。",
+            "rating": 2300,
+            "submit_number": "14/1",
+            "tag": "单调栈"
+        },
+        {
+            "problem": "[CF1385G](https://codeforces.com/contest/1385/problem/G)",
+            "title": "一个2*n的矩阵，里面的值大小1到n，能进行的操作是翻转matrix[1][j]和matrix[2][j]的值,最后使得这两行都是1到n的全排列，问最少操作数",
+            "rating": 2300,
+            "submit_number": "1/1",
+            "tag": "2-sat"
+        },
+        {
+            "date": "2021-05-31",
+            "problem": "[CF425D](https://codeforces.com/contest/425/problem/D)",
+            "title": "平面直角坐标系上有 n 个互不相同的点，求有多少个边与坐标轴平行的正方形，其四个顶点均在这 n 个点中。",
+            "rating": 2300,
+            "submit_number": "8/1",
+            "tag": "分块思想"
+        },
+        {
+            "problem": "[CF1394B](https://codeforces.com/contest/1394/problem/B)",
+            "title": "n个点m条边，每个点的度不超过k(k<=9),每条边有一个权值，所有边的权值是1~m的全排列，现在有一个c数组，ci表示，如果一个点的度数为i，那么从这个点会走到连接这个点的权值第ci小的边，给出所有c的方案，使得从任意一个点走都能回到原处。",
+            "rating": 2300,
+            "submit_number": "2/1",
+            "tag": "图论，集合哈希"
+        },
+        {
+            "date": "2021-05-30",
+            "problem": "[CF825E](https://codeforces.com/contest/825/problem/E)",
+            "title": "给一个 DAG，不保证连通需要给每个点标号，要求每条边的入点标号小于出点标号，且全体标号是一个 1~n 的排列。求字典序最小排列。",
+            "rating": 2300,
+            "submit_number": "1/1",
+            "tag": "拓扑"
+        },
+        {
+            "problem": "[CF1403B](https://codeforces.com/contest/1403/problem/B)",
+            "title": "给一颗树，每次选择2个叶子结点，进行清扫，清扫的代价是这两个点最短路经过的边，叶子节点不能重复选择，要求最后的方案一定要包括所有的边，并且代价和最小。q次询问，每次询问会在若干个点下加叶子结点，输出最小代价和。",
+            "rating": 2300,
+            "submit_number": "0",
+            "tag": "树链剖分"
+        },
+        {
+            "date": "2021-05-28",
+            "problem": "[CF1239C](https://codeforces.com/contest/1239/problem/C)",
+            "title": "n 个人坐成一列，每个人都有一个打算喝水的时间点 ti，一个人不到点是不会去喝水的。另外，饮水机在第一个人座位的左侧，也就是说如果有多人同时要去喝水，那么位置靠左的人会先起身。一个人在饮水机接水需要时间（但是走路不要时间），每个人接水消耗的时间一样。由于没人喜欢排队，所以如果一个人发现在他的前方（编号小于他）的任意一个座位空了（说明那个人正在排队），他就会在自己的座位上等待，直到所有在他前方的人都回到座位上。需要注意的一点是，如果有几个人同时打算起身，编号最靠前的会先起身，而靠后的会坐下。",
+            "rating": 2300,
+            "submit_number": "8/1",
+            "tag": "模拟"
+        },
+        {
+            "problem": "[CF1408E](https://codeforces.com/contest/1408/problem/E)",
+            "title": "现在有m个set，set里的结点两两相连，边的权值告诉你了，另外边有颜色，的边的颜色等于当前set的下标。如果有一个环上的边的颜色存在多种，那么是不合法的。求删掉若干个变，使得当前图是合法的。",
+            "rating": 2400,
+            "submit_number": "2/1",
+            "tag": "建图，最大生成树"
+        },
+        {
+            "date": "2021-05-27",
+            "problem": "[CF1276C](https://codeforces.com/contest/1276/problem/C)",
+            "title": "给 4e5 个数，请你选出尽可能多的数，填满一个矩阵，且矩阵每行每列不能有重复数字",
+            "rating": 2300,
+            "submit_number": "8/1",
+            "tag": "构造"
+        },
+        {
+            "problem": "[CF1468M](https://codeforces.com/contest/1468/problem/M)",
+            "title": "给 n 个集合，每个集合至少两个元素，共 2e5 个元素。问是否有两个集合的交集大小至少为 2",
+            "rating": 2300,
+            "submit_number": "9/1",
+            "tag": "分块思想"
+        },
+        {
+            "date": "2021-05-26",
+            "problem": "[CF547C](https://codeforces.com/contest/547/problem/C)",
+            "title": "给定一个数组，有一个集合S，最开始S为空，每次询问给定一个下标idx，如果下标在S里，就把它删掉，如果不在，就把它加进去，每次询问返回集合S里gcd=1的点对数",
+            "rating": 2300,
+            "submit_number": "13/1",
+            "tag": "gcd,容斥，套路，莫比乌斯函数"
+        },
+        {
+            "problem": "[CF1473E](https://codeforces.com/contest/1473/problem/E)",
+            "title": "给定一个图，u到v的最短路表示为备注所示的函数求1到其余点的最短路",
+            "rating": 2400,
+            "submit_number": "1/1",
+            "tag": "分层图最短路"
+        },
+        {
+            "date": "2021-05-25",
+            "problem": "[CF891C](https://codeforces.com/contest/891/problem/C)",
+            "title": "给定一个带权无向图，每次询问指定若干个边，问这些边能不能全部放到MST里",
+            "rating": 2300,
+            "submit_number": "3/1",
+            "tag": "最小生成树性质"
+        },
+        {
+            "problem": "[CF1483D](https://codeforces.com/contest/1483/problem/D)",
+            "title": "给定一个图，以及q个tuple(u,v,w),对于一个tuple来说，从u到v经过的edge的边权和小于等于w，那么经过的边是有用的，问有用的边的个数",
+            "rating": 2400,
+            "submit_number": "2/1",
+            "tag": "最短路，思维"
+        },
+        {
+            "date": "2021-05-24",
+            "problem": "[CF558E](https://codeforces.com/contest/558/problem/E)",
+            "title": "给一个字符串，执行 1e5 次操作，每次操作选择一个子串以升序或降序排序，输出最终字符串",
+            "rating": 2300,
+            "submit_number": "1/1",
+            "tag": "线段树"
+        },
+        {
+            "problem": "[CF1004D](https://codeforces.com/contest/1004/problem/D)",
+            "title": "一个矩阵中的 a[i][j] 是根据 (i,j) 到矩阵中的某个点 (x,y) 的曼哈顿距离求出的，给出矩阵中的所有值，求出矩阵宽高以及 x 和 y",
+            "rating": 2300,
+            "submit_number": "1/1",
+            "tag": "想法题"
+        },
+        {
+            "date": "2021-05-23",
+            "problem": "[CF901C](https://codeforces.com/contest/901/problem/C)",
+            "title": "给一个只有偶环的无向图，每次查询 [l,r] 有多少个子区间，使子区间内的顶点形成的是一个二分图",
+            "rating": 2300,
+            "submit_number": "1/1",
+            "tag": "仙人掌DFS前缀和二分"
+        },
+        {
+            "problem": "[CF1442C](https://codeforces.com/contest/1442/problem/C)",
+            "title": "有向图，边权为 1，翻转整个图的开销是 2^(k-1)，k 为翻转次数问 1 到 n 的最短路",
+            "rating": 2400,
+            "submit_number": "0",
+            "tag": "01BFS, 分层图最短路"
+        },
+        {
+            "date": "2021-05-22",
+            "problem": "[CF995C](https://codeforces.com/contest/995/problem/C)",
+            "title": "给 n 个模长不超过 1e6 的向量，每个向量可以取反，要使所有向量之和的模长不超过 1.5e6，哪些向量要取反？",
+            "rating": 2300,
+            "submit_number": "8/1",
+            "tag": "随机化"
+        },
+        {
+            "problem": "[CF1137D](https://codeforces.com/contest/1137/problem/D)",
+            "title": "交互题：Floyd 判圈，定位起点",
+            "rating": 2400,
+            "submit_number": "5/1",
+            "tag": "floyd判环"
+        },
+        {
+            "date": "2021-05-21",
+            "problem": "[CF708C](https://codeforces.com/contest/708/problem/C)",
+            "title": "给一颗树，你可以断掉最多一条边，链接到另外两个节点上，使新图仍然是一棵树。问哪些点可以是新树的重心？",
+            "rating": 2300,
+            "submit_number": "3/1",
+            "tag": "dp"
+        },
+        {
+            "problem": "[CF1007B](https://codeforces.com/contest/1007/problem/B)",
+            "title": "给三个数，从中各选一个因子，求形成的无序 (a,b,c) 元组数",
+            "rating": 2400,
+            "submit_number": "1/1",
+            "tag": "数论，容斥，组合数学"
+        },
+        {
+            "date": "2021-05-20",
+            "problem": "[CF429C](https://codeforces.com/contest/429/problem/C)",
+            "title": "有一颗不超过 24 个点的树，除叶节点外的节点都至少有两个孩子。已知所有子树的大小，问这样的树是否存在？",
+            "rating": 2300,
+            "submit_number": "2/1",
+            "tag": "搜索+剪枝"
+        },
+        {
+            "problem": "[CF1371E2](https://codeforces.com/contest/1371/problem/E2)",
+            "title": "给 n 个怪的能力和一个数 p，可以战胜能力值不大于你能力值的怪，每战胜一个怪能力值就加一。定义 f(x) 为初始能力值为 x 时，能战胜所有怪物的怪物排列方案数。求所有的 x，使 f(x) 不被 p 整除。",
+            "rating": 2300,
+            "submit_number": "3/1",
+            "tag": "组合数学，上下界分析"
+        },
+        {
+            "date": "2021-05-19",
+            "problem": "[CF610D](https://codeforces.com/contest/610/problem/D)",
+            "title": "若干宽为 1 的矩形的面积并",
+            "rating": 2300,
+            "submit_number": "27/1",
+            "tag": "扫描线，线段树"
+        },
+        {
+            "problem": "[CF1342E](https://codeforces.com/contest/1342/problem/E)",
+            "title": "N*N 棋盘放 N 个车，要求所有空地都被攻击到，且有 k 对车互相攻击，求方案数。",
+            "rating": 2300,
+            "submit_number": "3/1",
+            "tag": "容斥"
+        },
+        {
+            "date": "2021-05-18",
+            "problem": "[CF1148E](https://codeforces.com/contest/1148/problem/E)",
+            "title": "给两个序列 A B，每次操作从 A 中选择一个数，减去一部分值加到另一个数上，求使 A 变成 B 的具体操作。",
+            "rating": 2300,
+            "submit_number": "33/1",
+            "tag": "思维"
+        },
+        {
+            "problem": "[CF1379D](https://codeforces.com/contest/1379/problem/D)",
+            "title": "环形区间覆盖最多/最少点问题",
+            "rating": 2300,
+            "submit_number": "5/1",
+            "tag": "排序+双指针"
+        }
+    ]
+}
