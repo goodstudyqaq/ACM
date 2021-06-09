@@ -170,7 +170,7 @@ int main() {
 		res2 ^= a[i];
 		add_num(res2);
 		ans = max(ans, query(res));
-		cout << i << ' ' << res << ' ' << res2 << ' ' << ans << endl;
+		// cout << i << ' ' << res << ' ' << res2 << ' ' << ans << endl;
 	}
 	printf("%I64d\n", ans);
 	return 0;
