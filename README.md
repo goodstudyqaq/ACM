@@ -8,5 +8,7 @@
   - [数据结构](./conclusion/data_struct/data_struct.md)
   - [dp](./conclusion/dp/dp.md)
   - [数论](./conclusion/number_theory/number_theory.md)
+  - [字符串](./conclusion/string/string.md)
+  - [其他](./conclusion/other/other.md)
 - [模板](./copypaste/README.md)
 - [杂项](./misc/README.md)
