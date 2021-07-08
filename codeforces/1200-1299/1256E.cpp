@@ -103,6 +103,8 @@ int ans[maxn];
 int main() {
 	freopen("data.in", "r", stdin);
 	scanf("%d", &n);
+	int k = 3;
+
 	for (int i = 1; i <= n; i++) {
 		scanf("%d", &a[i].first);
 		a[i].second = i;
@@ -113,20 +115,15 @@ int main() {
 	}
 	dp[3] = -a[1].first + a[3].first;
 	dp[0] = 0;
+	long long mi = dp[0] - a[1].first;
+	int idx = 1;
 	for (int i = 4; i <= n; i++) {
-		int left = i - 4;
-		int right = i - 2;
-		for (int j = right; j >= left; j--) {
-			long long tmp = a[i].first - a[j].first;
-			int lxt = j - 1;
-			if (lxt != 0) {
-				tmp += dp[lxt];
-			}
-			if (dp[i] > tmp) {
-				dp[i] = tmp;
-				chose_idx[i] = j;
-			}
+		if (mi > dp[i - k] - a[i - k + 1].first) {
+			mi = dp[i - k] - a[i - k + 1].first;
+			idx = i - k + 1;
 		}
+		dp[i] = a[i].first + mi;
+		chose_idx[i] = idx;
 	}
 
 	int now = n;
