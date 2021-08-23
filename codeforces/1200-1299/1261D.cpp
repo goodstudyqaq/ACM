@@ -92,58 +92,37 @@ void debug_out(Head H, Tail... T) {
 #define debug(...) 42
 #endif
 
-const int mod = 1e9 + 7;
-const int mod2 = 1e9 + 6;
+int n, k;
+vector< int > h;
+const int mod = 998244353;
 
-struct Matrix {
-	int n;
-	int mat[5][5];
-
-	Matrix(int _n) {
-		n = _n;
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
-				mat[i][j] = 0;
-			}
-		}
-	}
-
-	Matrix operator*(const Matrix& b) const {
-		Matrix res(n);
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
-				for (int k = 0; k < n; k++) {
-					int tmp = 1LL * mat[i][k] * b.mat[k][j] % mod2;
-					res.mat[i][j] = (res.mat[i][j] + tmp) % mod2;
-				}
-			}
-		}
-		return res;
-	}
-};
-
-Matrix quick(Matrix a, long long b) {
-	Matrix res(a.n);
-	for (int i = 0; i < a.n; i++) {
-		res.mat[i][i] = 1;
-	}
-
+long long quick(long long a, long long b) {
+	long long res = 1;
 	while (b) {
-		if (b % 2) res = res * a;
+		if (b % 2) res = res * a % mod;
+		a = a * a % mod;
 		b /= 2;
-		a = a * a;
 	}
 	return res;
 }
 
-int quick2(int a, int b) {
-	int res = 1;
-	while (b) {
-		if (b % 2) res = 1LL * res * a % mod;
-		b /= 2;
-		a = 1LL * a * a % mod;
+vector< long long > A, B;
+
+void init(int num) {
+	A.resize(num + 1);
+	B.resize(num + 1);
+	A[0] = 1;
+	for (int i = 1; i <= num; i++) {
+		A[i] = A[i - 1] * i % mod;
 	}
-	return res;
+	B[num] = quick(A[num], mod - 2);
+	for (int i = num - 1; i >= 0; i--) {
+		B[i] = B[i + 1] * (i + 1) % mod;
+	}
+}
+
+long long C(int a, int b) {
+	return A[a] * B[b] % mod * B[a - b] % mod;
 }
 
 int main() {
@@ -152,37 +131,43 @@ int main() {
 #endif
 	ios::sync_with_stdio(false);
 	cin.tie(0);
-	int f1, f2, f3, c;
-	long long n;
-	cin >> n >> f1 >> f2 >> f3 >> c;
+	cin >> n >> k;
+	h.resize(n + 1);
+	for (int i = 1; i <= n; i++) {
+		cin >> h[i];
+	}
 
-	Matrix a(3);
-	a.mat[0][0] = a.mat[0][1] = a.mat[0][2] = a.mat[1][0] = a.mat[2][1] = 1;
-	Matrix b(5);
-	b.mat[0][0] = b.mat[0][1] = b.mat[0][2] = 1;
-	b.mat[0][3] = 2;
-	b.mat[0][4] = -4;
-	b.mat[1][0] = 1;
-	b.mat[2][1] = 1;
-	b.mat[3][3] = b.mat[3][4] = 1;
-	b.mat[4][4] = 1;
+	if (k == 1) {
+		cout << 0 << endl;
+		return 0;
+	}
 
-	long long res = 1;
-	long long tmp_n = n - 3;
-	Matrix tmp = quick(a, tmp_n);
+	int num = 0;
+	for (int i = 1; i <= n; i++) {
+		int nxt = i % n + 1;
+		if (h[i] != h[nxt]) num++;
+	}
 
-	int val_f3 = quick2(f3, tmp.mat[0][0]);
-	int val_f2 = quick2(f2, tmp.mat[0][1]);
-	int val_f1 = quick2(f1, tmp.mat[0][2]);
+	if (num == 0) {
+		cout << 0 << endl;
+		return 0;
+	}
+	init(num);
 
-	debug(val_f3, val_f2, val_f1);
-	debug(tmp.mat[0][0], tmp.mat[0][1], tmp.mat[0][2]);
-	res = res * val_f3 % mod * val_f2 % mod * val_f1 % mod;
+	long long res = 0;
+	for (int i = 0; i <= (num - 1) / 2; i++) {
 
-	tmp = quick(b, tmp_n);
-	int val_c = quick2(c, ((1LL * tmp.mat[0][3] * 3 % mod2 + tmp.mat[0][4]) % mod2 + mod2) % mod2);
-	debug(res);
-	res = res * val_c % mod;
+		long long tmp1 = C(num, i);
+		long long tmp2 = 0;
+
+		for (int j = i + 1; i + j <= num; j++) {
+			long long tmp3 = C(num - i, j) * quick(k - 2, num - i - j) % mod;
+			tmp2 = (tmp2 + tmp3) % mod;
+		}
+		tmp1 = tmp1 * tmp2 % mod;
+		res = (res + tmp1) % mod;
+	}
+	res = res * quick(k, n - num) % mod;
 	cout << res << endl;
 	return 0;
 }
