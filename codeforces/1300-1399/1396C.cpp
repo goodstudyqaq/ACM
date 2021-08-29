@@ -110,11 +110,11 @@ int main() {
 	dp[1][1] = min(1LL * a[1] * r1 + r1, 1LL * r2);
 
 	for (int i = 2; i <= n; i++) {
-		dp[i][0] = min({ dp[i - 1][0] + d + 1LL * a[i] * r1 + r3, dp[i - 1][1] + d + 1LL * a[i] * r1 + r3 + d + r1 + d, dp[i - 1][1] + d + a[i] * r1 + r1 + d + r1 + d + r1, dp[i - 1][1] + d + r2 + d + r1 + d + r1 });
-		dp[i][1] = min({ dp[i - 1][0] + d + a[i] * r1 + r1, dp[i - 1][0] + d + r2, dp[i - 1][1] + d + a[i] * r1 + r1 + d + r1 + d, dp[i - 1][1] + d + r2 + d + r1 + d });
+		dp[i][0] = min({ dp[i - 1][0] + d + 1LL * a[i] * r1 + r3, dp[i - 1][1] + d + 1LL * a[i] * r1 + r3 + d + r1 + d, dp[i - 1][1] + d + 1LL * a[i] * r1 + r1 + d + r1 + d + r1, dp[i - 1][1] + d + r2 + d + r1 + d + r1 });
+		dp[i][1] = min({ dp[i - 1][0] + d + 1LL * a[i] * r1 + r1, dp[i - 1][0] + d + r2, dp[i - 1][1] + d + 1LL * a[i] * r1 + r1 + d + r1 + d, dp[i - 1][1] + d + r2 + d + r1 + d });
 	}
 
-	long long ans = min(dp[n][0], dp[n - 1][1] + d + a[n] * r1 + r3 + d + r1);
+	long long ans = min(dp[n][0], dp[n - 1][1] + d + 1LL * a[n] * r1 + r3 + d + r1);
 	cout << ans << endl;
 	return 0;
 }
