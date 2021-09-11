@@ -152,8 +152,8 @@ int main() {
 #endif
 	ios::sync_with_stdio(false);
 	cin.tie(0);
-	int f1, f2, f3, c;
 	long long n;
+	int f1, f2, f3, c;
 	cin >> n >> f1 >> f2 >> f3 >> c;
 
 	Matrix a(3);
