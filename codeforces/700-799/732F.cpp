@@ -201,9 +201,9 @@ int main() {
 	tarjan(1, 0);
 	// 缩点
 
-	for (int i = 1; i <= n; i++) {
-		debug(i, belong[i]);
-	}
+	// for (int i = 1; i <= n; i++) {
+	// 	debug(i, belong[i]);
+	// }
 
 	V2.resize(cnt + 1);
 	cout << ans << '\n';
