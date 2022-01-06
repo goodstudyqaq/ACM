@@ -95,7 +95,7 @@ void debug_out(Head H, Tail... T) {
 typedef pair<long double, long double> pdd;
 
 pdd work(long double a, long double b, long double c) {
-    long double delta = b * b - 4 * a * c;
+    long double delta = fabs(b * b - 4 * a * c);
     long double x1 = (-b + sqrt(delta)) / (2.0 * a);
     long double x2 = (-b - sqrt(delta)) / (2.0 * a);
     if (x1 < x2) swap(x1, x2);
