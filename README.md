@@ -6,7 +6,7 @@
 - 专题的知识点总结
   - [图论](./conclusion/graphs/README.md)
   - [数据结构](./conclusion/data_struct/README.md)
-  - [dp](./conclusion/dp/readme.md)
+  - [dp](./conclusion/dp/README.md)
   - [数论](./conclusion/number_theory/README.md)
   - [字符串](./conclusion/string/README.md)
   - [其他](./conclusion/other/README.md)
