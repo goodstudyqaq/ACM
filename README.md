@@ -13,7 +13,6 @@
   - 数据结构
   - dp
     - [初识DP(译)](./conclusion/dp/初识DP.md)
-    - [常用DP状态定义(译)](./conclusion/dp/常用DP状态定义.md)
     - [如何优化DP(译)](./conclusion/dp/如何优化DP.md)
     - [好题记录](./conclusion/dp/好题记录.md)
     - [买卖股票的三种写法](./conclusion/dp/买卖股票的三种写法.md)
