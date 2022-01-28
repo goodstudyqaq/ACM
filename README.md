@@ -4,8 +4,9 @@
 [![gstnt](https://img.shields.io/badge/gstnt-MASTER%202172-orange?style=for-the-badge)](https://codeforces.com/profile/gstnt)
 
 ## 本 repo 主要涵盖以下内容：
-1. [codeforces 2200 ~ 2400分(暂定)题目代码](./codeforces/README.md)
-2. [leetcode medium + hard, 周赛代码](./leetcode/README.md)
+1. codeforces 2200 ~ 2400分(暂定)题目代码
+  - [刷题记录](https://docs.google.com/spreadsheets/d/1E2LEfFk1LF5tvMDATf5-UqriJVMI9fgcXqTw63XQKvA/edit?usp=sharing)
+2. leetcode medium + hard, 周赛代码
 3. 专题的知识点总结
   - 图论
     - [图的存储](./conclusion/graphs/图的存储.md)
