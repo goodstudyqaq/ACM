@@ -9,7 +9,7 @@ namespace GraphReader {
 void readGraphToVector(int n, int m) {
     // n: 点的范围 [1, n]
     // m: 边的个数
-    vector< vector< int > > V;
+    vector<vector<int> > V;
     V.resize(n + 1);
     int u, v;
     for (int i = 1; i <= m; i++) {
@@ -27,8 +27,8 @@ struct GraphListReader {
         // 其他信息 如权重等。。
         // extra_info
     };
-    vector< Edge > edges;
-    vector< int > head;
+    vector<Edge> edges;
+    vector<int> head;
     int ecnt;
 
     void add_edge(int u, int v) {
