@@ -163,6 +163,7 @@ int main() {
     for (int i = 0; i < n; i++) {
         cin >> x >> y;
         a[i] = Point(x, y - x * x);
+        debug(i, a[i].x, a[i].y);
     }
     sort(a, a + n);
     for (int i = 1; i < n; i++) {
@@ -170,6 +171,12 @@ int main() {
     }
     a[0] = Point(0, 0);
     graham();
-    cout << m - 1 << endl;
+    int ans = 0;
+    for (int i = 0; i < m; i++) {
+        if (h[(i + 1) % m].x < h[i].x) {
+            ans++;
+        }
+    }
+    cout << ans << '\n';
     return 0;
 }
