@@ -24,11 +24,11 @@ string to_string(tuple< A, B, C > p);
 template < typename A, typename B, typename C, typename D >
 string to_string(tuple< A, B, C, D > p);
 
-string to_string(const string &s) {
+string to_string(const string& s) {
     return '"' + s + '"';
 }
 
-string to_string(const char *s) {
+string to_string(const char* s) {
     return to_string((string)s);
 }
 
@@ -63,7 +63,7 @@ template < typename A >
 string to_string(A v) {
     bool first = true;
     string res = "{";
-    for (const auto &x : v) {
+    for (const auto& x : v) {
         if (!first) {
             res += ", ";
         }
@@ -104,52 +104,6 @@ void debug_out(Head H, Tail... T) {
 #else
 #define debug(...) 42
 #endif
-typedef long long ll;
-typedef long double ld;
-
-struct Point {
-    long long x, y;
-    Point() : x(), y() {}
-    Point(ll _x, ll _y) : x(_x), y(_y) {}
-
-    Point operator+(const Point &a) const {
-        return Point(x + a.x, y + a.y);
-    }
-    Point operator-(const Point &a) const {
-        return Point(x - a.x, y - a.y);
-    }
-    ll operator*(const Point &a) const {
-        return x * a.y - y * a.x;
-    }
-
-    double len() const {
-        return sqrtl((ld)x * x + (ld)y * y);
-    }
-
-    bool operator<(const Point &a) const {
-        if (x != a.x) return x < a.x;
-        return y < a.y;
-    }
-};
-
-bool cmp(const Point &v, const Point &u) {
-    ll x = v * u;
-    if (x != 0) return x > 0;
-    return v.len() < u.len();
-}
-
-const int maxn = 100100;
-int n;
-Point a[maxn], h[maxn];
-int m;
-
-void graham() {
-    sort(a, a + n, cmp);
-    for (int i = 0; i < n; i++) {
-        while (m > 1 && (a[i] - h[m - 1]) * (a[i] - h[m - 2]) >= 0) m--;
-        h[m++] = a[i];
-    }
-}
 
 int main() {
     ios::sync_with_stdio(false);
@@ -158,25 +112,45 @@ int main() {
     freopen("data.in", "r", stdin);
 #else
 #endif
-    cin >> n;
-    long long x, y;
-    for (int i = 0; i < n; i++) {
-        cin >> x >> y;
-        a[i] = Point(x, y - x * x);
-        debug(i, a[i].x, a[i].y);
+    const int mod = 1e9 + 7;
+    int n, m;
+    cin >> n >> m;
+
+    vector< vector< int > > dp;
+    vector< vector< int > > sum1, sum2;
+    dp.resize(n + 1, vector< int >(m + 1));
+    sum1.resize(n + 1, vector< int >(m + 1));
+    sum2.resize(n + 1, vector< int >(m + 1));
+    for (int i = 2; i <= m; i++) {
+        dp[1][i] = 1;
+        sum1[1][i] = (sum1[1][i - 1] + dp[1][i]) % mod;
+        sum2[1][i] = (sum2[1][i - 1] + sum1[1][i]) % mod;
     }
-    sort(a, a + n);
-    for (int i = 1; i < n; i++) {
-        a[i] = a[i] - a[0];
-    }
-    a[0] = Point(0, 0);
-    graham();
-    int ans = 0;
-    for (int i = 0; i < m; i++) {
-        if (h[(i + 1) % m].x < h[i].x) {
-            ans++;
+
+    for (int i = 2; i <= n; i++) {
+        for (int j = 2; j <= m; j++) {
+            dp[i][j] = sum2[i - 1][j];
+            sum1[i][j] = (sum1[i][j - 1] + dp[i][j]) % mod;
+            sum2[i][j] = (sum2[i][j - 1] + sum1[i][j]) % mod;
         }
     }
-    cout << ans << '\n';
-    return 0;
+    for (int i = 1; i <= m; i++) sum2[0][i] = 1;
+    debug(sum2);
+    debug(dp);
+    int res = 0;
+    for (int w = 2; w <= m; w++) {
+        int f1 = m + 1 - w;
+        int tmp1 = 0, tmp2 = 0;
+        for (int i = n; i >= 1; i--) {
+            int f3 = dp[i][w];
+            int other = n - i;
+            tmp1 = (tmp1 + (sum2[other][w] - dp[other][w]) % mod) % mod;
+            (tmp2 += tmp1) %= mod;
+            int val = 1LL * f1 * f3 % mod * tmp2 % mod;
+            debug(w, i, val, f1, f3, tmp2);
+            (res += val) %= mod;
+        }
+    }
+    res = (res + mod) % mod;
+    cout << res << endl;
 }

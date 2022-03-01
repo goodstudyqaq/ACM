@@ -12,6 +12,7 @@
 #include <set>
 #include <stack>
 #include <string>
+#include <unordered_set>
 #include <vector>
 using namespace std;
 
@@ -24,11 +25,11 @@ string to_string(tuple< A, B, C > p);
 template < typename A, typename B, typename C, typename D >
 string to_string(tuple< A, B, C, D > p);
 
-string to_string(const string &s) {
+string to_string(const string& s) {
     return '"' + s + '"';
 }
 
-string to_string(const char *s) {
+string to_string(const char* s) {
     return to_string((string)s);
 }
 
@@ -63,7 +64,7 @@ template < typename A >
 string to_string(A v) {
     bool first = true;
     string res = "{";
-    for (const auto &x : v) {
+    for (const auto& x : v) {
         if (!first) {
             res += ", ";
         }
@@ -104,52 +105,6 @@ void debug_out(Head H, Tail... T) {
 #else
 #define debug(...) 42
 #endif
-typedef long long ll;
-typedef long double ld;
-
-struct Point {
-    long long x, y;
-    Point() : x(), y() {}
-    Point(ll _x, ll _y) : x(_x), y(_y) {}
-
-    Point operator+(const Point &a) const {
-        return Point(x + a.x, y + a.y);
-    }
-    Point operator-(const Point &a) const {
-        return Point(x - a.x, y - a.y);
-    }
-    ll operator*(const Point &a) const {
-        return x * a.y - y * a.x;
-    }
-
-    double len() const {
-        return sqrtl((ld)x * x + (ld)y * y);
-    }
-
-    bool operator<(const Point &a) const {
-        if (x != a.x) return x < a.x;
-        return y < a.y;
-    }
-};
-
-bool cmp(const Point &v, const Point &u) {
-    ll x = v * u;
-    if (x != 0) return x > 0;
-    return v.len() < u.len();
-}
-
-const int maxn = 100100;
-int n;
-Point a[maxn], h[maxn];
-int m;
-
-void graham() {
-    sort(a, a + n, cmp);
-    for (int i = 0; i < n; i++) {
-        while (m > 1 && (a[i] - h[m - 1]) * (a[i] - h[m - 2]) >= 0) m--;
-        h[m++] = a[i];
-    }
-}
 
 int main() {
     ios::sync_with_stdio(false);
@@ -158,25 +113,45 @@ int main() {
     freopen("data.in", "r", stdin);
 #else
 #endif
-    cin >> n;
-    long long x, y;
-    for (int i = 0; i < n; i++) {
-        cin >> x >> y;
-        a[i] = Point(x, y - x * x);
-        debug(i, a[i].x, a[i].y);
+    int n, m;
+    cin >> n >> m;
+    vector< vector< int > > V;
+    vector< int > in;
+    in.resize(n + 1);
+    V.resize(n + 1);
+    auto cal = [&](int idx) {
+        int all = in[idx];
+        int big = V[idx].size();
+        return 1LL * (all - big) * big;
+    };
+
+    for (int i = 1; i <= m; i++) {
+        int u, v;
+        cin >> u >> v;
+        if (u < v) swap(u, v);
+        V[v].push_back(u);
+        in[u]++;
+        in[v]++;
     }
-    sort(a, a + n);
-    for (int i = 1; i < n; i++) {
-        a[i] = a[i] - a[0];
+
+    long long res = 0;
+    for (int i = 1; i <= n; i++) {
+        res += cal(i);
     }
-    a[0] = Point(0, 0);
-    graham();
-    int ans = 0;
-    for (int i = 0; i < m; i++) {
-        if (h[(i + 1) % m].x < h[i].x) {
-            ans++;
+    cout << res << '\n';
+    int q;
+    cin >> q;
+    while (q--) {
+        int idx;
+        cin >> idx;
+        res -= cal(idx);
+        for (auto it : V[idx]) {
+            res -= cal(it);
+            V[it].push_back(idx);
+            res += cal(it);
         }
+        V[idx].clear();
+        cout << res << '\n';
     }
-    cout << ans << '\n';
     return 0;
 }
