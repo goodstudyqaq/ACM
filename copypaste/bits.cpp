@@ -12,9 +12,11 @@ namespace LoopCollection {
     ~x 按位取反 ~0 = -1, ~1 = -2, ~2 = -3...
     显然 ~x + 1 = -x
     所以 lowbit(x) = x & -x
+    
+    2. __builtin_parity(x) x 有偶数个 1 返回 0，奇数个 1 返回 1
 */
 
-void loopSet(vector< int > a) {
+void loopSet(vector<int> a) {
     // 遍历 {0, 1, ..., n - 1} 的所有子集
     int n = a.size();
     int limit = 1 << n;
@@ -52,11 +54,11 @@ void loopSubset(int n, int status) {
         // do(sub)
     }
 }
-void loopMultiSubset(vector< int >& a) {
+void loopMultiSubset(vector<int>& a) {
     // 求多个集合(状压)的所有非空子集组成的集合
     // https://ac.nowcoder.com/acm/contest/7607/B
-    vector< bool > have(1e6 + 1, 0);
-    function< void(int v) > f = [&](int v) {
+    vector<bool> have(1e6 + 1, 0);
+    function<void(int v)> f = [&](int v) {
         if (have[v]) return;
         have[v] = true;
         for (int w = v; w > 0; w &= w - 1) {
@@ -80,7 +82,7 @@ void loopSuperset(int n, int status) {
 // 把除法改成右移 bits.TrailingZeros 可以快好几倍
 // 比如在 n 个数中求满足某种性质的最大子集，则可以从 n 开始倒着枚举子集大小，直到找到一个符合性质的子集
 // 例题（TS1）https://codingcompetitions.withgoogle.com/codejam/round/0000000000007706/0000000000045875
-void loopSubsetK(vector< int >& a, int k) {
+void loopSubsetK(vector<int>& a, int k) {
     int n = a.size();
     int limit = 1 << n;
     for (int sub = (1 << k) - 1; sub < limit;) {
