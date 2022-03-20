@@ -1,0 +1,42 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    int minimumWhiteTiles(string floor, int numCarpets, int carpetLen) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "string floor",
+                "int numCarpets",
+                "int carpetLen"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "minimumWhiteTiles",
+            "output_params": "int"
+        }
+    ],
+    "id": "3",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "\"10110101\"",
+            "2",
+            "2"
+        ],
+        [
+            "\"11111\"",
+            "2",
+            "3"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "2"
+        ],
+        [
+            "0"
+        ]
+    ],
+    "url": "https://leetcode-cn.com/contest/biweekly-contest-74/problems/minimum-white-tiles-after-covering-with-carpets/"
+}

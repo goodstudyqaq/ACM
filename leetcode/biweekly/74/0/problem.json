@@ -1,0 +1,36 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    bool divideArray(vector<int>& nums) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "vector<int>& nums"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "divideArray",
+            "output_params": "bool"
+        }
+    ],
+    "id": "0",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[3,2,3,2,2,2]"
+        ],
+        [
+            "[1,2,3,4]"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "true"
+        ],
+        [
+            "false"
+        ]
+    ],
+    "url": "https://leetcode-cn.com/contest/biweekly-contest-74/problems/divide-array-into-equal-pairs/"
+}
