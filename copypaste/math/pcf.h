@@ -1,18 +1,5 @@
 #include <bits/stdc++.h>
-namespace Theorem {
-/* 一些定理
-1. [1, n] 能够被 n 整除的数的个数约为 n ^ (1/3) 个
-2. [n / 2, n] 质数个数约为 m / (2 * log(n))
-3. Π(x) ~ x / ln(x) Π(x) = [1, n] 素数个数
-3. x = y 个连续的数的和的条件为
-    1. y 是个奇数，那么只要 x % y = 0 即可
-    2. y 是个偶数，那么和可以写成 2k + y / 2，所以 x 一定要是 y / 2 的奇数倍才可以，即 2x 是 y 的奇数倍
-    设 x.b = x 的 2 的个数 x.l = 除 2 以外的因子的积那么有
-    1. if y % 2 => x.l % y.l = 0
-    2. else => x.l % y.l = 0 && x.b + 1 >= y.b 
-*/
-
-};  // namespace Theorem
+using namespace std;
 namespace pcf {
 // 求 [1, n] 素数个数
 #define setbit(ar, i) (((ar[(i) >> 6]) |= (1 << (((i) >> 1) & 31))))
@@ -73,6 +60,7 @@ long long lehmer(long long m) {
     return res;
 }
 long long solve(long long n) {
+    // 返回 [1, n] 质数个数
     int i, j, k, l;
     long long x, y, res = 0;
 
@@ -92,32 +80,5 @@ long long solve(long long n) {
 }
 }  // namespace pcf
 
-namespace Prime {
-//时间复杂度O(n)
-const int maxn = 1e5 + 5;
-bool is[maxn];
-int prm[maxn], id;
-// 每个数的最小质因子
-int minp[maxn];
-void get_prime() {
-    /*
-    数被筛掉的顺序：3 -> 3^2 -> 2*3^2 -> 2^2 * 3^2
-    即从最大的质数去填
-    */
-    int k = 0;
-    memset(is, 1, sizeof(is));
-    is[0] = is[1] = 0;
-    for (int i = 2; i < maxn; ++i) {
-        if (is[i]) {
-            prm[k++] = i;
-            minp[i] = i;
-        }
-        for (int j = 0; j < k && (i * prm[j] < maxn); ++j) {
-            is[i * prm[j]] = 0;
-            minp[i * prm[j]] = prm[j];
-            if (i % prm[j] == 0) break;
-        }
-    }
-    id = k;
-}
-}  // namespace Prime
+// pcf::init();
+// pcf::solve(n);
