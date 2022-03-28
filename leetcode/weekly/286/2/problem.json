@@ -1,0 +1,39 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    vector<long long> kthPalindrome(vector<int>& queries, int intLength) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "vector<int>& queries",
+                "int intLength"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "kthPalindrome",
+            "output_params": "vector<long long>"
+        }
+    ],
+    "id": "2",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[1,2,3,4,5,90]",
+            "3"
+        ],
+        [
+            "[2,4,6]",
+            "4"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "[101,111,121,131,141,999]"
+        ],
+        [
+            "[1111,1331,1551]"
+        ]
+    ],
+    "url": "https://leetcode-cn.com/contest/weekly-contest-286/problems/find-palindrome-with-fixed-length/"
+}

@@ -1,0 +1,39 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    int maxValueOfCoins(vector<vector<int>>& piles, int k) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "vector<vector<int>>& piles",
+                "int k"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "maxValueOfCoins",
+            "output_params": "int"
+        }
+    ],
+    "id": "3",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[[1,100,3],[7,8,9]]",
+            "2"
+        ],
+        [
+            "[[100],[100],[100],[100],[100],[100],[1,1,1,1,1,1,700]]",
+            "7"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "101"
+        ],
+        [
+            "706"
+        ]
+    ],
+    "url": "https://leetcode-cn.com/contest/weekly-contest-286/problems/maximum-value-of-k-coins-from-piles/"
+}
