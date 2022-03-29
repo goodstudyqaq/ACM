@@ -2,6 +2,11 @@
 using namespace std;
 
 namespace ShortestPath {
+/*
+套路题：二进制判不同色最短路。https://atcoder.jp/contests/abc245/tasks/abc245_g
+
+*/
+
 // 一般形式的 dijkstra
 struct NormalDijkstra {
     // 下标从 1 到 n
