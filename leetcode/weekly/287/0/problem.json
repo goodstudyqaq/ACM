@@ -1,0 +1,39 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    int convertTime(string current, string correct) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "string current",
+                "string correct"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "convertTime",
+            "output_params": "int"
+        }
+    ],
+    "id": "0",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "\"02:30\"",
+            "\"04:35\""
+        ],
+        [
+            "\"11:00\"",
+            "\"11:01\""
+        ]
+    ],
+    "sample_outs": [
+        [
+            "3"
+        ],
+        [
+            "1"
+        ]
+    ],
+    "url": "https://leetcode-cn.com/contest/weekly-contest-287/problems/minimum-number-of-operations-to-convert-time/"
+}

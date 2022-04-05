@@ -1,0 +1,51 @@
+{
+    "class_name": "Encrypter",
+    "default_code": "class Encrypter {\npublic:\n    Encrypter(vector<char>& keys, vector<string>& values, vector<string>& dictionary) {\n\n    }\n    \n    string encrypt(string word1) {\n\n    }\n    \n    int decrypt(string word2) {\n\n    }\n};\n\n/**\n * Your Encrypter object will be instantiated and called as such:\n * Encrypter* obj = new Encrypter(keys, values, dictionary);\n * string param_1 = obj->encrypt(word1);\n * int param_2 = obj->decrypt(word2);\n */",
+    "functions": [
+        {
+            "input_params": [
+                "vector<char>& keys",
+                "vector<string>& values",
+                "vector<string>& dictionary"
+            ],
+            "is_constructor": true,
+            "location": 2,
+            "name": "Encrypter",
+            "output_params": ""
+        },
+        {
+            "input_params": [
+                "string word1"
+            ],
+            "is_constructor": false,
+            "location": 6,
+            "name": "encrypt",
+            "output_params": "string"
+        },
+        {
+            "input_params": [
+                "string word2"
+            ],
+            "is_constructor": false,
+            "location": 10,
+            "name": "decrypt",
+            "output_params": "int"
+        }
+    ],
+    "id": "3",
+    "is_func_problem": false,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[\"Encrypter\", \"encrypt\", \"decrypt\"]",
+            "[[['a', 'b', 'c', 'd'], [\"ei\", \"zf\", \"ei\", \"am\"], [\"abcd\", \"acbd\", \"adbc\", \"badc\", \"dacb\", \"cadb\", \"cbda\", \"abad\"]], [\"abcd\"], [\"eizfeiam\"]]"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "[null, \"eizfeiam\", 2]"
+        ]
+    ],
+    "url": "https://leetcode-cn.com/contest/weekly-contest-287/problems/encrypt-and-decrypt-strings/"
+}

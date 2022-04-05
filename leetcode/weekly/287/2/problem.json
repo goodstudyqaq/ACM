@@ -1,0 +1,39 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    int maximumCandies(vector<int>& candies, long long k) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "vector<int>& candies",
+                "long long k"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "maximumCandies",
+            "output_params": "int"
+        }
+    ],
+    "id": "2",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[5,8,6]",
+            "3"
+        ],
+        [
+            "[2,5]",
+            "11"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "5"
+        ],
+        [
+            "0"
+        ]
+    ],
+    "url": "https://leetcode-cn.com/contest/weekly-contest-287/problems/maximum-candies-allocated-to-k-children/"
+}
