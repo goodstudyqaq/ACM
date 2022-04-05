@@ -1,0 +1,36 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    long long sumScores(string s) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "string s"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "sumScores",
+            "output_params": "long long"
+        }
+    ],
+    "id": "3",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "\"babab\""
+        ],
+        [
+            "\"azbazbzaz\""
+        ]
+    ],
+    "sample_outs": [
+        [
+            "9"
+        ],
+        [
+            "14"
+        ]
+    ],
+    "url": "https://leetcode-cn.com/contest/biweekly-contest-75/problems/sum-of-scores-of-built-strings/"
+}

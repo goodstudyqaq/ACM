@@ -1,0 +1,39 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    int minBitFlips(int start, int goal) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "int start",
+                "int goal"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "minBitFlips",
+            "output_params": "int"
+        }
+    ],
+    "id": "0",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "10",
+            "7"
+        ],
+        [
+            "3",
+            "4"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "3"
+        ],
+        [
+            "3"
+        ]
+    ],
+    "url": "https://leetcode-cn.com/contest/biweekly-contest-75/problems/minimum-bit-flips-to-convert-number/"
+}
