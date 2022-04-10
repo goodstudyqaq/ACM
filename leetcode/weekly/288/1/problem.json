@@ -1,0 +1,42 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    string minimizeResult(string expression) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "string expression"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "minimizeResult",
+            "output_params": "string"
+        }
+    ],
+    "id": "1",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "\"247+38\""
+        ],
+        [
+            "\"12+34\""
+        ],
+        [
+            "\"999+999\""
+        ]
+    ],
+    "sample_outs": [
+        [
+            "\"2(47+38)\""
+        ],
+        [
+            "\"1(2+3)4\""
+        ],
+        [
+            "\"(999+999)\""
+        ]
+    ],
+    "url": "https://leetcode-cn.com/contest/weekly-contest-288/problems/minimize-result-by-adding-parentheses-to-expression/"
+}
