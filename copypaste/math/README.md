@@ -11,5 +11,6 @@
     2. else => x.l % y.l = 0 && x.b + 1 >= y.b 
 4. |i−i′|+|j−j′|≤k⇔max(|(i+j)−(i′+j′)|,|(i−j)−(i′−j′)|)≤k
 5. 一个环上选边使得覆盖所有点的方案数为 lucas 数。
+    - https://atcoder.jp/contests/abc247/tasks/abc247_f
     - https://en.wikipedia.org/wiki/Lucas_number
     - f[0] = 2, f[1] = 1, f[n] = f[n - 1] + f[n - 2]
