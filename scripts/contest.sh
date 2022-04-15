@@ -2,7 +2,7 @@ echo "contest : $1 number: $2"
 mkdir $1 && cd ./$1
 touch data.in
 i=0
-for x in {a..z} 
+for x in {A..Z} 
 do
 	touch $x.cpp
 	let i++
