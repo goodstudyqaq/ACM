@@ -5,9 +5,6 @@ using namespace std;
 #define rson m + 1, r, rt << 1 | 1
 template <class Info, class Merge = std::plus<Info>>
 struct SegmentTree {
-    const int n;
-    const Merge merge;
-    vector<Info> info;
     SegmentTree(int n) : n(n), merge(Merge()), info(4 << __lg(n)) {}
     SegmentTree(vector<Info> init) : SegmentTree(init.size()) {
         function<void(int, int, int)> build = [&](int l, int r, int rt) {
@@ -22,6 +19,15 @@ struct SegmentTree {
         };
         build(0, n - 1, 1);
     }
+
+    Info rangeQuery(int l, int r) {
+        return rangeQuery(l, r, 0, n - 1, 1);
+    }
+
+   private:
+    const int n;
+    const Merge merge;
+    vector<Info> info;
     void push_up(int rt) {
         info[rt] = merge(info[rt << 1], info[rt << 1 | 1]);
     }
@@ -38,9 +44,6 @@ struct SegmentTree {
         } else {
             return rangeQuery(L, R, rson);
         }
-    }
-    Info rangeQuery(int l, int r) {
-        return rangeQuery(l, r, 0, n - 1, 1);
     }
 };
 
