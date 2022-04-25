@@ -14,6 +14,7 @@ namespace LoopCollection {
     所以 lowbit(x) = x & -x
     
     2. __builtin_parity(x) x 有偶数个 1 返回 0，奇数个 1 返回 1
+    3. __builtin_popcount(x) 返回 x 的 1 的个数
 */
 
 void loopSet(vector<int> a) {
