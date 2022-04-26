@@ -22,24 +22,14 @@ void solve() {
     int n;
     cin >> n;
     vector<int> a(n);
+    int mx = -1e9, mi = 1e9;
     for (int i = 0; i < n; i++) {
         cin >> a[i];
+        a[i] -= i;
+        mx = max(mx, a[i]);
+        mi = min(mi, a[i]);
     }
-    if (n == 1) {
-        cout << "YES" << endl;
-        return;
-    }
-    vector<int> dp(n);
-    dp[0] = a[0] + 1;
-    for (int i = 1; i < n; i++) {
-        int val = dp[i - 1];
-        if (val < a[i] - 2) {
-            cout << "NO" << endl;
-            return;
-        }
-        dp[i] = min(dp[i - 1] + 1, a[i] + 1);
-    }
-    cout << "YES" << endl;
+    cout << (mx - mi <= 2 ? "YES" : "NO") << endl;
 }
 
 int main() {
