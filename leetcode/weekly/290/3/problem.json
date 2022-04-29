@@ -1,0 +1,39 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    vector<int> fullBloomFlowers(vector<vector<int>>& flowers, vector<int>& persons) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "vector<vector<int>>& flowers",
+                "vector<int>& persons"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "fullBloomFlowers",
+            "output_params": "vector<int>"
+        }
+    ],
+    "id": "3",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[[1,6],[3,7],[9,12],[4,13]]",
+            "[2,3,7,11]"
+        ],
+        [
+            "[[1,10],[3,3]]",
+            "[3,3,2]"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "[1,2,2,2]"
+        ],
+        [
+            "[2,2,1]"
+        ]
+    ],
+    "url": "https://leetcode-cn.com/contest/weekly-contest-290/problems/number-of-flowers-in-full-bloom/"
+}
