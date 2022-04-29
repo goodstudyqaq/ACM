@@ -109,3 +109,25 @@ void loopAllOne(int status) {
     }
 }
 }  // namespace LoopCollection
+
+// step matrix: 对于每一行来说，第一个非 0 列的下标是严格递增的。
+template <class T, int W>
+int stepMatrix(vector<T>& c) {
+    int n = (int)c.size(), rank = 0;
+    for (int d = W - 1; d >= 0; --d) {
+        int k = rank;
+        while (k < n and !(c[k] >> d & 1)) {
+            k += 1;
+        }
+        if (k < n) {
+            swap(c[k], c[rank]);
+            for (int i = rank + 1; i < n; ++i) {
+                if (c[i] >> d & 1) {
+                    c[i] ^= c[rank];
+                }
+            }
+            rank += 1;
+        }
+    }
+    return rank;
+}
