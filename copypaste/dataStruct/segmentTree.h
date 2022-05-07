@@ -24,6 +24,10 @@ struct SegmentTree {
         return rangeQuery(l, r, 0, n - 1, 1);
     }
 
+    void update(int L, Info v) {
+        return update(L, v, 0, n - 1, 1);
+    }
+
    private:
     const int n;
     const Merge merge;
@@ -44,6 +48,20 @@ struct SegmentTree {
         } else {
             return rangeQuery(L, R, rson);
         }
+    }
+
+    void update(int L, Info& v, int l, int r, int rt) {
+        if (l == r) {
+            info[rt] = merge(info[rt], v);
+            return;
+        }
+        int m = l + r >> 1;
+        if (L <= m) {
+            update(L, v, lson);
+        } else {
+            update(L, v, rson);
+        }
+        push_up(rt);
     }
 };
 
