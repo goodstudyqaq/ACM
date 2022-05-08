@@ -1,0 +1,36 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    bool hasValidPath(vector<vector<char>>& grid) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "vector<vector<char>>& grid"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "hasValidPath",
+            "output_params": "bool"
+        }
+    ],
+    "id": "3",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[[\"(\",\"(\",\"(\"],[\")\",\"(\",\")\"],[\"(\",\"(\",\")\"],[\"(\",\"(\",\")\"]]"
+        ],
+        [
+            "[[\")\",\")\"],[\"(\",\"(\"]]"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "true"
+        ],
+        [
+            "false"
+        ]
+    ],
+    "url": "https://leetcode-cn.com/contest/weekly-contest-292/problems/check-if-there-is-a-valid-parentheses-string-path/"
+}
