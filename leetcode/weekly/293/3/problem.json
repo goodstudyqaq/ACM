@@ -1,0 +1,50 @@
+{
+    "class_name": "CountIntervals",
+    "default_code": "class CountIntervals {\npublic:\n    CountIntervals() {\n\n    }\n    \n    void add(int left, int right) {\n\n    }\n    \n    int count() {\n\n    }\n};\n\n/**\n * Your CountIntervals object will be instantiated and called as such:\n * CountIntervals* obj = new CountIntervals();\n * obj->add(left,right);\n * int param_2 = obj->count();\n */",
+    "functions": [
+        {
+            "input_params": [
+                ""
+            ],
+            "is_constructor": true,
+            "location": 2,
+            "name": "CountIntervals",
+            "output_params": ""
+        },
+        {
+            "input_params": [
+                "int left",
+                "int right"
+            ],
+            "is_constructor": false,
+            "location": 6,
+            "name": "add",
+            "output_params": "void"
+        },
+        {
+            "input_params": [
+                ""
+            ],
+            "is_constructor": false,
+            "location": 10,
+            "name": "count",
+            "output_params": "int"
+        }
+    ],
+    "id": "3",
+    "is_func_problem": false,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[\"CountIntervals\", \"add\", \"add\", \"count\", \"add\", \"count\"]",
+            "[[], [2, 3], [7, 10], [], [5, 8], []]"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "[null, null, null, 6, null, 8]"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-293/problems/count-integers-in-intervals/"
+}
