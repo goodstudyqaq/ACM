@@ -1,0 +1,39 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    int percentageLetter(string s, char letter) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "string s",
+                "char letter"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "percentageLetter",
+            "output_params": "int"
+        }
+    ],
+    "id": "0",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "\"foobar\"",
+            "\"o\""
+        ],
+        [
+            "\"jjjj\"",
+            "\"k\""
+        ]
+    ],
+    "sample_outs": [
+        [
+            "33"
+        ],
+        [
+            "0"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-294/problems/percentage-of-letter-in-string/"
+}

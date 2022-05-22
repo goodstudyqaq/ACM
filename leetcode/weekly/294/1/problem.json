@@ -1,0 +1,42 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    int maximumBags(vector<int>& capacity, vector<int>& rocks, int additionalRocks) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "vector<int>& capacity",
+                "vector<int>& rocks",
+                "int additionalRocks"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "maximumBags",
+            "output_params": "int"
+        }
+    ],
+    "id": "1",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[2,3,4,5]",
+            "[1,2,4,4]",
+            "2"
+        ],
+        [
+            "[10,2,2]",
+            "[2,2,0]",
+            "100"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "3"
+        ],
+        [
+            "3"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-294/problems/maximum-bags-with-full-capacity-of-rocks/"
+}
