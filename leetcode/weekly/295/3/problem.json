@@ -1,0 +1,36 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    int minimumObstacles(vector<vector<int>>& grid) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "vector<vector<int>>& grid"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "minimumObstacles",
+            "output_params": "int"
+        }
+    ],
+    "id": "3",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[[0,1,1],[1,1,0],[1,1,0]]"
+        ],
+        [
+            "[[0,1,0,0,0],[0,1,0,1,0],[0,0,0,1,0]]"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "2"
+        ],
+        [
+            "0"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-295/problems/minimum-obstacle-removal-to-reach-corner/"
+}
