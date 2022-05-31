@@ -9,6 +9,8 @@ void StringSTL() {
     int num = stoi(s);  // string to int 返回字符串前缀整数，可以有前导零，前缀必须是数字(第一个字符可以是 ‘-’)
     s = "247+38";
     int add = s.find('+', 0);  // 从 pos 开始查找，返回第一个匹配的下标
+
+    double num = stod(s);  // string to double
 }
 
 vector<string> split(string s, string delimiter) {
@@ -24,6 +26,14 @@ vector<string> split(string s, string delimiter) {
 
     res.push_back(s.substr(pos_start));
     return res;
+}
+
+bool isFloat(string myString) {
+    std::istringstream iss(myString);
+    float f;
+    iss >> noskipws >> f;  // noskipws considers leading whitespace invalid
+    // Check the entire string was consumed and if either failbit or badbit is set
+    return iss.eof() && !iss.fail();
 }
 
 /*
