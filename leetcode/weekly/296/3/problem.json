@@ -1,0 +1,67 @@
+{
+    "class_name": "TextEditor",
+    "default_code": "class TextEditor {\npublic:\n    TextEditor() {\n\n    }\n    \n    void addText(string text) {\n\n    }\n    \n    int deleteText(int k) {\n\n    }\n    \n    string cursorLeft(int k) {\n\n    }\n    \n    string cursorRight(int k) {\n\n    }\n};\n\n/**\n * Your TextEditor object will be instantiated and called as such:\n * TextEditor* obj = new TextEditor();\n * obj->addText(text);\n * int param_2 = obj->deleteText(k);\n * string param_3 = obj->cursorLeft(k);\n * string param_4 = obj->cursorRight(k);\n */",
+    "functions": [
+        {
+            "input_params": [
+                ""
+            ],
+            "is_constructor": true,
+            "location": 2,
+            "name": "TextEditor",
+            "output_params": ""
+        },
+        {
+            "input_params": [
+                "string text"
+            ],
+            "is_constructor": false,
+            "location": 6,
+            "name": "addText",
+            "output_params": "void"
+        },
+        {
+            "input_params": [
+                "int k"
+            ],
+            "is_constructor": false,
+            "location": 10,
+            "name": "deleteText",
+            "output_params": "int"
+        },
+        {
+            "input_params": [
+                "int k"
+            ],
+            "is_constructor": false,
+            "location": 14,
+            "name": "cursorLeft",
+            "output_params": "string"
+        },
+        {
+            "input_params": [
+                "int k"
+            ],
+            "is_constructor": false,
+            "location": 18,
+            "name": "cursorRight",
+            "output_params": "string"
+        }
+    ],
+    "id": "3",
+    "is_func_problem": false,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[\"TextEditor\", \"addText\", \"deleteText\", \"addText\", \"cursorRight\", \"cursorLeft\", \"deleteText\", \"cursorLeft\", \"cursorRight\"]",
+            "[[], [\"leetcode\"], [4], [\"practice\"], [3], [8], [10], [2], [6]]"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "[null, null, 4, null, \"etpractice\", \"leet\", 4, \"\", \"practi\"]"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-296/problems/design-a-text-editor/"
+}
