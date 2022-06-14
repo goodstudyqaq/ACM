@@ -253,106 +253,93 @@ int sgn(ld x) {
     return -1;
 }
 
-struct M {
+struct Matrix {
     int n, m;
-    ll a[maxn][maxn];
-    M(int _n = 0) {
-        n = m = _n;
-        memset(a, 0, sizeof(a));
-    }
-    M(int _n, int _m) {
-        n = _n, m = _m;
-        memset(a, 0, sizeof(a));
-    }
-    void mem(int _n = 0) { n = m = _n, memset(a, 0, sizeof(a)); }
-    void mem(int _n, int _m) {
-        n = _n, m = _m;
-        memset(a, 0, sizeof(a));
+    vector<vector<long long>> mat;
+    Matrix() {}
+    Matrix(int _n) {
+        n = _n;
+        m = _n;
+        mat.resize(n, vector<long long>(n, 0));
     }
 
-    void pri() {
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= m; j++) cout << a[i][j] << ' ';
-            cout << endl;
+    Matrix(int _n, int _m) {
+        n = _n;
+        m = _m;
+        mat.resize(n, vector<long long>(m, 0));
+    }
+
+    Matrix operator*(const Matrix& b) const {
+        assert(m == b.n);
+        Matrix res = Matrix(n, b.m);
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < b.m; j++)
+                for (int k = 0; k < m; k++) {
+                    long long tmp = (mat[i][k] * b.mat[k][j]) % mod;
+                    (res.mat[i][j] += tmp) %= mod;
+                }
+        return res;
+    }
+
+    Matrix operator^(long long num) {
+        assert(n == m);
+        Matrix res = Matrix(n);
+        for (int i = 0; i < n; i++) {
+            res.mat[i][i] = 1;
         }
-    }
-    friend M operator*(M a, M b) {
-        M c;
-        for (int k = 1; k <= a.m; k++)
-            for (int i = 1; i <= a.n; i++)
-                for (int j = 1; j <= b.m; j++)
-                    c.a[i][j] += a.a[i][k] * b.a[k][j];
-        return c;
-    }
-    friend M operator-(M a, M b) {
-        for (int i = 1; i <= a.n; i++)
-            for (int j = 1; j <= a.m; j++)
-                a.a[i][j] -= b.a[i][j];
-        return a;
-    }
-
-    void make_I(int _n) {
-        n = m = _n;
-        memset(a, 0, sizeof(a));
-        for (int i = 1; i <= n; i++) a[i][i] = 1;
-    }
-
-    //行列式高精度
-    long double mat[maxn][maxn], tmp[maxn];
-    long double det() {
-        long double ans = 1;
-        for (int i = 1; i <= n; i++)
-            for (int j = 1; j <= m; j++) mat[i][j] = a[i][j];
-        for (int i = 1; i <= n; i++) {
-            int pos = i;
-            while (fabs(mat[pos][i]) < eps && pos < n) ++pos;
-            if (fabs(mat[pos][i]) < eps) return 0;
-            if (pos ^ i) {
-                copy(mat[pos] + 1, mat[pos] + 1 + m + 1, tmp + 1);
-                copy(mat[i] + 1, mat[i] + 1 + m + 1, mat[pos] + 1);
-                copy(tmp + 1, tmp + 1 + m + 1, mat[i] + 1);
-            }
-            ans *= mat[i][i];
-            for (int j = i + 1; j <= n; j++) {
-                long double p = mat[j][i] / mat[i][i];
-                for (int k = i; k <= m; k++) mat[j][k] -= mat[i][k] * p;
-            }
+        Matrix tmp = *this;
+        while (num) {
+            if (num % 2) res = res * tmp;
+            num /= 2;
+            tmp = tmp * tmp;
         }
-        return ans;
+        return res;
     }
 
     //行列式辗转相除法
     ll det(ll mod) {
         ll ret = 1;
-        for (int i = 1; i <= n; i++) {
-            if (a[i][i] < 0) {
+        for (int i = 0; i < n; i++) {
+            if (mat[i][i] < 0) {
                 ret = -ret;
-                for (int k = i; k <= n; k++) a[i][k] = -a[i][k];
+                for (int k = i; k < n; k++) mat[i][k] = -mat[i][k];
             }
-            for (int j = i + 1; j <= n; j++) {
-                for (int k = i; k <= n; k++) a[i][k] %= mod, a[j][k] %= mod;
-                while (a[j][i]) {
-                    if (a[j][i] < 0) {
+            for (int j = i + 1; j < n; j++) {
+                for (int k = i; k < n; k++) mat[i][k] %= mod, mat[j][k] %= mod;
+                while (mat[j][i]) {
+                    if (mat[j][i] < 0) {
                         ret = -ret;
-                        for (int k = i; k <= n; k++) a[j][k] = -a[j][k];
+                        for (int k = i; k < n; k++) mat[j][k] = -mat[j][k];
                     }
-                    ll t = a[i][i] / a[j][i];
-                    for (int k = i; k <= n; k++) a[i][k] = (a[i][k] - t * a[j][k]) % mod;
-                    for (int k = i; k <= n; k++) swap(a[i][k], a[j][k]);
+                    ll t = mat[i][i] / mat[j][i];
+                    for (int k = i; k < n; k++) mat[i][k] = (mat[i][k] - t * mat[j][k]) % mod;
+                    for (int k = i; k < n; k++) swap(mat[i][k], mat[j][k]);
                     ret = -ret;
                 }
             }
-            if (a[i][i] == 0) return 0;
-            ret = ret * a[i][i] % mod;
+            if (mat[i][i] == 0) return 0;
+            ret = ret * mat[i][i] % mod;
         }
         return (ret + mod) % mod;
     }
-} A, C, D;
+};
 
+string to_string(Matrix& m) {
+    string res = "\n";
+    for (int i = 0; i < m.n; i++) {
+        for (int j = 0; j < m.n; j++) {
+            res += to_string(m.mat[i][j]) + " ";
+        }
+        if (i != m.n - 1)
+            res += "\n";
+    }
+    return res;
+}
 int main() {
 #ifdef LOCAL
     freopen("./data.in", "r", stdin);
 #endif
+    Matrix A, C, D;
     int n, m;
     cin >> n >> m;
 
@@ -367,39 +354,40 @@ int main() {
     int LIMIT = 1 << n;
     vector<Mint> f(LIMIT);
     for (int i = 1; i < LIMIT; i++) {
-        vector<int> vis(n);
+        vector<int> vis(n, -1);
         int cnt = 0;
         for (int j = 0; j < n; j++) {
             if ((i >> j) & 1) {
-                vis[j] = ++cnt;
+                vis[j] = cnt++;
             }
         }
         if (cnt == 1) continue;
-        A.mem(cnt);
-        C.mem(cnt);
-        D.mem(cnt);
+        A = Matrix(cnt);
+        C = Matrix(cnt);
+        D = Matrix(cnt);
 
         for (int j = 0; j < n; j++) {
             if ((i >> j) & 1) {
                 int idx1 = vis[j];
                 for (auto v : V[j]) {
-                    if (vis[v] == 0) continue;
+                    if (vis[v] == -1) continue;
                     int idx2 = vis[v];
-                    A.a[idx1][idx2]++;
-                    D.a[idx1][idx1]++;
+                    A.mat[idx1][idx2]++;
+                    D.mat[idx1][idx1]++;
                 }
             }
         }
 
-        for (int j = 1; j <= cnt; j++) {
-            for (int k = 1; k <= cnt; k++) {
-                C.a[j][k] = D.a[j][k] - A.a[j][k];
+        for (int j = 0; j < cnt; j++) {
+            for (int k = 0; k < cnt; k++) {
+                C.mat[j][k] = D.mat[j][k] - A.mat[j][k];
             }
         }
         C.n--, C.m--;
         Mint tmp = C.det(mod);
         f[i] = tmp;
     }
+    debug(f);
 
     vector<vector<Mint>> g = vector(LIMIT, vector(n, Mint(0)));
     g[0][0] = 1;
