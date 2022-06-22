@@ -28,7 +28,7 @@ int belong1[maxn], belong2[maxn];
 
 int main() {
 #ifdef LOCAL
-    freopen("./data.in", "r", stdin);
+    // freopen("./data.in", "r", stdin);
 #endif
     int N, M, K, L;
     cin >> N >> M >> K >> L;
@@ -62,8 +62,8 @@ int main() {
     for (int i = 0; i < L; i++) {
         int p = popular[i];
         Q.push({0, {p, A[p]}});
-        d1[p] = 0;
-        belong1[p] = A[p];
+        // d1[p] = 0;
+        // belong1[p] = A[p];
     }
 
     while (!Q.empty()) {
@@ -73,10 +73,12 @@ int main() {
         int belong = it.second.second;
         Q.pop();
 
-        if (vis[u][0] == 0 && belong1[u] == belong) {
-            vis[u][0] = 1;
-        } else if (vis[u][1] == 0 && belong2[u] == belong) {
-            vis[u][1] = 1;
+        if (d1[u] == inf) {
+            d1[u] = ct;
+            belong1[u] = belong;
+        } else if (d2[u] == inf && belong != belong1[u]) {
+            d2[u] = ct;
+            belong2[u] = belong;
         } else {
             continue;
         }
@@ -86,19 +88,9 @@ int main() {
             long long c = it2.second;
             long long d = c + ct;
             int bel = belong;
-            if (d1[v] > d) {
-                swap(d1[v], d);
-                swap(belong1[v], bel);
-                Q.push({d1[v], {v, belong1[v]}});
-            }
-            if (bel != belong1[v] && d2[v] > d) {
-                d2[v] = d;
-                belong2[v] = bel;
-                Q.push({d2[v], {v, bel}});
-            }
+            Q.push({d, {v, bel}});
         }
     }
-
     for (int i = 1; i <= N; i++) {
         int a = A[i];
         long long ans = (belong1[i] == a) ? d2[i] : d1[i];
