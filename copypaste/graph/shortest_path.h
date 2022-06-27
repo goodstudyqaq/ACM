@@ -2,7 +2,8 @@
 using namespace std;
 
 /*
-套路题：二进制判不同色最短路。https://atcoder.jp/contests/abc245/tasks/abc245_g
+套路题：二进制判不同色最短路 or 次短路。https://atcoder.jp/contests/abc245/tasks/abc245_g
+次短路做法：再加一个距离数组 dis2, 具体看：https://atcoder.jp/contests/abc245/submissions/32661509
 */
 
 // 一般形式的 dijkstra
