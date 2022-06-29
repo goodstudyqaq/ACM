@@ -4,6 +4,7 @@
 现在模板的逻辑：[l, r], [r+1, r2] => [l, r2], 如果想改成 [l, r], [r, r2] => [l, r2] 可以自己变通
 https://atcoder.jp/contests/abc254/tasks/abc254_g
 https://leetcode.com/problems/count-integers-in-intervals/
+https://atcoder.jp/contests/abc256/tasks/abc256_h
 */
 #include <bits/stdc++.h>
 using namespace std;
