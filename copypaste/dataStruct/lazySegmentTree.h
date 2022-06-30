@@ -32,6 +32,14 @@ struct LazySegmentTree {
         return rangeQuery(L, R, 0, n - 1, 1);
     }
 
+    int find_first(int ll, int rr, const function<bool(const Info &)> &f) {
+        return find_first(ll, rr, f, 0, n - 1, 1);
+    }
+
+    int find_last(int ll, int rr, const function<bool(const Info &)> &f) {
+        return find_last(ll, rr, f, 0, n - 1, 1);
+    }
+
    private:
     const int n;
     const Merge merge;
@@ -96,6 +104,77 @@ struct LazySegmentTree {
             rangeUpdate(L, R, v, rson);
         }
         push_up(rt);
+    }
+
+    int find_first_knowingly(const function<bool(const Info &)> f, int l, int r, int rt) {
+        if (l == r) {
+            return l;
+        }
+        int m = l + r >> 1;
+        push_down(rt);
+        int res;
+        if (f(Info[rt << 1])) {
+            res = find_first_knowingly(f, lson);
+        } else {
+            res = find_first_knowingly(f, rson);
+        }
+        push_up(rt);
+        return res;
+    }
+
+    int find_first(int L, int R, const function<bool(const Info &)> f, int l, int r, int rt) {
+        if (L <= l && r <= R) {
+            if (!f(Info[rt])) {
+                return -1;
+            }
+            return find_first_knowingly(f, l, r, rt);
+        }
+        int m = l + r >> 1;
+        push_down(rt);
+        int res = -1;
+        if (L <= m) {
+            res = find_first(L, R, f, lson);
+        }
+        if (R > m && res == -1) {
+            res = find_first(L, R, f, rson);
+        }
+        push_up(rt);
+        return res;
+    }
+
+    int find_last_knowingly(const function<bool(const Info &)> f, int l, int r, int rt) {
+        if (l == r) {
+            return l;
+        }
+        int m = l + r >> 1;
+        push_down(rt);
+        int res;
+        if (f(Info[rt << 1 | 1])) {
+            res = find_last_knowingly(f, rson);
+        } else {
+            res = find_last_knowingly(f, lson);
+        }
+        return res;
+    }
+
+    int find_last(int L, int R, const function<bool(const Info &)> f, int l, int r, int rt) {
+        if (L <= l && r <= R) {
+            if (!f(Info[rt])) {
+                return -1;
+            }
+            return find_last_knowingly(f, l, r, rt);
+        }
+        int m = l + r >> 1;
+        push_down(rt);
+        int res = -1;
+        if (R > m) {
+            res = find_last(L, R, f, rson);
+        }
+        if (L <= m && res == -1) {
+            res = find_last(L, R, f, lson);
+        }
+        push_up(rt);
+        return res;
     }
 };
 
