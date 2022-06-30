@@ -1,6 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+/*
+https://atcoder.jp/contests/abc256/tasks/abc256_h
+https://atcoder.jp/contests/abc248/tasks/abc248_h
+*/
 #define lson l, m, rt << 1
 #define rson m + 1, r, rt << 1 | 1
 template <class Info, class Tag, class Merge = std::plus<Info>>
