@@ -154,6 +154,7 @@ struct LazySegmentTree {
         } else {
             res = find_last_knowingly(f, lson);
         }
+        push_up(rt);
         return res;
     }
 
