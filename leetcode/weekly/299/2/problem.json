@@ -1,0 +1,46 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    int maximumsSplicedArray(vector<int>& nums1, vector<int>& nums2) {\n\n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "vector<int>& nums1",
+                "vector<int>& nums2"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "maximumsSplicedArray",
+            "output_params": "int"
+        }
+    ],
+    "id": "2",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[60,60,60]",
+            "[10,90,10]"
+        ],
+        [
+            "[20,40,20,70,30]",
+            "[50,20,50,40,20]"
+        ],
+        [
+            "[7,11,13]",
+            "[1,1,1]"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "210"
+        ],
+        [
+            "220"
+        ],
+        [
+            "31"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-299/problems/maximum-score-of-spliced-array/"
+}

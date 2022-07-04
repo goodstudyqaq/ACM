@@ -1,0 +1,36 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    bool checkXMatrix(vector<vector<int>>& grid) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "vector<vector<int>>& grid"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "checkXMatrix",
+            "output_params": "bool"
+        }
+    ],
+    "id": "0",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[[2,0,0,1],[0,3,1,0],[0,5,2,0],[4,0,0,2]]"
+        ],
+        [
+            "[[5,7,0],[0,3,1],[0,5,0]]"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "true"
+        ],
+        [
+            "false"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-299/problems/check-if-matrix-is-x-matrix/"
+}
