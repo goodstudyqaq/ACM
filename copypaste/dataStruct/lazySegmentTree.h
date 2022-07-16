@@ -117,7 +117,7 @@ struct LazySegmentTree {
         int m = l + r >> 1;
         push_down(rt);
         int res;
-        if (f(Info[rt << 1])) {
+        if (f(info[rt << 1])) {
             res = find_first_knowingly(f, lson);
         } else {
             res = find_first_knowingly(f, rson);
@@ -128,7 +128,7 @@ struct LazySegmentTree {
 
     int find_first(int L, int R, const function<bool(const Info &)> f, int l, int r, int rt) {
         if (L <= l && r <= R) {
-            if (!f(Info[rt])) {
+            if (!f(info[rt])) {
                 return -1;
             }
             return find_first_knowingly(f, l, r, rt);
@@ -153,7 +153,7 @@ struct LazySegmentTree {
         int m = l + r >> 1;
         push_down(rt);
         int res;
-        if (f(Info[rt << 1 | 1])) {
+        if (f(info[rt << 1 | 1])) {
             res = find_last_knowingly(f, rson);
         } else {
             res = find_last_knowingly(f, lson);
@@ -164,7 +164,7 @@ struct LazySegmentTree {
 
     int find_last(int L, int R, const function<bool(const Info &)> f, int l, int r, int rt) {
         if (L <= l && r <= R) {
-            if (!f(Info[rt])) {
+            if (!f(info[rt])) {
                 return -1;
             }
             return find_last_knowingly(f, l, r, rt);
