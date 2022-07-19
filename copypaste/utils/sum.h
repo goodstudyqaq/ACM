@@ -2,6 +2,10 @@
 using namespace std;
 
 using ll = long long;
+/*
+斜率前缀和：https://atcoder.jp/contests/abc260/tasks/abc260_g
+前缀和其实可以以任意方向去递推。
+*/
 struct Sum {
     // sum1 前缀和 sum2 前缀和的前缀和
     vector<ll> sum1, sum2;
