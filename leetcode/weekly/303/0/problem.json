@@ -1,0 +1,36 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    char repeatedCharacter(string s) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "string s"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "repeatedCharacter",
+            "output_params": "char"
+        }
+    ],
+    "id": "0",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "\"abccbaacz\""
+        ],
+        [
+            "\"abcdd\""
+        ]
+    ],
+    "sample_outs": [
+        [
+            "\"c\""
+        ],
+        [
+            "\"d\""
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-303/problems/first-letter-to-appear-twice/"
+}
