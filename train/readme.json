@@ -1,0 +1,26 @@
+{
+    "head_name": "Train",
+    "sub_head_name": "",
+    "new_file_name": "README.md",
+    "field_name": [
+        {
+            "name": "日期",
+            "value": "date"
+        },
+        {
+            "name": "比赛链接",
+            "value": "contest"
+        },
+        {
+            "name": "过题数",
+            "value": "pass_number"
+        }
+    ],
+    "content": [
+        {
+            "date": "2022-7-27",
+            "contest": "https://codeforces.com/gym/391800",
+            "pass_number": "1/4"
+        }
+    ]
+}
