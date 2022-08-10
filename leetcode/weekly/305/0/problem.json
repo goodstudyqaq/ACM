@@ -1,0 +1,39 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    int arithmeticTriplets(vector<int>& nums, int diff) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "vector<int>& nums",
+                "int diff"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "arithmeticTriplets",
+            "output_params": "int"
+        }
+    ],
+    "id": "0",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[0,1,4,6,7,10]",
+            "3"
+        ],
+        [
+            "[4,5,6,7,8,9]",
+            "2"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "2"
+        ],
+        [
+            "2"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-305/problems/number-of-arithmetic-triplets/"
+}
