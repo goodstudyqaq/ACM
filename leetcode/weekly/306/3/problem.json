@@ -1,0 +1,42 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    int countSpecialNumbers(int n) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "int n"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "countSpecialNumbers",
+            "output_params": "int"
+        }
+    ],
+    "id": "3",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "20"
+        ],
+        [
+            "5"
+        ],
+        [
+            "135"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "19"
+        ],
+        [
+            "5"
+        ],
+        [
+            "110"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-306/problems/count-special-integers/"
+}
