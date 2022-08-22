@@ -1,0 +1,39 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    long long kSum(vector<int>& nums, int k) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "vector<int>& nums",
+                "int k"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "kSum",
+            "output_params": "long long"
+        }
+    ],
+    "id": "3",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[2,4,-2]",
+            "5"
+        ],
+        [
+            "[1,-2,3,4,-10,12]",
+            "16"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "2"
+        ],
+        [
+            "10"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-307/problems/find-the-k-sum-of-an-array/"
+}
