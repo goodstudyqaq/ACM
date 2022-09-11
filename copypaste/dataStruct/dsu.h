@@ -25,3 +25,25 @@ struct DSU {
         return true;
     }
 };
+
+struct DSU2 {
+    std::vector<int> f;
+    DSU2(int n) : f(n) { std::iota(f.begin(), f.end(), 0); }
+    int leader(int x) {
+        if (f[x] == x) {
+            return x;
+        }
+        int y = leader(f[x]);
+        f[x] = y;
+        return f[x];
+    }
+    bool merge(int a, int b) {
+        auto x = leader(a);
+        auto y = leader(b);
+        if (x == y) {
+            return false;
+        }
+        f[x] = y;
+        return true;
+    }
+};
