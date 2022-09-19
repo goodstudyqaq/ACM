@@ -1,0 +1,36 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    vector<int> sumPrefixScores(vector<string>& words) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "vector<string>& words"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "sumPrefixScores",
+            "output_params": "vector<int>"
+        }
+    ],
+    "id": "3",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[\"abc\",\"ab\",\"bc\",\"b\"]"
+        ],
+        [
+            "[\"abcd\"]"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "[5,4,3,2]"
+        ],
+        [
+            "[4]"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-311/problems/sum-of-prefix-scores-of-strings/"
+}
