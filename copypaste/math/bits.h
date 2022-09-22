@@ -15,6 +15,8 @@ namespace LoopCollection {
     
     2. __builtin_parity(x) x 有偶数个 1 返回 0，奇数个 1 返回 1
     3. __builtin_popcount(x) 返回 x 的 1 的个数
+    3. __builtin_ctz(x) 此函数用于计算给定整数的尾随零
+    4. __builtin_clz(x) 此函数用于计算整数的前导零。注意：clz = 计算前导零
 */
 
 void loopSet(vector<int> a) {
