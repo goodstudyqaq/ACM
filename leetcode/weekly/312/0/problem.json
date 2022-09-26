@@ -1,0 +1,39 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    vector<string> sortPeople(vector<string>& names, vector<int>& heights) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "vector<string>& names",
+                "vector<int>& heights"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "sortPeople",
+            "output_params": "vector<string>"
+        }
+    ],
+    "id": "0",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[\"Mary\",\"John\",\"Emma\"]",
+            "[180,165,170]"
+        ],
+        [
+            "[\"Alice\",\"Bob\",\"Bob\"]",
+            "[155,185,150]"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "[\"Mary\",\"Emma\",\"John\"]"
+        ],
+        [
+            "[\"Bob\",\"Alice\",\"Bob\"]"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-312/problems/sort-the-people/"
+}
