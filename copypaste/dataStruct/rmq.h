@@ -7,10 +7,10 @@ struct RMQ {
     vector<vector<int>> range_high;
     function<bool(T, T)> func;
 
-    RMQ(const vector<T>& _values = {}) {
+    RMQ(const vector<T>& _values, function<bool(T, T)> f) {
         func = f;
         if (!_values.empty())
-            build(_values);
+            build(_values, f);
     }
 
     static int largest_bit(int x) {
@@ -47,5 +47,16 @@ struct RMQ {
 
     T rmq_value(int a, int b) const {
         return values[rmq_index(a, b)];
+    }
+
+    int nxt_idx(int idx) {
+        int sz = range_high.size() - 1;
+        int now = idx;
+        for (int i = sz; i >= 0; i--) {
+            if (now + (1 << i) - 1 < n && max_index(range_high[i][now], idx) == idx) {
+                now += (1 << i);
+            }
+        }
+        return now;
     }
 };
