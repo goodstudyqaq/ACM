@@ -1,28 +1,90 @@
-#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/courses/lesson/1/ALDS1/4/ALDS1_4_B"
-#include <algorithm>
-#include <iostream>
-#include <vector>
-#define REP(i, n) for (int i = 0; (i) < (int)(n); ++(i))
-#define ALL(x) std::begin(x), std::end(x)
+#define PROBLEM "https://codeforces.com/contest/1738/problem/A"
+#include <bits/stdc++.h>
+
 using namespace std;
 
-int main() {
+#ifdef LOCAL
+#include "copypaste/debug.h"
+#else
+#define debug(...) 42
+#endif
+
+#define endl '\n'
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
+
+struct fast_ios {
+    fast_ios() {
+        cin.tie(nullptr);
+        ios::sync_with_stdio(false);
+        cout << fixed << setprecision(10);
+    };
+} fast_ios_;
+
+void solve() {
     int n;
     cin >> n;
-    vector<int> s(n);
-    REP(i, n) {
-        cin >> s[i];
+    vector<int> a(n), b(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
     }
-    int q;
-    cin >> q;
-    int cnt = 0;
-    while (q--) {
-        int t_i;
-        cin >> t_i;
-        cnt += binary_search(ALL(s), t_i);
+    vector<vector<int>> v(2);
+    for (int i = 0; i < n; i++) {
+        cin >> b[i];
+        v[a[i]].push_back(b[i]);
     }
-    int a;
+    sort(v[0].rbegin(), v[0].rend());
+    sort(v[1].rbegin(), v[1].rend());
 
-    cout << cnt << endl;
-    return 0;
+    auto work = [&](vector<int> &v1, vector<int> &v2) -> ll {
+        // debug(v1, v2);
+        if (v1.size() == 0) {
+            return accumulate(v2.begin(), v2.end(), 0LL);
+        }
+        int v1_sz = v1.size();
+        int v2_sz = v2.size();
+
+        ll ans = v1[v1_sz - 1];
+        int cnt = min(v1_sz - 1, v2_sz);
+
+        for (int i = 0; i < cnt; i++) {
+            ans += 2LL * v1[i];
+            ans += 2LL * v2[i];
+        }
+
+        if (cnt < v2.size()) {
+            ans += 2LL * v2[cnt];
+        }
+
+        // debug(ans);
+
+        int now_v1 = cnt;
+        while (now_v1 < v1_sz - 1) {
+            ans += v1[now_v1];
+            now_v1++;
+        }
+
+        int now_v2 = cnt + 1;
+        while (now_v2 < v2_sz) {
+            ans += v2[now_v2];
+            now_v2++;
+        }
+        return ans;
+    };
+
+    ll ans = work(v[0], v[1]);
+    ans = max(ans, work(v[1], v[0]));
+    cout << ans << endl;
+}
+
+int main() {
+#ifdef LOCAL
+    freopen("./data.in", "r", stdin);
+#endif
+    int T;
+    cin >> T;
+    while (T--) {
+        solve();
+    }
 }
