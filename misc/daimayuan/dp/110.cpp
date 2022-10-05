@@ -60,6 +60,7 @@ void solve() {
         }
         // dp[i][j] =  前 i 个
 
+        // 子树的一个分叉 v 最多会被考虑 dep[v] 次，所以上限是 sz[v] 次，加起来即为 n 次。所以下面的代码复杂度其实为 O(nk)
         for (int d = 1; d <= n - 1; d++) {
             vector<int> tmp;
             for (auto it : V[i]) {
