@@ -1,0 +1,42 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    bool sumOfNumberAndReverse(int num) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "int num"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "sumOfNumberAndReverse",
+            "output_params": "bool"
+        }
+    ],
+    "id": "2",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "443"
+        ],
+        [
+            "63"
+        ],
+        [
+            "181"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "true"
+        ],
+        [
+            "false"
+        ],
+        [
+            "true"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-315/problems/sum-of-number-and-its-reverse/"
+}
