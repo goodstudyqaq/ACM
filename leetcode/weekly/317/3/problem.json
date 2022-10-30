@@ -1,0 +1,39 @@
+{
+    "class_name": "Solution",
+    "default_code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    vector<int> treeQueries(TreeNode* root, vector<int>& queries) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "TreeNode* root",
+                "vector<int>& queries"
+            ],
+            "is_constructor": false,
+            "location": 13,
+            "name": "treeQueries",
+            "output_params": "vector<int>"
+        }
+    ],
+    "id": "3",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[1,3,4,2,null,6,5,null,null,null,null,null,7]",
+            "[4]"
+        ],
+        [
+            "[5,8,9,2,1,3,7,4,6]",
+            "[3,2,4,8]"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "[2]"
+        ],
+        [
+            "[3,2,3,2]"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-317/problems/height-of-binary-tree-after-subtree-removal-queries/"
+}
