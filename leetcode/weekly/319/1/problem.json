@@ -1,0 +1,39 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    int subarrayLCM(vector<int>& nums, int k) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "vector<int>& nums",
+                "int k"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "subarrayLCM",
+            "output_params": "int"
+        }
+    ],
+    "id": "1",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[3,6,2,7,1]",
+            "6"
+        ],
+        [
+            "[3]",
+            "2"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "4"
+        ],
+        [
+            "0"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-319/problems/number-of-subarrays-with-lcm-equal-to-k/"
+}
