@@ -1,0 +1,39 @@
+{
+    "class_name": "Solution",
+    "default_code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    vector<vector<int>> closestNodes(TreeNode* root, vector<int>& queries) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "TreeNode* root",
+                "vector<int>& queries"
+            ],
+            "is_constructor": false,
+            "location": 13,
+            "name": "closestNodes",
+            "output_params": "vector<vector<int>>"
+        }
+    ],
+    "id": "1",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[6,2,13,1,4,9,15,null,null,null,null,null,null,14]",
+            "[2,5,16]"
+        ],
+        [
+            "[4,null,9]",
+            "[3]"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "[[2,2],[4,6],[15,-1]]"
+        ],
+        [
+            "[[-1,4]]"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-320/problems/closest-nodes-queries-in-a-binary-search-tree/"
+}
