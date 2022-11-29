@@ -1,0 +1,36 @@
+{
+    "class_name": "Solution",
+    "default_code": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* removeNodes(ListNode* head) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "ListNode* head"
+            ],
+            "is_constructor": false,
+            "location": 12,
+            "name": "removeNodes",
+            "output_params": "ListNode*"
+        }
+    ],
+    "id": "2",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[5,2,13,3,8]"
+        ],
+        [
+            "[1,1,1,1]"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "[13,8]"
+        ],
+        [
+            "[1,1,1,1]"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-321/problems/remove-nodes-from-linked-list/"
+}

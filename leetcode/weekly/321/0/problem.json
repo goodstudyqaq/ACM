@@ -1,0 +1,42 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    int pivotInteger(int n) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "int n"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "pivotInteger",
+            "output_params": "int"
+        }
+    ],
+    "id": "0",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "8"
+        ],
+        [
+            "1"
+        ],
+        [
+            "4"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "6"
+        ],
+        [
+            "1"
+        ],
+        [
+            "-1"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-321/problems/find-the-pivot-integer/"
+}

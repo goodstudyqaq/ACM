@@ -1,0 +1,46 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    int appendCharacters(string s, string t) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "string s",
+                "string t"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "appendCharacters",
+            "output_params": "int"
+        }
+    ],
+    "id": "1",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "\"coaching\"",
+            "\"coding\""
+        ],
+        [
+            "\"abcde\"",
+            "\"a\""
+        ],
+        [
+            "\"z\"",
+            "\"abcde\""
+        ]
+    ],
+    "sample_outs": [
+        [
+            "4"
+        ],
+        [
+            "0"
+        ],
+        [
+            "5"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-321/problems/append-characters-to-string-to-make-subsequence/"
+}
