@@ -1,0 +1,39 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    int magnificentSets(int n, vector<vector<int>>& edges) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "int n",
+                "vector<vector<int>>& edges"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "magnificentSets",
+            "output_params": "int"
+        }
+    ],
+    "id": "3",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "6",
+            "[[1,2],[1,4],[1,5],[2,6],[2,3],[4,6]]"
+        ],
+        [
+            "3",
+            "[[1,2],[2,3],[3,1]]"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "4"
+        ],
+        [
+            "-1"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-322/problems/divide-nodes-into-the-maximum-number-of-groups/"
+}
