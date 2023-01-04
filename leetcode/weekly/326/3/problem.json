@@ -1,0 +1,39 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    vector<int> closestPrimes(int left, int right) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "int left",
+                "int right"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "closestPrimes",
+            "output_params": "vector<int>"
+        }
+    ],
+    "id": "3",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "10",
+            "19"
+        ],
+        [
+            "4",
+            "6"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "[11,13]"
+        ],
+        [
+            "[-1,-1]"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-326/problems/closest-prime-numbers-in-range/"
+}
