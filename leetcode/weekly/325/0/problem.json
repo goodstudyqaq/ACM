@@ -1,0 +1,50 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    int closetTarget(vector<string>& words, string target, int startIndex) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "vector<string>& words",
+                "string target",
+                "int startIndex"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "closetTarget",
+            "output_params": "int"
+        }
+    ],
+    "id": "0",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[\"hello\",\"i\",\"am\",\"leetcode\",\"hello\"]",
+            "\"hello\"",
+            "1"
+        ],
+        [
+            "[\"a\",\"b\",\"leetcode\"]",
+            "\"leetcode\"",
+            "0"
+        ],
+        [
+            "[\"i\",\"eat\",\"leetcode\"]",
+            "\"ate\"",
+            "0"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "1"
+        ],
+        [
+            "1"
+        ],
+        [
+            "-1"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-325/problems/shortest-distance-to-target-string-in-a-circular-array/"
+}

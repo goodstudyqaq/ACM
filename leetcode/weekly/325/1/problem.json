@@ -1,0 +1,39 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    int takeCharacters(string s, int k) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "string s",
+                "int k"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "takeCharacters",
+            "output_params": "int"
+        }
+    ],
+    "id": "1",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "\"aabaaaacaabc\"",
+            "2"
+        ],
+        [
+            "\"a\"",
+            "1"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "8"
+        ],
+        [
+            "-1"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-325/problems/take-k-of-each-character-from-left-and-right/"
+}
