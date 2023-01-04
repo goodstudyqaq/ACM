@@ -1,0 +1,39 @@
+{
+    "class_name": "Solution",
+    "default_code": "class Solution {\npublic:\n    vector<int> maxPoints(vector<vector<int>>& grid, vector<int>& queries) {\n        \n    }\n};",
+    "functions": [
+        {
+            "input_params": [
+                "vector<vector<int>>& grid",
+                "vector<int>& queries"
+            ],
+            "is_constructor": false,
+            "location": 2,
+            "name": "maxPoints",
+            "output_params": "vector<int>"
+        }
+    ],
+    "id": "3",
+    "is_func_problem": true,
+    "language": "cpp",
+    "openURL": true,
+    "sample_ins": [
+        [
+            "[[1,2,3],[2,5,7],[3,5,1]]",
+            "[5,6,2]"
+        ],
+        [
+            "[[5,2,1],[1,1,2]]",
+            "[3]"
+        ]
+    ],
+    "sample_outs": [
+        [
+            "[5,8,1]"
+        ],
+        [
+            "[0]"
+        ]
+    ],
+    "url": "https://leetcode.cn/contest/weekly-contest-323/problems/maximum-number-of-points-from-grid-queries/"
+}
