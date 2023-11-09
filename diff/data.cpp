@@ -39,7 +39,6 @@ typedef pair<int, int> pii;
 typedef tree<pii, null_type, less<pii>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
 
 int main() {
-    freopen("data.in", "w", stdout);
     int n = 10;
     string s(n, ' ');
     for (int i = 0; i < n; i++) {
