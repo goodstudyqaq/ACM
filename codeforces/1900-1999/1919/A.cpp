@@ -9,6 +9,9 @@ using namespace std;
 #endif
 
 #define endl '\n'
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
 
 struct fast_ios {
     fast_ios() {
@@ -18,20 +21,26 @@ struct fast_ios {
     };
 } fast_ios_;
 
+void solve() {
+    int a, b;
+    cin >> a >> b;
+    int s = a + b;
+    if (s % 2) {
+        cout << "Alice" << endl;
+    } else {
+        cout << "Bob" << endl;
+    }
+}
+
 int main() {
 #ifdef LOCAL
     freopen("./data.in", "r", stdin);
 #endif
 
-    int mx = 0;
-    for (int k = 1; k <= 1000; k++) {
-        int cnt = 0;
-        for (int i = 0; i < k; i++) {
-            if (i * i % k == 0) {
-                cnt++;
-            }
-        }
-        mx = max(mx, cnt);
+    int T;
+    cin >> T;
+    while (T--) {
+        solve();
     }
-    debug(mx);
+    return 0;
 }
