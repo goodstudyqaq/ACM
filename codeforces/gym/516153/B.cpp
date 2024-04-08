@@ -9,6 +9,9 @@ using namespace std;
 #endif
 
 #define endl '\n'
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
 
 struct fast_ios {
     fast_ios() {
@@ -221,7 +224,7 @@ ModType& md = VarMod::value;
 using Mint = Modular<VarMod>;
 */
 
-constexpr int md = 1e9 + 7;
+constexpr int md = 998244353;
 using Mint = Modular<std::integral_constant<decay<decltype(md)>::type, md>>;
 
 vector<Mint> fact(1, 1);
@@ -248,75 +251,81 @@ Mint A(int n, int k) {
     }
     return fact[n] * inv_fact[n - k];
 }
+typedef pair<int, int> pii;
 
-template <typename T = Mint>
-T get_plan1(int n, int m) {
-    // n 个不同的包，m 个相同的球得到的方案数
-    // 可以理解 n + m - 1 个位置，把 n - 1 个包放进去，包前面的空位就是它有的球的个数，最后剩余的就是最后一个包有的球的个数
+struct DSU {
+    std::vector<int> f;
+    std::vector<int> cnt;
+    DSU(int n) : f(n), cnt(n) {
+        std::iota(f.begin(), f.end(), 0);
+        for (int i = 0; i < n; i++) cnt[i] = 1;
+    }
+    int leader(int x) {
+        if (f[x] == x) {
+            return x;
+        }
+        int y = leader(f[x]);
+        f[x] = y;
+        return f[x];
+    }
+    bool merge(int a, int b) {
+        auto x = leader(a);
+        auto y = leader(b);
+        if (x == y) {
+            return false;
+        }
+        f[x] = y;
+        cnt[y] += cnt[x];
+        return true;
+    }
+};
 
-    /*
-    https://codeforces.com/contest/1929/problem/F
-    转换一：m 个数，每个数的范围是[1, n]，求不同的方案数，两个数组排完序后不同才算不同。可以这样看待这个问题:
-    [1, n] 相当于有 n 个不同的包，你要把这 m 个数，放到这 n 个包中，这 m 个数是等价的，放完后其实就相当于一个方案。
-    */
-    return C(n + m - 1, m);
+void solve() {
+    int n, S;
+    cin >> n >> S;
+
+    typedef array<int, 3> a3;
+    vector<a3> edges(n - 1);
+
+    for (int i = 0; i < n - 1; i++) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        u--, v--;
+        edges[i] = {u, v, w};
+    }
+
+    sort(edges.begin(), edges.end(), [&](a3 x, a3 y) {
+        return x[2] < y[2];
+    });
+
+    DSU dsu(n);
+
+    Mint ans = 1;
+    for (int i = 0; i < n - 1; i++) {
+        int u = edges[i][0], v = edges[i][1], w = edges[i][2];
+        int fu = dsu.leader(u), fv = dsu.leader(v);
+        int cntu = dsu.cnt[fu], cntv = dsu.cnt[fv];
+        // if (cntu == 1 && cntv == 1) {
+        //     dsu.merge(u, v);
+        //     continue;
+        // }
+
+        long long tmp = 1LL * cntu * cntv - 1;
+        ans *= power(Mint(S - w + 1), tmp);
+        dsu.merge(u, v);
+    }
+    cout << ans << endl;
 }
 
 int main() {
 #ifdef LOCAL
     freopen("./data.in", "r", stdin);
-    // freopen("./data.out", "w", stdout);
 #endif
-    int n, k;
-    cin >> n >> k;
 
-    if (k == 0) {
-        Mint ans = power(Mint(3), n);
-        cout << ans << endl;
-        return 0;
+    int T;
+    cin >> T;
+    while (T--) {
+        solve();
     }
-
-    auto work = [&](int k, bool flag = true) {
-        Mint ans = 0;
-        for (int i = 1; i <= (n + 1) / 2; i++) {
-            // i 个 2 i - 1 个 -1
-            int sum = i + 1;
-            if (sum <= k && !flag) {
-                int one_num = k - sum;
-                int use = i + i - 1 + one_num;
-                if (use <= n) {
-                    int zero_num = n - use;
-
-                    // zero_num 个 0 one_num 个 1 i 个 2 i - 1 个 -1
-                    // 0 和 1 都有 i 个放置位置
-
-                    Mint sub_ans = get_plan1(i, zero_num) * get_plan1(i, one_num) * power(Mint(3), zero_num + one_num);
-                    ans += sub_ans;
-                }
-            }
-
-            debug(i, ans);
-            // i 个 2 i 个 -1
-            sum = i;
-            if (sum <= k && flag) {
-                int one_num = k - sum;
-                int use = i + i + one_num;
-                if (use <= n) {
-                    int zero_num = n - use;
-                    // zero_num 个 0 one_num 个 1 i 个 2 i 个 -1
-                    // 0 有 i + 1 个放置位置; 1 有 i 个放置位置
-                    Mint sub_ans = get_plan1(i + 1, zero_num) * get_plan1(i, one_num) * power(Mint(3), zero_num + one_num);
-                    ans += sub_ans;
-                }
-            }
-            debug(i, ans);
-        }
-        return ans;
-    };
-    Mint ans = work(k);
-    Mint ans2 = work(k + 1, false);
-    debug(ans, ans2);
-    ans += ans2;
-
-    cout << ans << endl;
+    return 0;
 }

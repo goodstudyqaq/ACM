@@ -9,6 +9,9 @@ using namespace std;
 #endif
 
 #define endl '\n'
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
 
 struct fast_ios {
     fast_ios() {
@@ -221,7 +224,7 @@ ModType& md = VarMod::value;
 using Mint = Modular<VarMod>;
 */
 
-constexpr int md = 1e9 + 7;
+constexpr int md = 998244353;
 using Mint = Modular<std::integral_constant<decay<decltype(md)>::type, md>>;
 
 vector<Mint> fact(1, 1);
@@ -262,61 +265,36 @@ T get_plan1(int n, int m) {
     return C(n + m - 1, m);
 }
 
+void solve() {
+    int l, n;
+    cin >> l >> n;
+
+    int have = l - 2 * n;
+
+    Mint all = get_plan1(2 * n + 1, have);
+    debug(all);
+
+    for (int i = 0; i <= have; i += 2) {
+        int use = 2 * n + i;
+        int h = l - use;
+        int tmp1 = i / 2;
+        Mint tmp = get_plan1(n, tmp1);
+
+        Mint tmp2 = get_plan1(n + 1, h);
+        all = all - tmp * tmp2;
+    }
+    cout << all * Mint(2) << endl;
+}
+
 int main() {
 #ifdef LOCAL
     freopen("./data.in", "r", stdin);
-    // freopen("./data.out", "w", stdout);
 #endif
-    int n, k;
-    cin >> n >> k;
 
-    if (k == 0) {
-        Mint ans = power(Mint(3), n);
-        cout << ans << endl;
-        return 0;
+    int T;
+    cin >> T;
+    while (T--) {
+        solve();
     }
-
-    auto work = [&](int k, bool flag = true) {
-        Mint ans = 0;
-        for (int i = 1; i <= (n + 1) / 2; i++) {
-            // i 个 2 i - 1 个 -1
-            int sum = i + 1;
-            if (sum <= k && !flag) {
-                int one_num = k - sum;
-                int use = i + i - 1 + one_num;
-                if (use <= n) {
-                    int zero_num = n - use;
-
-                    // zero_num 个 0 one_num 个 1 i 个 2 i - 1 个 -1
-                    // 0 和 1 都有 i 个放置位置
-
-                    Mint sub_ans = get_plan1(i, zero_num) * get_plan1(i, one_num) * power(Mint(3), zero_num + one_num);
-                    ans += sub_ans;
-                }
-            }
-
-            debug(i, ans);
-            // i 个 2 i 个 -1
-            sum = i;
-            if (sum <= k && flag) {
-                int one_num = k - sum;
-                int use = i + i + one_num;
-                if (use <= n) {
-                    int zero_num = n - use;
-                    // zero_num 个 0 one_num 个 1 i 个 2 i 个 -1
-                    // 0 有 i + 1 个放置位置; 1 有 i 个放置位置
-                    Mint sub_ans = get_plan1(i + 1, zero_num) * get_plan1(i, one_num) * power(Mint(3), zero_num + one_num);
-                    ans += sub_ans;
-                }
-            }
-            debug(i, ans);
-        }
-        return ans;
-    };
-    Mint ans = work(k);
-    Mint ans2 = work(k + 1, false);
-    debug(ans, ans2);
-    ans += ans2;
-
-    cout << ans << endl;
+    return 0;
 }

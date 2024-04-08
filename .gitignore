@@ -10,3 +10,5 @@ work.bat
 *.idea
 .clangd
 compile_commands.json
+
+diff/

@@ -23,28 +23,33 @@ struct fast_ios {
 
 void solve() {
     int n;
-    cin >> n;
-    vector<vector<char>> ans(2 * n, vector<char>(2 * n));
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            char it;
-            if ((i + j) % 2 == 0) {
-                it = '#';
+    string s;
+    cin >> n >> s;
 
-            } else {
-                it = '.';
-            }
-            ans[i * 2][j * 2] = it;
-            ans[i * 2][j * 2 + 1] = it;
-            ans[i * 2 + 1][j * 2] = it;
-            ans[i * 2 + 1][j * 2 + 1] = it;
+    vector<int> V;
+    for (int i = 0; i < n; i++) {
+        if (s[i] == '1') {
+            V.push_back(i);
         }
     }
-    for (int i = 0; i < 2 * n; i++) {
-        for (int j = 0; j < 2 * n; j++) {
-            cout << ans[i][j];
+    if (V.size() == 0) {
+        cout << "YES" << endl;
+        return;
+    }
+
+    if (V.size() % 2) {
+        cout << "NO" << endl;
+    } else {
+        if (V.size() > 2) {
+            cout << "YES" << endl;
+        } else {
+            // = 2
+            if (V[0] == V[1] - 1) {
+                cout << "NO" << endl;
+            } else {
+                cout << "YES" << endl;
+            }
         }
-        cout << endl;
     }
 }
 

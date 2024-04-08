@@ -24,28 +24,24 @@ struct fast_ios {
 void solve() {
     int n;
     cin >> n;
-    vector<vector<char>> ans(2 * n, vector<char>(2 * n));
+    vector<int> a(n);
     for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            char it;
-            if ((i + j) % 2 == 0) {
-                it = '#';
+        cin >> a[i];
+    }
 
-            } else {
-                it = '.';
-            }
-            ans[i * 2][j * 2] = it;
-            ans[i * 2][j * 2 + 1] = it;
-            ans[i * 2 + 1][j * 2] = it;
-            ans[i * 2 + 1][j * 2 + 1] = it;
-        }
+    vector<int> ans(n);
+    int mi = n;
+
+    for (int i = n - 1; i >= 0; i--) {
+        // mex = mi - pi = ai
+        // pi = mi - ai
+        ans[i] = mi - a[i];
+        mi = min(mi, ans[i]);
     }
-    for (int i = 0; i < 2 * n; i++) {
-        for (int j = 0; j < 2 * n; j++) {
-            cout << ans[i][j];
-        }
-        cout << endl;
+    for (int i = 0; i < n; i++) {
+        cout << ans[i] << ' ';
     }
+    cout << endl;
 }
 
 int main() {

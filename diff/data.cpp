@@ -39,17 +39,10 @@ typedef pair<int, int> pii;
 typedef tree<pii, null_type, less<pii>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
 
 int main() {
-    int n = 10;
-    string s(n, ' ');
-    for (int i = 0; i < n; i++) {
-        s[i] = rnd(26) + 'a';
-    }
-
-    int m = 10;
-    string t(m, ' ');
-    for (int i = 0; i < m; i++) {
-        t[i] = rnd(26) + 'a';
-    }
-    cout << s << endl;
-    cout << t << endl;
+#ifdef LOCAL
+    freopen("./data.in", "w", stdout);
+#endif
+    int k = rnd(3);
+    int n = rnd(3) + 1 + k;
+    cout << n << ' ' << k << endl;
 }
