@@ -24,33 +24,35 @@ struct fast_ios {
 void solve() {
     int n;
     cin >> n;
-    vector<int> a(n + 1);
-    for (int i = 1; i <= n; i++) {
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) {
         cin >> a[i];
     }
-    int ans = 0;
-    int x = a[1], y = -1;
-    for (int i = 2; i <= n; i++) {
-        bool f1 = x < a[i];
-        bool f2 = (y != -1 && y < a[i]);
-        if (f1 == f2) {
-            if (f1) {
-                ans++;
-            }
-            if (y == -1 || x < y) {
-                x = a[i];
-            } else {
-                y = a[i];
-            }
-        } else {
-            if (!f1) {
-                x = a[i];
-            } else {
-                y = a[i];
-            }
+    sort(a.begin(), a.end());
+    a.resize(unique(a.begin(), a.end()) - a.begin());
+    debug(a);
+    n = a.size();
+
+    int now = 0;
+
+    bool flag = 0;
+    if (a[now] == 1) {
+        while (now < n && a[now] == now + 1) {
+            now++;
         }
+        flag = (now % 2 == 1);
     }
-    cout << ans << endl;
+    // debug(now, flag);
+    if (now < n) {
+        flag ^= 1;
+    }
+
+
+    if (flag) {
+        cout << "Alice" << endl;
+    } else {
+        cout << "Bob" << endl;
+    }
 }
 
 int main() {

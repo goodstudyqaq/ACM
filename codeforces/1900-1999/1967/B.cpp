@@ -22,32 +22,16 @@ struct fast_ios {
 } fast_ios_;
 
 void solve() {
-    int n;
-    cin >> n;
-    vector<int> a(n + 1);
-    for (int i = 1; i <= n; i++) {
-        cin >> a[i];
-    }
-    int ans = 0;
-    int x = a[1], y = -1;
-    for (int i = 2; i <= n; i++) {
-        bool f1 = x < a[i];
-        bool f2 = (y != -1 && y < a[i]);
-        if (f1 == f2) {
-            if (f1) {
-                ans++;
-            }
-            if (y == -1 || x < y) {
-                x = a[i];
-            } else {
-                y = a[i];
-            }
-        } else {
-            if (!f1) {
-                x = a[i];
-            } else {
-                y = a[i];
-            }
+    int n, m;
+    cin >> n >> m;
+    long long ans = 0;
+    for (int g = 1; g <= m; g++) {
+        // b = g
+        // a = (g - 1) 的倍数
+        for (int k = 1; 1LL * (g * k - 1) * g <= n; k++) {
+            int a = (g * k - 1) * g;
+            if (a <= 0) continue;
+            if (__gcd(a, g) == g) ans++;
         }
     }
     cout << ans << endl;
