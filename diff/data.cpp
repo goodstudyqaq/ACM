@@ -42,7 +42,18 @@ int main() {
 #ifdef LOCAL
     freopen("./data.in", "w", stdout);
 #endif
-    int k = rnd(3);
-    int n = rnd(3) + 1 + k;
-    cout << n << ' ' << k << endl;
+    int T = 1;
+    cout << T << endl;
+    int n = 5;
+    cout << n << endl;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < n; j++) {
+            long long val = 0;
+            while (val == 0) {
+                val = rnd(2 * n + 1) - n;
+            }
+            cout << val << ' ';
+        }
+        cout << endl;
+    }
 }

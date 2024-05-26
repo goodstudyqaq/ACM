@@ -25,26 +25,22 @@ void solve() {
     int n;
     cin >> n;
     vector<int> a(n + 1);
-    map<int, vector<int>> M;
     for (int i = 1; i <= n; i++) {
         cin >> a[i];
-        M[a[i] / 4].push_back(a[i]);
     }
 
-    for (auto it : M) {
-        sort(M[it.first].begin(), M[it.first].end());
+    int mx = 0;
+    // 2
+    for (int i = 1; i < n; i++) {
+        mx = max(mx, min(a[i], a[i + 1]));
     }
-
-    map<int, int> idx;
-    vector<int> ans(n + 1);
-    for (int i = 1; i <= n; i++) {
-        int val = a[i] / 4;
-        int the_idx = idx[val];
-        ans[i] = M[val][the_idx];
-        idx[val]++;
-        cout << ans[i] << ' ';
+    // 3
+    for (int i = 1; i <= n - 2; i++) {
+        vector<int> v{a[i], a[i + 1], a[i + 2]};
+        sort(v.begin(), v.end());
+        mx = max(mx, v[1]);
     }
-    cout << endl;
+    cout << mx << endl;
 }
 
 int main() {

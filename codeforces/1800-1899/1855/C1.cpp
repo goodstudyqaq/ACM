@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 
+#include <cstdlib>
+
 using namespace std;
 
 #ifdef LOCAL
@@ -25,26 +27,35 @@ void solve() {
     int n;
     cin >> n;
     vector<int> a(n + 1);
-    map<int, vector<int>> M;
+    int flag[2] = {0, 0};
+    int mx = 1;
     for (int i = 1; i <= n; i++) {
         cin >> a[i];
-        M[a[i] / 4].push_back(a[i]);
+        if (abs(a[i]) > abs(a[mx])) {
+            mx = i;
+        }
     }
 
-    for (auto it : M) {
-        sort(M[it.first].begin(), M[it.first].end());
-    }
-
-    map<int, int> idx;
-    vector<int> ans(n + 1);
+    vector<pii> V;
     for (int i = 1; i <= n; i++) {
-        int val = a[i] / 4;
-        int the_idx = idx[val];
-        ans[i] = M[val][the_idx];
-        idx[val]++;
-        cout << ans[i] << ' ';
+        if ((a[mx] < 0) != (a[i] < 0)) {
+            V.push_back({i, mx});
+            a[i] += a[mx];
+        }
     }
-    cout << endl;
+    if (a[mx] >= 0) {
+        for (int i = 2; i <= n; i++) {
+            V.push_back({i, i - 1});
+        }
+    } else {
+        for (int i = n - 1; i >= 1; i--) {
+            V.push_back({i, i + 1});
+        }
+    }
+    cout << V.size() << endl;
+    for (auto it : V) {
+        cout << it.first << ' ' << it.second << endl;
+    }
 }
 
 int main() {

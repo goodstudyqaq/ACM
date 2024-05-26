@@ -22,29 +22,39 @@ struct fast_ios {
 } fast_ios_;
 
 void solve() {
-    int n;
-    cin >> n;
-    vector<int> a(n + 1);
-    map<int, vector<int>> M;
+    int n, k, d;
+    cin >> n >> k >> d;
+    vector<int> a(n + 1), b(k);
     for (int i = 1; i <= n; i++) {
         cin >> a[i];
-        M[a[i] / 4].push_back(a[i]);
+    }
+    for (int i = 0; i < k; i++) {
+        cin >> b[i];
     }
 
-    for (auto it : M) {
-        sort(M[it.first].begin(), M[it.first].end());
-    }
+    int ans = 0;
 
-    map<int, int> idx;
-    vector<int> ans(n + 1);
-    for (int i = 1; i <= n; i++) {
-        int val = a[i] / 4;
-        int the_idx = idx[val];
-        ans[i] = M[val][the_idx];
-        idx[val]++;
-        cout << ans[i] << ' ';
+    auto cal = [&]() {
+        int res = 0;
+        for (int i = 1; i <= n; i++) {
+            if (a[i] == i) res++;
+        }
+        return res;
+    };
+
+    for (int i = 0; i <= min(d - 1, 100000); i++) {
+        int res = cal();
+
+        int step = d - i - 1;
+        res += step / 2;
+
+        ans = max(res, ans);
+        int r = b[i % k];
+        for (int j = 1; j <= r; j++) {
+            a[j]++;
+        }
     }
-    cout << endl;
+    cout << ans << endl;
 }
 
 int main() {

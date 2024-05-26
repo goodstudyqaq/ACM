@@ -22,29 +22,23 @@ struct fast_ios {
 } fast_ios_;
 
 void solve() {
-    int n;
-    cin >> n;
-    vector<int> a(n + 1);
-    map<int, vector<int>> M;
-    for (int i = 1; i <= n; i++) {
-        cin >> a[i];
-        M[a[i] / 4].push_back(a[i]);
-    }
+    int n, m;
+    cin >> n >> m;
+    string a, b;
+    cin >> a >> b;
 
-    for (auto it : M) {
-        sort(M[it.first].begin(), M[it.first].end());
-    }
+    int now = 0;
 
-    map<int, int> idx;
-    vector<int> ans(n + 1);
-    for (int i = 1; i <= n; i++) {
-        int val = a[i] / 4;
-        int the_idx = idx[val];
-        ans[i] = M[val][the_idx];
-        idx[val]++;
-        cout << ans[i] << ' ';
+    int b_now = 0;
+    while (b_now < m) {
+        if (now >= n) break;
+        char need = a[now];
+        while (b_now < m && b[b_now] != need) b_now++;
+        if (b_now == m) break;
+        now++;
+        b_now++;
     }
-    cout << endl;
+    cout << now << endl;
 }
 
 int main() {

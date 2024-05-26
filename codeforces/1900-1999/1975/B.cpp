@@ -24,27 +24,30 @@ struct fast_ios {
 void solve() {
     int n;
     cin >> n;
-    vector<int> a(n + 1);
-    map<int, vector<int>> M;
-    for (int i = 1; i <= n; i++) {
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) {
         cin >> a[i];
-        M[a[i] / 4].push_back(a[i]);
     }
+    sort(a.begin(), a.end());
 
-    for (auto it : M) {
-        sort(M[it.first].begin(), M[it.first].end());
+    int x = a[0];
+    int now = 0;
+    while (now < n && a[now] % x == 0) {
+        now++;
     }
-
-    map<int, int> idx;
-    vector<int> ans(n + 1);
-    for (int i = 1; i <= n; i++) {
-        int val = a[i] / 4;
-        int the_idx = idx[val];
-        ans[i] = M[val][the_idx];
-        idx[val]++;
-        cout << ans[i] << ' ';
+    if (now == n) {
+        cout << "YES" << endl;
+        return;
     }
-    cout << endl;
+    int y = a[now];
+    while (now < n && (a[now] % x == 0 || a[now] % y == 0)) {
+        now++;
+    }
+    if (now == n) {
+        cout << "YES" << endl;
+    } else {
+        cout << "NO" << endl;
+    }
 }
 
 int main() {
