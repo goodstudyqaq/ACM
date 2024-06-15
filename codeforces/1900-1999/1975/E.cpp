@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 
+#include <algorithm>
 #include <functional>
 
 using namespace std;
@@ -37,106 +38,89 @@ void solve() {
         V[x].push_back(y);
         V[y].push_back(x);
     }
+    V[0].push_back(1);
 
-    set<int> more;
-    set<int> one;
-
-    set<int> black;
-    set<int> zero;
-    vector<int> cnt(n + 1);
-
-    auto add = [&](int idx) {
-        black.insert(idx);
-        for (auto v : V[idx]) {
-            if (black.count(v)) {
-                cnt[idx]++;
-                cnt[v]++;
-                if (cnt[v] == 1) {
-                    zero.erase(v);
-                    one.insert(v);
-                } else if (cnt[v] == 2) {
-                    one.erase(v);
-                } else {
-                    more.insert(v);
-                }
-            }
-        }
-
-        if (cnt[idx] >= 3) {
-            more.insert(idx);
-        }
-        if (cnt[idx] == 1) {
-            one.insert(idx);
-        }
-        if (cnt[idx] == 0) {
-            zero.insert(idx);
+    vector<int> fa(n + 1);
+    function<void(int, int)> dfs = [&](int u, int pre) {
+        fa[u] = pre;
+        for (auto v : V[u]) {
+            if (v == pre) continue;
+            dfs(v, u);
         }
     };
 
-    auto remove = [&](int idx) {
-        black.erase(idx);
-        if (cnt[idx] == 0) {
-            zero.erase(idx);
-        }
-        if (cnt[idx] == 1) {
-            one.erase(idx);
-        }
-        if (cnt[idx] >= 3) {
-            more.erase(idx);
-        }
+    dfs(0, -1);
+    map<int, int> mp;
 
-        for (auto v : V[idx]) {
-            if (black.count(v)) {
-                cnt[idx]--;
-                cnt[v]--;
-                if (cnt[v] == 0) {
-                    one.erase(v);
-                    zero.insert(v);
-                } else if (cnt[v] == 1) {
-                    one.insert(v);
-                } else if (cnt[v] == 2) {
-                    more.erase(v);
-                }
-            }
-        }
+    auto add = [&](int idx) {
+        mp[idx]++;
+        if (mp[idx] == 0) mp.erase(idx);
+    };
+
+    auto del = [&](int idx) {
+        mp[idx]--;
+        if (mp[idx] == 0) mp.erase(idx);
     };
 
     for (int i = 1; i <= n; i++) {
-        if (c[i] == 1) {
+        if (c[i]) {
             add(i);
+            del(fa[i]);
         }
     }
-    debug(more, one, black);
 
     while (q--) {
-        int u;
-        cin >> u;
-        if (c[u]) {
-            remove(u);
-            c[u] = 0;
+        int x;
+        cin >> x;
+
+        if (c[x]) {
+            del(x);
+            add(fa[x]);
         } else {
-            add(u);
-            c[u] = 1;
+            add(x);
+            del(fa[x]);
         }
-        if (black.size() == 0) {
-            cout << "NO" << endl;
-            continue;
-        }
-        if (more.size() > 0) {
-            cout << "NO" << endl;
-            continue;
-        } 
-        if (one.size() > 2) {
-            cout << "NO" << endl;
-            continue;
-        } 
-        if (zero.size() > 1) {
-            cout << "NO" << endl;
-            continue;
-        }
+        c[x] ^= 1;
 
-        cout << "YES" << endl;
+        if (mp.size() == 2) {
+            vector<int> v;
+            for (auto it : mp) {
+                v.push_back(it.second);
+            }
 
+            if (v[0] > v[1]) swap(v[0], v[1]);
+            if (v[0] == -1 && v[1] == 1) {
+                cout << "YES" << endl;
+            } else {
+                cout << "NO" << endl;
+            }
+        } else if (mp.size() == 4) {
+            vector<int> v;
+            for (auto it : mp) {
+                v.push_back(it.second);
+            }
+            sort(v.begin(), v.end());
+            if (v[0] == -1 && v[1] == -1 && v[2] == 1 && v[3] == 1) {
+                vector<int> v2;
+                for (auto it : mp) {
+                    if (it.second == -1) v2.push_back(it.first);
+                }
+                if (fa[v2[0]] == v2[1] || fa[v2[1]] == v2[0]) {
+                    if (c[v2[0]] || c[v2[1]]) {
+                        cout << "YES" << endl;
+                    } else {
+                        cout << "NO" << endl;
+                    }
+                } else {
+                    cout << "NO" << endl;
+                }
+
+            } else {
+                cout << "NO" << endl;
+            }
+        } else {
+            cout << "NO" << endl;
+        }
     }
 }
 
