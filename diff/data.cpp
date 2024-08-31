@@ -8,8 +8,6 @@ using namespace std;
 #define debug(...) 42
 #endif
 
-// #define endl '\n'
-
 struct fast_ios {
     fast_ios() {
         cin.tie(nullptr);
@@ -17,7 +15,6 @@ struct fast_ios {
         cout << fixed << setprecision(10);
     };
 } fast_ios_;
-
 template <class T>
 auto vect(const T& v, int n) { return vector<T>(n, v); }
 template <class T, class... D>
@@ -40,20 +37,40 @@ typedef tree<pii, null_type, less<pii>, rb_tree_tag, tree_order_statistics_node_
 
 int main() {
 #ifdef LOCAL
-    freopen("./data.in", "w", stdout);
+    freopen("./data.in", "r", stdin);
 #endif
-    int T = 1;
-    cout << T << endl;
-    int n = 5;
-    cout << n << endl;
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < n; j++) {
-            long long val = 0;
-            while (val == 0) {
-                val = rnd(2 * n + 1) - n;
-            }
-            cout << val << ' ';
+
+    int n, q;
+    n = 5;
+    q = 5;
+    cout << n << ' ' << q << endl;
+    for (int i = 0; i < n; i++) {
+        int l = rnd(10), r = rnd(10);
+        int flagl = rnd(2), flagr = rnd(2);
+        l *= (flagl ? -1 : 1);
+        r *= (flagr ? -1 : 1);
+        if (l > r) swap(l, r);
+        int x = rnd(10), y = rnd(10);
+        int flagx = rnd(2), flagy = rnd(2);
+        cout << l << ' ' << r << ' ' << x * (flagx ? -1 : 1) << ' ' << y * (flagy ? -1 : 1) << endl;
+    }
+    for (int i = 0; i < q; i++) {
+        int flag = rnd(2);
+        cout << flag << ' ';
+        if (flag == 0) {
+            int l = rnd(10), r = rnd(10);
+            int flagl = rnd(2), flagr = rnd(2);
+            l *= (flagl ? -1 : 1);
+            r *= (flagr ? -1 : 1);
+            if (l > r) swap(l, r);
+            int x = rnd(10), y = rnd(10);
+            int flagx = rnd(2), flagy = rnd(2);
+            cout << l << ' ' << r << ' ' << x * (flagx ? -1 : 1) << ' ' << y * (flagy ? -1 : 1) << endl;
+
+        } else {
+            int p = rnd(10);
+            int flagp = rnd(2);
+            cout << p * (flagp ? -1 : 1) << endl;
         }
-        cout << endl;
     }
 }

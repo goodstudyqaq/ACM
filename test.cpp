@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 
+#include "./structure/segment-tree/segment-tree.hpp"
+
 using namespace std;
 
 #ifdef LOCAL
@@ -7,11 +9,6 @@ using namespace std;
 #else
 #define debug(...) 42
 #endif
-
-#define endl '\n'
-typedef long long ll;
-typedef pair<int, int> pii;
-typedef pair<ll, ll> pll;
 
 struct fast_ios {
     fast_ios() {
@@ -21,41 +18,25 @@ struct fast_ios {
     };
 } fast_ios_;
 
-void solve() {
-    int n;
-    cin >> n;
-    vector<int> a(n + 1);
-    map<int, vector<int>> M;
-    for (int i = 1; i <= n; i++) {
-        cin >> a[i];
-        M[a[i] / 4].push_back(a[i]);
+struct Info {
+    // 默认值
+    int mx = 0;
+    Info(int mx = 0) : mx(mx) {}
+    static Info merge(const Info& left_info, const Info& right_info, int l, int r) {
+        return Info(max(left_info.mx, right_info.mx));
     }
-
-    for (auto it : M) {
-        sort(M[it.first].begin(), M[it.first].end());
+    string to_string() {
+        return "";
     }
-
-    map<int, int> idx;
-    vector<int> ans(n + 1);
-    for (int i = 1; i <= n; i++) {
-        int val = a[i] / 4;
-        int the_idx = idx[val];
-        ans[i] = M[val][the_idx];
-        idx[val]++;
-        cout << ans[i] << ' ';
-    }
-    cout << endl;
-}
+};
 
 int main() {
 #ifdef LOCAL
     freopen("./data.in", "r", stdin);
 #endif
-
-    int T;
-    cin >> T;
-    while (T--) {
-        solve();
-    }
-    return 0;
+    int n = 20;
+    SegmentTree<Info> seg(n);
+    seg.assign(10, Info(20));
+    auto res = seg.rangeQuery(0, 10);
+    cout << res.mx << endl;
 }

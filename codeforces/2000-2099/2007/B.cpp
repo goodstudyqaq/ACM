@@ -1,0 +1,63 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#ifdef LOCAL
+#include "copypaste/debug.h"
+#else
+#define debug(...) 42
+#endif
+
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
+
+struct fast_ios {
+    fast_ios() {
+        cin.tie(nullptr);
+        ios::sync_with_stdio(false);
+        cout << fixed << setprecision(10);
+    };
+} fast_ios_;
+
+void solve() {
+    int n, m;
+    cin >> n >> m;
+
+    int mx = 0;
+    for (int i = 0; i < n; i++) {
+        int a;
+        cin >> a;
+        mx = max(mx, a);
+    }
+    for (int i = 0; i < m; i++) {
+        char c;
+        int l, r;
+        cin >> c >> l >> r;
+        if (c == '+') {
+            if (l <= mx && mx <= r) {
+                mx++;
+            }
+        } else {
+            if (l <= mx && mx <= r) {
+                mx--;
+            }
+        }
+        cout << mx << ' ';
+    }
+    cout << endl;
+
+}
+
+int main() {
+#ifdef LOCAL
+    freopen("./data.in", "r", stdin);
+#endif
+
+    int T;
+    cin >> T;
+    while (T--) {
+        solve();
+    }
+    return 0;
+}
