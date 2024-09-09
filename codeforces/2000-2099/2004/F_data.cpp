@@ -44,8 +44,8 @@ int main() {
     cout << 1 << endl;
     cout << 2000 << endl;
     for (int i = 1; i <= 2000; i++) {
-        int v = rnd(100000) + 1;
-        // if (v == 0) v++;
+        int v = 100000;
+        if (v == 0) v++;
         cout << v << ' ';
     }
     cout << endl;

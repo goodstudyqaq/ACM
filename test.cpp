@@ -1,42 +1,60 @@
 #include <bits/stdc++.h>
+#include <cstdio>
 
-#include "./structure/segment-tree/segment-tree.hpp"
+using i64 = long long;
+using u32 = unsigned;
 
-using namespace std;
-
-#ifdef LOCAL
-#include "copypaste/debug.h"
-#else
-#define debug(...) 42
-#endif
-
-struct fast_ios {
-    fast_ios() {
-        cin.tie(nullptr);
-        ios::sync_with_stdio(false);
-        cout << fixed << setprecision(10);
-    };
-} fast_ios_;
-
-struct Info {
-    // 默认值
-    int mx = 0;
-    Info(int mx = 0) : mx(mx) {}
-    static Info merge(const Info& left_info, const Info& right_info, int l, int r) {
-        return Info(max(left_info.mx, right_info.mx));
+u32 P;
+void inc(u32 &a, u32 b) {
+    a += b;
+    if (a >= P) {
+        a -= P;
     }
-    string to_string() {
-        return "";
+}
+
+void solve() {
+    int n, k;
+    std::cin >> n >> k >> P;
+
+    std::vector f(n + 1, std::vector<u32>(k + 1));
+    std::vector g(n + 1, std::vector<u32>(k + 1));
+    for (int i = 0; i <= k; i++) {
+        f[1][i] = 1;
+        g[1][i] = 1;
     }
-};
+
+    for (int i = 2; i <= n; i++) {
+        for (int a = 0; a <= k; a++) {
+            for (int b = 0; a + b <= k; b++) {
+                inc(g[i][a + b], 1ULL * g[i - 1][a] * g[i - 1][b] % P);
+                if (a > b) {
+                    inc(f[i][a + b], 1ULL * f[i - 1][a] * g[i - 1][b] % P);
+                }
+                if (a < b) {
+                    inc(f[i][a + b], 1ULL * g[i - 1][a] * f[i - 1][b] % P);
+                }
+            }
+        }
+        for (int a = 1; a <= k; a++) {
+            inc(g[i][a], g[i][a - 1]);
+            inc(f[i][a], f[i][a - 1]);
+        }
+    }
+
+    std::cout << f[n][k] << "\n";
+}
 
 int main() {
-#ifdef LOCAL
-    freopen("./data.in", "r", stdin);
-#endif
-    int n = 20;
-    SegmentTree<Info> seg(n);
-    seg.assign(10, Info(20));
-    auto res = seg.rangeQuery(0, 10);
-    cout << res.mx << endl;
+    freopen("data.in", "r", stdin);
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+
+    int t;
+    std::cin >> t;
+
+    while (t--) {
+        solve();
+    }
+
+    return 0;
 }
