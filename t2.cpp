@@ -22,4 +22,5 @@ int main() {
 #ifdef LOCAL
     freopen("./data.in", "r", stdin);
 #endif
+    cout << 'a' + 1 << endl;
 }

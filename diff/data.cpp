@@ -40,13 +40,15 @@ int main() {
 #ifdef LOCAL
     freopen("./data.in", "w", stdout);
 #endif
-
     cout << 1 << endl;
-    cout << 2000 << endl;
-    for (int i = 1; i <= 2000; i++) {
-        int v = rnd(100000) + 1;
-        // if (v == 0) v++;
-        cout << v << ' ';
+    int n = 5;
+    cout << n << endl;
+    for (int i = 0; i < n; i++) {
+        cout << rnd(20) + 1 << ' ';
+    }
+    cout << endl;
+    for (int i = 0; i < n; i++) {
+        cout << rnd(20) + 1 << ' ';
     }
     cout << endl;
 }
