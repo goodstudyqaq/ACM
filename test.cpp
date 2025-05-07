@@ -1,8 +1,6 @@
 #include <bits/stdc++.h>
-#include <stdio.h>
 
-#include <cstdlib>
-#include <iostream>
+#include <cstdio>
 
 using namespace std;
 
@@ -12,80 +10,102 @@ using namespace std;
 #define debug(...) 42
 #endif
 
-struct fast_ios {
-    fast_ios() {
-        cin.tie(nullptr);
-        ios::sync_with_stdio(false);
-        cout << fixed << setprecision(10);
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
+
+// struct fast_ios {
+//     fast_ios() {
+//         cin.tie(nullptr);
+//         ios::sync_with_stdio(false);
+//         cout << fixed << setprecision(10);
+//     };
+// } fast_ios_;
+
+void solve() {
+    int n, k;
+    cin >> n >> k;
+    auto ask = [&](int idx) {
+        cout << "? " << idx << '\n';
+        fflush(stdout);
+        int res;
+        cin >> res;
+        return res;
     };
-} fast_ios_;
+    auto out1 = [&]() {
+        cout << "! -1" << endl;
+        fflush(stdout);
+    };
+    auto out2 = [&](int l, int r) {
+        cout << "! " << l << ' ' << r << endl;
+        fflush(stdout);
+    };
+
+    vector<int> pre(k + 1);
+    for (int i = 1; i <= k; i++) {
+        pre[i] = ask(i);
+    }
+
+    vector<int> suf(k + 1);
+    for (int i = 1; i <= k; i++) {
+        suf[i] = ask(n - k + i);
+    }
+
+    bool eq = true;
+    int idx = -1;
+    for (int i = 1; i <= k; i++) {
+        if (pre[i] != suf[i]) {
+            idx = i;
+            eq = false;
+            break;
+        }
+    }
+    if (eq) {
+        if (n == 2 * k) {
+            out2(k, k);
+        } else {
+            out1();
+        }
+        return;
+    }
+
+    int t = (n - 1) / k + 1;
+
+    // [2, t - 1]
+
+    int l = 2, r = t - 1;
+    int ans = -1;
+    while (l <= r) {
+        int m = l + r >> 1;
+        int idx2 = (m - 1) * k + idx;
+        int val = ask(idx2);
+        if (val == pre[idx]) {
+            ans = m;
+            l = m + 1;
+        } else {
+            r = m - 1;
+        }
+    }
+    int start = (ans - 1) * k + idx + 1;
+    int end = ans * k;
+    for (int i = start; i <= end; i++) {
+        int val = ask(i);
+        if (val != pre[i - (ans - 1) * k]) {
+            out2(i, n - i);
+            return;
+        }
+    }
+}
 
 int main() {
-#ifdef LOCAL
-    freopen("./data.in", "r", stdin);
-#endif
+    // #ifdef LOCAL
+    //     freopen("./data.in", "r", stdin);
+    // #endif
 
-    int n;
-    cin >> n;
-
-    string line;
-    getline(cin, line);
-    vector<vector<int>> V(n);
-    for (int i = 0; i < n; i++) {
-        string line;
-        getline(cin, line);
-        std::stringstream ss(line);  // 创建一个 stringstream 对象
-        int num;
-        // 从 stringstream 中提取整数
-        while (ss >> num) {
-            V[i].push_back(num);
-        }
+    int T;
+    cin >> T;
+    while (T--) {
+        solve();
     }
-    debug(V);
-
-    vector<set<int>> groups(2);
-    vector<int> vis(n, -1);
-    vector<int> in_group(n, -1);
-    vector<int> cnt(2);
-    int flag = 0;
-
-    function<void(int, int, int, int)> dfs = [&](int u, int pre, int color, int flag) {
-        vis[u] = color;
-        if (color == 0) {
-            groups[flag].insert(u);
-            in_group[u] = flag;
-        } else {
-            groups[flag ^ 1].insert(u);
-            in_group[u] = flag ^ 1;
-        }
-
-        for (auto v : V[u]) {
-            if (v == pre) continue;
-            if (vis[v] == -1) {
-                dfs(v, u, color ^ 1, flag);
-            } else {
-                if (vis[v] == vis[u]) {
-                    cout << -1 << endl;
-                    exit(0);
-                }
-            }
-        }
-    };
-
-    for (int i = 0; i < n; i++) {
-        if (vis[i] == -1) {
-            flag = cnt[0] > cnt[1];
-            dfs(i, -1, 0, flag);
-        } else {
-            cnt[in_group[i]]++;
-        }
-    }
-
-
-    for (int i = 0; i < 2; i++) {
-        for (auto u : groups[i]) {
-            cout << u << ' ';
-        }
-        cout << endl;
-    }
+    return 0;
 }

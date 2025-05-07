@@ -23,11 +23,11 @@ struct fast_ios {
 } fast_ios_;
 
 void solve() {
-    int n, k;
+    long long n, k;
     cin >> n >> k;
     string s;
     cin >> s;
-    const long long init = -1e7;
+    const long long init = -2e12;
     vector<long long> a(n);
     for (int i = 0; i < n; i++) {
         cin >> a[i];
@@ -121,7 +121,7 @@ void solve() {
         }
         last_val = max(last_val, 0LL);
         last_val2 = max(last_val2, 0LL);
-        a[idx] = k - (last_val2 + last_val);
+        a[idx] = 1LL * k - (last_val2 + last_val);
     };
 
     if (idx.size() == 0) {
@@ -144,7 +144,6 @@ void solve() {
         l = idx[idx.size() - 2] + 1, r = n - 1;
     }
     work(l, r, idx[idx.size() - 1]);
-    debug(a);
     if (check()) {
         cout << "Yes\n";
         out();
