@@ -24,10 +24,10 @@ void solve() {
     int n;
     cin >> n;
     vector<int> x(n + 1), y(n + 1);
-    long long sumy = 0;
+    map<int, int> sum;
     for (int i = 1; i <= n; i++) {
         cin >> x[i] >> y[i];
-        sumy += y[i];
+        sum[x[i] + y[i]]++;
     }
     map<int, int> X;
     for (int i = 1; i <= n; i++) {
@@ -40,8 +40,14 @@ void solve() {
             break;
         }
     }
-    debug(sumy);
-    cout << ansx << ' ' << sumy / n << '\n';
+
+    for (auto it : sum) {
+        if (it.second % 2) {
+            ansy = it.first - ansx;
+        }
+    }
+    cout << ansx << ' ' << ansy << '\n';
+
 }
 
 int main() {
