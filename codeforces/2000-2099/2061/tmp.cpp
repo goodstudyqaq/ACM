@@ -1,6 +1,7 @@
+#line 1 "E.cpp"
 #include <bits/stdc++.h>
 
-#include <queue>
+#line 4 "E.cpp"
 
 using namespace std;
 
@@ -26,42 +27,33 @@ void solve() {
     int n, m, k;
     cin >> n >> m >> k;
     vector<int> a(n), b(m);
+    priority_queue<int> Q;
     for (int i = 0; i < n; i++) {
         cin >> a[i];
+        Q.push(a[i]);
     }
     for (int i = 0; i < m; i++) {
         cin >> b[i];
-    }
-    priority_queue<pii> Q;
-    for (int i = 0; i < n; i++) {
-        int mx = 0;
-        for (int j = 0; j < m; j++) {
-            int v = a[i] & b[j];
-            mx = max(mx, a[i] - v);
-        }
-        Q.push({mx, a[i]});
     }
 
     while (k--) {
         auto it = Q.top();
         Q.pop();
 
-        int now = it.second - it.first;
-
-        int mx = 0;
-        for (int j = 0; j < m; j++) {
-            int v = now & b[j];
-            mx = max(mx, now - v);
+        int mi = it;
+        for (int i = 0; i < m; i++) {
+            mi = min(mi, it & b[i]);
         }
-        Q.push({mx, now});
+        Q.push(mi);
     }
 
     long long ans = 0;
     while (!Q.empty()) {
-        ans += Q.top().second;
+        ans += Q.top();
         Q.pop();
     }
     cout << ans << '\n';
+
 }
 
 int main() {

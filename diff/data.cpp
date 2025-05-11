@@ -41,22 +41,15 @@ int main() {
     freopen("./data.in", "w", stdout);
 #endif
     cout << 1 << endl;
-    int n = rnd(10000);
-    int k = rnd(1000000) + 1;
-    vector<int> v(n);
-    cout << n << ' ' << k << endl;
+    int n = 10, m = rnd(10) + 1;
+    int k = rnd(n * m + 1);
+    cout << n << ' ' << m << ' ' << k << '\n';
     for (int i = 0; i < n; i++) {
-        v[i] = rnd(2);
-        cout << v[i];
+        cout << rnd(100) << ' ';
     }
     cout << endl;
-    for (int i = 0; i < n; i++) {
-        if (v[i] == 0) {
-            cout << 0 << ' ';
-        } else {
-            int flag = rnd(2);
-            cout << (flag ? -1 : 1) * rnd(100000) << ' ';
-        }
+    for (int i = 0; i < m; i++) {
+        cout << rnd(100) << ' ';
     }
     cout << endl;
 }

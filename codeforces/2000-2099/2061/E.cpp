@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 
+#include <functional>
 #include <queue>
 
 using namespace std;
@@ -26,40 +27,46 @@ void solve() {
     int n, m, k;
     cin >> n >> m >> k;
     vector<int> a(n), b(m);
+    long long ans = 0;
     for (int i = 0; i < n; i++) {
         cin >> a[i];
+        ans += a[i];
     }
     for (int i = 0; i < m; i++) {
         cin >> b[i];
     }
-    priority_queue<pii> Q;
+
+    const int BIT = 1 << m;
+    vector<int> val(BIT);
+    for (int i = 0; i < BIT; i++) {
+        int now = (1 << 30) - 1;
+        for (int j = 0; j < m; j++) {
+            if ((i >> j) & 1) {
+                now &= b[j];
+            }
+        }
+        val[i] = now;
+    }
+
+    vector<int> diff;
     for (int i = 0; i < n; i++) {
-        int mx = 0;
-        for (int j = 0; j < m; j++) {
-            int v = a[i] & b[j];
-            mx = max(mx, a[i] - v);
+        vector<int> mi(m + 1, 1 << 30);
+        mi[0] = a[i];
+        for (int j = 0; j < BIT; j++) {
+            int one = __builtin_popcount(j);
+            mi[one] = min(mi[one], a[i] & val[j]);
         }
-        Q.push({mx, a[i]});
-    }
-
-    while (k--) {
-        auto it = Q.top();
-        Q.pop();
-
-        int now = it.second - it.first;
-
-        int mx = 0;
         for (int j = 0; j < m; j++) {
-            int v = now & b[j];
-            mx = max(mx, now - v);
+            int tmp = mi[j] - mi[j + 1];
+            diff.push_back(tmp);
         }
-        Q.push({mx, now});
     }
+    sort(diff.begin(), diff.end(), greater<>());
+    debug(diff);
+    debug(ans);
 
-    long long ans = 0;
-    while (!Q.empty()) {
-        ans += Q.top().second;
-        Q.pop();
+    for (int i = 0; i < k; i++) {
+        ans -= diff[i];
     }
     cout << ans << '\n';
 }
