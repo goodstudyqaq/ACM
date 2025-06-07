@@ -1,4 +1,179 @@
+#line 1 "E.cpp"
 #include <bits/stdc++.h>
+
+#line 3 "/Users/guoshen/code/library2/structure/others/md-vector.hpp"
+
+#line 5 "/Users/guoshen/code/library2/structure/others/md-vector.hpp"
+using namespace std;
+
+// 多维动态大小数组，可以用于DP等场景。
+template <typename T, size_t dimensions>
+class md_vector;
+
+namespace internal {
+template <size_t dimensions>
+size_t md_size(const array<size_t, dimensions>& dsize) {
+    size_t base = 1;
+    for (int i = 0; i < dimensions; i++) {
+        base *= dsize[i];
+    }
+    return base;
+}
+
+template <typename T, size_t dimensions, size_t idx_dimensions>
+class md_vector_index {
+   public:
+    md_vector_index(md_vector<T, dimensions>& vec, size_t base = 0) : vector_(vec), base_(base) {
+    }
+
+    auto operator[](size_t v) {
+        assert(v < vector_.dsize_[idx_dimensions - 1]);
+        return md_vector_index<T, dimensions, idx_dimensions + 1>(vector_, (base_ + v) * vector_.dsize_[idx_dimensions]);
+    }
+
+   private:
+    md_vector<T, dimensions>& vector_;
+    const size_t base_;
+};
+
+template <typename T, size_t dimensions>
+class md_vector_index<T, dimensions, dimensions> {
+   public:
+    md_vector_index(md_vector<T, dimensions>& vec, size_t base = 0) : vector_(vec), base_(base) {
+    }
+
+    T& operator[](size_t v) {
+        return vector_.data_[base_ + v];
+    }
+
+    md_vector<T, dimensions>& vector_;
+    const size_t base_;
+};
+
+template <typename T, size_t dimensions, size_t idx_dimensions>
+class const_md_vector_index {
+   public:
+    const_md_vector_index(const md_vector<T, dimensions>& vec, size_t base = 0) : vector_(vec), base_(base) {
+    }
+
+    auto operator[](size_t v) const {
+        assert(v < vector_.dsize_[idx_dimensions - 1]);
+        return const_md_vector_index<T, dimensions, idx_dimensions + 1>(vector_, (base_ + v) * vector_.dsize_[idx_dimensions]);
+    }
+
+   private:
+    const md_vector<T, dimensions>& vector_;
+    const size_t base_;
+};
+
+template <typename T, size_t dimensions>
+class const_md_vector_index<T, dimensions, dimensions> {
+   public:
+    const_md_vector_index(const md_vector<T, dimensions>& vec, size_t base = 0) : vector_(vec), base_(base) {
+    }
+
+    const T& operator[](size_t v) const {
+        return vector_.data_[base_ + v];
+    }
+
+    const md_vector<T, dimensions>& vector_;
+    const size_t base_;
+};
+}  // namespace internal
+
+template <typename T, size_t dimensions>
+class md_vector {
+   public:
+    md_vector() {}
+    md_vector(md_vector<T, dimensions>&& other) : data_(other.data_), dsize_(other.dsize_) {
+    }
+    md_vector(const md_vector<T, dimensions>& other) : data_(other.data_), dsize_(other.dsize_) {
+    }
+
+    md_vector(array<size_t, dimensions> dsize, T default_value = T())
+        : dsize_(dsize), data_(internal::md_size(dsize), default_value) {
+    }
+
+    md_vector& operator=(md_vector<T, dimensions>&& other) {
+        data_ = other.data_;
+        dsize_ = other.dsize_;
+        return *this;
+    }
+    md_vector& operator=(const md_vector<T, dimensions>& other) {
+        data_ = other.data_;
+        dsize_ = other.dsize_;
+        return *this;
+    }
+
+    auto operator[](size_t v) {
+        return internal::md_vector_index<T, dimensions, 1>(*this)[v];
+    }
+
+    const auto operator[](size_t v) const {
+        return internal::const_md_vector_index<T, dimensions, 1>(*this)[v];
+    }
+
+    T& operator[](array<size_t, dimensions> idx) {
+        size_t base = 0;
+        for (int i = 0; i < dimensions; i++) {
+            base *= dsize_[i];
+            base += idx[i];
+        }
+        return data_[base];
+    }
+
+    vector<T> data_;
+    array<size_t, dimensions> dsize_;
+};
+
+template <typename T, size_t dimensions>
+istream& operator>>(istream& in, md_vector<T, dimensions>& vec) {
+    return in >> vec.data_;
+}
+
+template <typename T, size_t dimensions>
+void make_md_presum(md_vector<T, dimensions>& vec) {
+    size_t diff = 1, base = 0;
+    for (int currD = dimensions - 1; currD >= 0; currD--) {
+        base = diff * vec.dsize_[currD];
+        for (size_t i = 0; i + diff < vec.data_.size(); i++) {
+            if (i % base + diff < base) {
+                vec.data_[i + diff] += vec.data_[i];
+            }
+        }
+        diff = base;
+    }
+}
+
+template <typename T, int dimensions, int idx_dimensions>
+string to_string(internal::md_vector_index<T, dimensions, idx_dimensions>& vec) {
+    int sz = vec.vector_.dsize_[idx_dimensions - 1];
+    string s = "{";
+    for (int i = 0; i < sz; i++) {
+        s += to_string(vec[i]);
+        if (i != sz - 1) {
+            s += ", ";
+        }
+    }
+    s += "}";
+    return s;
+}
+
+template <typename T, int dimensions>
+string to_string(md_vector<T, dimensions>& vec) {
+    int sz = vec.dsize_[0];
+    string s = "{";
+    for (int i = 0; i < sz; i++) {
+        auto it = vec[i];
+        s += to_string(it);
+        if (i != sz - 1) {
+            s += ", ";
+        }
+    }
+    s += "}";
+    return s;
+}
+#line 4 "E.cpp"
 
 using namespace std;
 
@@ -253,39 +428,57 @@ Mint A(int n, int k) {
     }
     return fact[n] * inv_fact[n - k];
 }
+
+const int maxn = 5001;
+Mint dp[maxn][maxn];
+bool vis[maxn][maxn];
+
 void solve() {
     int n;
     cin >> n;
     vector<int> a(n);
     set<int> exist;
-    vector<int> not_exist;
     int unknown_num = 0;
     for (int i = 0; i < n; i++) {
         cin >> a[i];
+
         if (a[i] == -1) {
             unknown_num += 1;
         } else {
             exist.insert(a[i]);
         }
     }
-
-    Mint ans = 0;
-
-    vector<vector<int>> sum(unknown_num + 1, vector<int>(n + 1));
-    vector<int> need(n + 1);
-
     for (int i = 0; i <= n; i++) {
-        if (i) need[i] = need[i - 1];
-        if (exist.count(i) == 0) {
-            need[i]++;
+        for (int j = 0; j <= n; j++) {
+            vis[i][j] = 0;
         }
     }
 
-    auto work = [&](int x, int y) -> Mint {
-        // 有 x 个空位，[0, y] 都要有的方案数
-        int now_need = need[y];
-        if (x < now_need) return 0;
-        return C(x, now_need) * A(now_need, now_need) * A(unknown_num - now_need, unknown_num - now_need);
+
+    // vector<vector<Mint>> dp(unknown_num + 1, vector<Mint>(n + 1));
+    // vector<vector<bool>> vis(unknown_num + 1, vector<bool>(n + 1));
+    Mint ans = 0;
+
+    auto work = [&](int x, int mi) -> Mint {
+        if (vis[x][mi]) {
+            return dp[x][mi];
+        }
+        vis[x][mi] = 1;
+        Mint ans = 0;
+        int need = 0;
+        for (int i = 0; i < mi; i++) {
+            if (exist.count(i)) {
+                // 存在在原来的数组里，但是外面没有，说明在本区间里
+                ans += A(x, need) * A(unknown_num - need, unknown_num - need);
+            } else {
+                // 不存在数组里，外面没有，说明根本不存在
+                need++;
+                if (need > x) break;
+                ans += A(x, need) * A(unknown_num - need, unknown_num - need);
+            }
+        }
+        dp[x][mi] = ans;
+        return ans;
     };
 
     for (int i = 0; i < n; i++) {
@@ -298,17 +491,11 @@ void solve() {
                 now_unknown_num++;
             }
             int mi = S.empty() ? n : *S.begin();
-            sum[now_unknown_num][0] += 1;
-            sum[now_unknown_num][mi] -= 1;
+            Mint res = work(now_unknown_num, mi);
+            // debug(i, j, now_unknown_num, mi, res);
+            ans += res;
         }
     }
-    for (int i = 0; i <= unknown_num; i++) {
-        for (int j = 0; j <= n; j++) {
-            if (j) sum[i][j] += sum[i][j - 1];
-            ans += work(i, j) * sum[i][j];
-        }
-    }
-
     cout << ans << '\n';
 }
 

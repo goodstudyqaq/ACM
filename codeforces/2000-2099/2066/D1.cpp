@@ -253,63 +253,51 @@ Mint A(int n, int k) {
     }
     return fact[n] * inv_fact[n - k];
 }
+
+template <typename T = Mint>
+T get_plan1(int n, int m) {
+    // n 个不同的包，m 个相同的球得到的方案数
+    // 可以理解 n + m - 1 个位置，把 n - 1 个包放进去，包前面的空位就是它有的球的个数，最后剩余的就是最后一个包有的球的个数
+
+    /*
+    https://codeforces.com/contest/1929/problem/F
+    转换一：m 个数，每个数的范围是[1, n]，求不同的方案数，两个数组排完序后不同才算不同。可以这样看待这个问题:
+    [1, n] 相当于有 n 个不同的包，你要把这 m 个数，放到这 n 个包中，这 m 个数是等价的，放完后其实就相当于一个方案。
+    */
+    return C(n + m - 1, m);
+}
+
 void solve() {
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    set<int> exist;
-    vector<int> not_exist;
-    int unknown_num = 0;
-    for (int i = 0; i < n; i++) {
-        cin >> a[i];
-        if (a[i] == -1) {
-            unknown_num += 1;
-        } else {
-            exist.insert(a[i]);
-        }
+    int n, c, m;
+    cin >> n >> c >> m;
+    for (int i = 0; i < m; i++) {
+        int a;
+        cin >> a;
     }
-
-    Mint ans = 0;
-
-    vector<vector<int>> sum(unknown_num + 1, vector<int>(n + 1));
-    vector<int> need(n + 1);
-
-    for (int i = 0; i <= n; i++) {
-        if (i) need[i] = need[i - 1];
-        if (exist.count(i) == 0) {
-            need[i]++;
-        }
-    }
+    vector<Mint> dp(m + 1);
+    dp[c] = 1;
 
     auto work = [&](int x, int y) -> Mint {
-        // 有 x 个空位，[0, y] 都要有的方案数
-        int now_need = need[y];
-        if (x < now_need) return 0;
-        return C(x, now_need) * A(now_need, now_need) * A(unknown_num - now_need, unknown_num - now_need);
+        // if (y == 0) return 1;
+        int have = c - y;
+        return get_plan1(have + 1, y);
     };
 
-    for (int i = 0; i < n; i++) {
-        int now_unknown_num = 0;
-        set<int> S = exist;
-        for (int j = i; j < n; j++) {
-            if (a[j] != -1) {
-                S.erase(a[j]);
-            } else {
-                now_unknown_num++;
+    for (int i = n - 1; i >= 1; i--) {
+        vector<Mint> ndp(m + 1);
+        for (int j = c; j <= m; j++) {
+            if (dp[j] != 0) {
+                // 前面用了 j 个
+                for (int k = 0; k + j <= m && k <= c; k++) {
+                    // i 这个数用 k 个
+                    ndp[j + k] += work(j, k) * dp[j];
+                }
             }
-            int mi = S.empty() ? n : *S.begin();
-            sum[now_unknown_num][0] += 1;
-            sum[now_unknown_num][mi] -= 1;
         }
+        dp = ndp;
+        debug(i, dp);
     }
-    for (int i = 0; i <= unknown_num; i++) {
-        for (int j = 0; j <= n; j++) {
-            if (j) sum[i][j] += sum[i][j - 1];
-            ans += work(i, j) * sum[i][j];
-        }
-    }
-
-    cout << ans << '\n';
+    cout << dp[m] << '\n';
 }
 
 int main() {

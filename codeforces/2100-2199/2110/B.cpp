@@ -21,36 +21,23 @@ struct fast_ios {
 } fast_ios_;
 
 void solve() {
-    int n;
     string s;
-    cin >> n >> s;
-    vector<int> v(n);
-    for (int i = 0; i < n; i++) {
-        v[i] = (s[i] == 'P');
-    }
+    cin >> s;
+    int n = s.size();
 
-    long long inv = 0;
-    int one = 0;
+    int now = 0;
     for (int i = 0; i < n; i++) {
-        if (v[i] == 1) {
-            one += 1;
+        if (s[i] == '(') {
+            now++;
         } else {
-            inv += one;
+            now--;
+        }
+        if (now == 0 && i != n - 1) {
+            cout << "YES\n";
+            return;
         }
     }
-
-    int zero = n - one;
-
-    int even_zero = 0;
-    for (int i = 0; i < n; i += 2) {
-        if (v[i] == 0) {
-            even_zero++;
-        }
-    }
-    int d = abs((zero + 1) / 2 - even_zero);
-
-    long long ans = (inv - d) / 2 + d;
-    cout << ans << '\n';
+    cout << "NO\n";
 }
 
 int main() {

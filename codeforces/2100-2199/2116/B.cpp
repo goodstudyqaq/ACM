@@ -223,7 +223,7 @@ ModType& md = VarMod::value;
 using Mint = Modular<VarMod>;
 */
 
-constexpr int md = 1e9 + 7;
+constexpr int md = 998244353;
 using Mint = Modular<std::integral_constant<decay<decltype(md)>::type, md>>;
 
 vector<Mint> fact(1);
@@ -253,63 +253,58 @@ Mint A(int n, int k) {
     }
     return fact[n] * inv_fact[n - k];
 }
+
 void solve() {
     int n;
     cin >> n;
-    vector<int> a(n);
-    set<int> exist;
-    vector<int> not_exist;
-    int unknown_num = 0;
-    for (int i = 0; i < n; i++) {
-        cin >> a[i];
-        if (a[i] == -1) {
-            unknown_num += 1;
+    vector<int> p(n + 1), q(n + 1);
+    vector<int> mx_p(n + 1), mx_q(n + 1);
+    for (int i = 1; i <= n; i++) {
+        cin >> p[i];
+        mx_p[i] = i;
+        if (p[mx_p[i - 1]] > p[i]) {
+            mx_p[i] = mx_p[i - 1];
+        }
+    }
+    for (int i = 1; i <= n; i++) {
+        cin >> q[i];
+        mx_q[i] = i;
+        if (q[mx_q[i - 1]] > q[i]) {
+            mx_q[i] = mx_q[i - 1];
+        }
+    }
+
+    vector<Mint> two(n + 1);
+    two[0] = 1;
+    for (int i = 1; i <= n; i++) {
+        two[i] = two[i - 1] * 2;
+    }
+
+    for (int i = 2; i <= n + 1; i++) {
+        int idx1 = mx_p[i - 1];
+        int idx2 = i - idx1;
+        int v1 = p[idx1], v2 = q[idx2];
+        if (v1 < v2) {
+            swap(v1, v2);
+        }
+
+        int idx3 = mx_q[i - 1];
+        int idx4 = i - idx3;
+        int v3 = q[idx3], v4 = p[idx4];
+        if (v3 < v4) {
+            swap(v3, v4);
+        }
+
+        pii tmp1 = {v1, v2};
+        pii tmp2 = {v3, v4};
+
+        if (tmp1 > tmp2) {
+            cout << two[v1] + two[v2] << ' ';
         } else {
-            exist.insert(a[i]);
+            cout << two[v3] + two[v4] << ' ';
         }
     }
-
-    Mint ans = 0;
-
-    vector<vector<int>> sum(unknown_num + 1, vector<int>(n + 1));
-    vector<int> need(n + 1);
-
-    for (int i = 0; i <= n; i++) {
-        if (i) need[i] = need[i - 1];
-        if (exist.count(i) == 0) {
-            need[i]++;
-        }
-    }
-
-    auto work = [&](int x, int y) -> Mint {
-        // 有 x 个空位，[0, y] 都要有的方案数
-        int now_need = need[y];
-        if (x < now_need) return 0;
-        return C(x, now_need) * A(now_need, now_need) * A(unknown_num - now_need, unknown_num - now_need);
-    };
-
-    for (int i = 0; i < n; i++) {
-        int now_unknown_num = 0;
-        set<int> S = exist;
-        for (int j = i; j < n; j++) {
-            if (a[j] != -1) {
-                S.erase(a[j]);
-            } else {
-                now_unknown_num++;
-            }
-            int mi = S.empty() ? n : *S.begin();
-            sum[now_unknown_num][0] += 1;
-            sum[now_unknown_num][mi] -= 1;
-        }
-    }
-    for (int i = 0; i <= unknown_num; i++) {
-        for (int j = 0; j <= n; j++) {
-            if (j) sum[i][j] += sum[i][j - 1];
-            ans += work(i, j) * sum[i][j];
-        }
-    }
-
-    cout << ans << '\n';
+    cout << '\n';
 }
 
 int main() {

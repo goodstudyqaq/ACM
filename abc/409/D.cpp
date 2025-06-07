@@ -24,32 +24,33 @@ void solve() {
     int n;
     string s;
     cin >> n >> s;
-    vector<int> v(n);
-    for (int i = 0; i < n; i++) {
-        v[i] = (s[i] == 'P');
-    }
 
-    long long inv = 0;
-    int one = 0;
-    for (int i = 0; i < n; i++) {
-        if (v[i] == 1) {
-            one += 1;
-        } else {
-            inv += one;
+    int idx = -1;
+    for (int i = 0; i < n - 1; i++) {
+        if (s[i] > s[i + 1]) {
+            idx = i;
+            break;
         }
     }
 
-    int zero = n - one;
+    if (idx == -1) {
+        cout << s << '\n';
+        return;
+    }
 
-    int even_zero = 0;
-    for (int i = 0; i < n; i += 2) {
-        if (v[i] == 0) {
-            even_zero++;
+    int idx2 = -1;
+    for (int i = idx + 2; i < n; i++) {
+        if (s[idx] < s[i]) {
+            idx2 = i - 1;
+            break;
         }
     }
-    int d = abs((zero + 1) / 2 - even_zero);
+    if (idx2 == -1) {
+        idx2 = n - 1;
+    }
+    debug(idx, idx2);
 
-    long long ans = (inv - d) / 2 + d;
+    string ans = s.substr(0, idx) + s.substr(idx + 1, idx2 - idx) + s[idx] + s.substr(idx2 + 1);
     cout << ans << '\n';
 }
 

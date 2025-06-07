@@ -1,5 +1,9 @@
 #include <bits/stdc++.h>
 
+#include <algorithm>
+
+#include "./math/fft/arbitrary-mod-convolution.hpp"
+
 using namespace std;
 
 #ifdef LOCAL
@@ -223,7 +227,7 @@ ModType& md = VarMod::value;
 using Mint = Modular<VarMod>;
 */
 
-constexpr int md = 1e9 + 7;
+constexpr int md = 998244353;
 using Mint = Modular<std::integral_constant<decay<decltype(md)>::type, md>>;
 
 vector<Mint> fact(1);
@@ -253,63 +257,37 @@ Mint A(int n, int k) {
     }
     return fact[n] * inv_fact[n - k];
 }
+
 void solve() {
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    set<int> exist;
-    vector<int> not_exist;
-    int unknown_num = 0;
-    for (int i = 0; i < n; i++) {
-        cin >> a[i];
-        if (a[i] == -1) {
-            unknown_num += 1;
-        } else {
-            exist.insert(a[i]);
-        }
-    }
+    int n, q;
+    cin >> n >> q;
+    string s;
+    cin >> s;
 
-    Mint ans = 0;
-
-    vector<vector<int>> sum(unknown_num + 1, vector<int>(n + 1));
-    vector<int> need(n + 1);
-
+    vector<Mint> A(n + 1);
     for (int i = 0; i <= n; i++) {
-        if (i) need[i] = need[i - 1];
-        if (exist.count(i) == 0) {
-            need[i]++;
-        }
+        A[i] = C(n, i);
     }
 
-    auto work = [&](int x, int y) -> Mint {
-        // 有 x 个空位，[0, y] 都要有的方案数
-        int now_need = need[y];
-        if (x < now_need) return 0;
-        return C(x, now_need) * A(now_need, now_need) * A(unknown_num - now_need, unknown_num - now_need);
-    };
-
-    for (int i = 0; i < n; i++) {
-        int now_unknown_num = 0;
-        set<int> S = exist;
-        for (int j = i; j < n; j++) {
-            if (a[j] != -1) {
-                S.erase(a[j]);
-            } else {
-                now_unknown_num++;
-            }
-            int mi = S.empty() ? n : *S.begin();
-            sum[now_unknown_num][0] += 1;
-            sum[now_unknown_num][mi] -= 1;
-        }
-    }
-    for (int i = 0; i <= unknown_num; i++) {
-        for (int j = 0; j <= n; j++) {
-            if (j) sum[i][j] += sum[i][j - 1];
-            ans += work(i, j) * sum[i][j];
-        }
+    vector<Mint> B(2 * n + 1);
+    for (int i = -n; i <= n; i++) {
+        B[i + n] = Mint(abs(i) / 2) * Mint((abs(i) + 1) / 2);
     }
 
-    cout << ans << '\n';
+    ArbitraryModConvolution<Mint> convolution;
+    auto AB = convolution.multiply(A, B);
+    // debug(A, B);
+    // debug(AB);
+    int one = ranges::count(s, '1');
+
+    while (q--) {
+        int idx;
+        cin >> idx;
+        idx--;
+        one += 1 - 2 * (s[idx] == '1');
+        s[idx] ^= 1;
+        cout << AB[one + n] << '\n';
+    }
 }
 
 int main() {

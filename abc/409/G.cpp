@@ -8,10 +8,6 @@ using namespace std;
 #define debug(...) 42
 #endif
 
-typedef long long ll;
-typedef pair<int, int> pii;
-typedef pair<ll, ll> pll;
-
 struct fast_ios {
     fast_ios() {
         cin.tie(nullptr);
@@ -19,7 +15,6 @@ struct fast_ios {
         cout << fixed << setprecision(10);
     };
 } fast_ios_;
-
 template <typename T>
 T inverse(T a, T m) {
     T u = 0, v = 1;
@@ -223,7 +218,7 @@ ModType& md = VarMod::value;
 using Mint = Modular<VarMod>;
 */
 
-constexpr int md = 1e9 + 7;
+constexpr int md = 998244353;
 using Mint = Modular<std::integral_constant<decay<decltype(md)>::type, md>>;
 
 vector<Mint> fact(1);
@@ -253,74 +248,31 @@ Mint A(int n, int k) {
     }
     return fact[n] * inv_fact[n - k];
 }
-void solve() {
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    set<int> exist;
-    vector<int> not_exist;
-    int unknown_num = 0;
-    for (int i = 0; i < n; i++) {
-        cin >> a[i];
-        if (a[i] == -1) {
-            unknown_num += 1;
-        } else {
-            exist.insert(a[i]);
-        }
-    }
-
-    Mint ans = 0;
-
-    vector<vector<int>> sum(unknown_num + 1, vector<int>(n + 1));
-    vector<int> need(n + 1);
-
-    for (int i = 0; i <= n; i++) {
-        if (i) need[i] = need[i - 1];
-        if (exist.count(i) == 0) {
-            need[i]++;
-        }
-    }
-
-    auto work = [&](int x, int y) -> Mint {
-        // 有 x 个空位，[0, y] 都要有的方案数
-        int now_need = need[y];
-        if (x < now_need) return 0;
-        return C(x, now_need) * A(now_need, now_need) * A(unknown_num - now_need, unknown_num - now_need);
-    };
-
-    for (int i = 0; i < n; i++) {
-        int now_unknown_num = 0;
-        set<int> S = exist;
-        for (int j = i; j < n; j++) {
-            if (a[j] != -1) {
-                S.erase(a[j]);
-            } else {
-                now_unknown_num++;
-            }
-            int mi = S.empty() ? n : *S.begin();
-            sum[now_unknown_num][0] += 1;
-            sum[now_unknown_num][mi] -= 1;
-        }
-    }
-    for (int i = 0; i <= unknown_num; i++) {
-        for (int j = 0; j <= n; j++) {
-            if (j) sum[i][j] += sum[i][j - 1];
-            ans += work(i, j) * sum[i][j];
-        }
-    }
-
-    cout << ans << '\n';
-}
 
 int main() {
 #ifdef LOCAL
     freopen("./data.in", "r", stdin);
 #endif
 
-    int T;
-    cin >> T;
-    while (T--) {
-        solve();
+    int n;
+    Mint p;
+    cin >> n >> p;
+    p /= Mint(100);
+    vector<Mint> dp(n + 1);
+    dp[1] = 1;
+
+    for (int i = 2; i <= n; i++) {
+        vector<Mint> ndp(n + 1);
+        // ndp[i] = power(p, i - 1);
+        for (int j = 1; j <= i; j++) {
+            Mint tmp = dp[j] / Mint(i - 1);
+            int times = i - j;  // 选了多少次第二种
+            ndp[j] = dp[j] + (Mint(1) - p) * tmp + C(i - 2, times) * power(p, i - 1 - times) * power(Mint(1) - p, times);
+        }
+        dp = ndp;
     }
-    return 0;
+
+    for (int i = 1; i <= n; i++) {
+        cout << dp[i] << '\n';
+    }
 }

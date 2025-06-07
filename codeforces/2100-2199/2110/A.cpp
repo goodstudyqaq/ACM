@@ -22,35 +22,25 @@ struct fast_ios {
 
 void solve() {
     int n;
-    string s;
-    cin >> n >> s;
-    vector<int> v(n);
+    cin >> n;
+    vector<int> a(n);
     for (int i = 0; i < n; i++) {
-        v[i] = (s[i] == 'P');
+        cin >> a[i];
     }
 
-    long long inv = 0;
-    int one = 0;
-    for (int i = 0; i < n; i++) {
-        if (v[i] == 1) {
-            one += 1;
-        } else {
-            inv += one;
-        }
+    sort(a.begin(), a.end());
+
+    int r = n - 1;
+    while (r >= 0 && a[0] % 2 != a[r] % 2) {
+        r--;
     }
 
-    int zero = n - one;
-
-    int even_zero = 0;
-    for (int i = 0; i < n; i += 2) {
-        if (v[i] == 0) {
-            even_zero++;
-        }
+    int l = 0;
+    while (l < n && a[l] % 2 != a[n - 1] % 2) {
+        l++;
     }
-    int d = abs((zero + 1) / 2 - even_zero);
 
-    long long ans = (inv - d) / 2 + d;
-    cout << ans << '\n';
+    cout << min(l, n - r - 1) << '\n';
 }
 
 int main() {

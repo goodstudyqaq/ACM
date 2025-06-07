@@ -253,59 +253,59 @@ Mint A(int n, int k) {
     }
     return fact[n] * inv_fact[n - k];
 }
+
 void solve() {
     int n;
     cin >> n;
-    vector<int> a(n);
-    set<int> exist;
-    vector<int> not_exist;
-    int unknown_num = 0;
-    for (int i = 0; i < n; i++) {
+    vector<int> a(n + 1);
+    vector<int> suma(n + 1);
+    map<int, vector<int>> idx;
+    for (int i = 1; i <= n; i++) {
         cin >> a[i];
-        if (a[i] == -1) {
-            unknown_num += 1;
-        } else {
-            exist.insert(a[i]);
-        }
+        suma[i] = a[i];
+        if (i) suma[i] ^= suma[i - 1];
+        idx[suma[i]].push_back(i);
     }
 
+    vector<map<int, Mint>> dp(n + 1);
+    map<int, int> go;
+
+    dp[0][0] = 1;
     Mint ans = 0;
-
-    vector<vector<int>> sum(unknown_num + 1, vector<int>(n + 1));
-    vector<int> need(n + 1);
-
     for (int i = 0; i <= n; i++) {
-        if (i) need[i] = need[i - 1];
-        if (exist.count(i) == 0) {
-            need[i]++;
-        }
-    }
+        debug(i, dp[i]);
+        for (auto it : dp[i]) {
+            int val = it.first;
 
-    auto work = [&](int x, int y) -> Mint {
-        // 有 x 个空位，[0, y] 都要有的方案数
-        int now_need = need[y];
-        if (x < now_need) return 0;
-        return C(x, now_need) * A(now_need, now_need) * A(unknown_num - now_need, unknown_num - now_need);
-    };
+            Mint cnt = it.second;
+            bool same = (val == suma[i]);
 
-    for (int i = 0; i < n; i++) {
-        int now_unknown_num = 0;
-        set<int> S = exist;
-        for (int j = i; j < n; j++) {
-            if (a[j] != -1) {
-                S.erase(a[j]);
-            } else {
-                now_unknown_num++;
+            while (go[val] < idx[val].size() && idx[val][go[val]] <= i) {
+                go[val]++;
             }
-            int mi = S.empty() ? n : *S.begin();
-            sum[now_unknown_num][0] += 1;
-            sum[now_unknown_num][mi] -= 1;
-        }
-    }
-    for (int i = 0; i <= unknown_num; i++) {
-        for (int j = 0; j <= n; j++) {
-            if (j) sum[i][j] += sum[i][j - 1];
-            ans += work(i, j) * sum[i][j];
+
+            if (go[val] != idx[val].size()) {
+                int idx2 = idx[val][go[val]];
+
+                if (same) {
+                    dp[idx2][val] += cnt * 3;
+                } else {
+                    dp[idx2][val] += cnt;
+                }
+
+                int tmp = suma[idx2 - 1];
+                if (same) {
+                    dp[idx2][tmp] += cnt * 6;
+                } else {
+                    dp[idx2][tmp] += cnt * 2;
+                }
+            } else {
+                if (same && i != n) {
+                    ans += cnt * 3;
+                } else {
+                    ans += cnt;
+                }
+            }
         }
     }
 
