@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 
-#include "./structure/union-find/union-find.hpp"
+#include "structure/union-find/union-find.hpp"
 
 using namespace std;
 
@@ -218,7 +218,7 @@ U& operator>>(U& stream, Modular<T>& number) {
 
 /*
 using ModType = int;
- 
+
 struct VarMod { static ModType value; };
 ModType VarMod::value;
 ModType& md = VarMod::value;
@@ -230,17 +230,17 @@ using Mint = Modular<std::integral_constant<decay<decltype(md)>::type, md>>;
 
 vector<Mint> fact(1);
 vector<Mint> inv_fact(1);
- 
+
 Mint C(int n, int k) {
-  if (k < 0 || k > n) {
-    return 0;
-  }
-  fact[0] = inv_fact[0] = 1;
-  while ((int) fact.size() < n + 1) {
-    fact.push_back(fact.back() * (int) fact.size());
-    inv_fact.push_back(1 / fact.back());
-  }
-  return fact[n] * inv_fact[k] * inv_fact[n - k];
+    if (k < 0 || k > n) {
+        return 0;
+    }
+    fact[0] = inv_fact[0] = 1;
+    while ((int)fact.size() < n + 1) {
+        fact.push_back(fact.back() * (int)fact.size());
+        inv_fact.push_back(1 / fact.back());
+    }
+    return fact[n] * inv_fact[k] * inv_fact[n - k];
 }
 
 Mint A(int n, int k) {
@@ -256,14 +256,14 @@ Mint A(int n, int k) {
     return fact[n] * inv_fact[n - k];
 }
 
-
-
 void solve() {
     int n, m, k;
     cin >> n >> m >> k;
     vector<int> x(k + 1), y(k + 1);
     for (int i = 0; i <= k; i++) {
         cin >> x[i] >> y[i];
+        x[i]--;
+        y[i]--;
     }
 
     auto get_dis = [&](int x1, int y1, int x2, int y2) {
@@ -271,15 +271,11 @@ void solve() {
     };
 
     for (int i = 0; i < k; i++) {
-        int dx = abs(x[i] - x[i + 1]);
-        int dy = abs(y[i] - y[i + 1]);
-        if (dx + dy != 2) {
+        if (get_dis(x[i], y[i], x[i + 1], y[i + 1]) != 2) {
             cout << 0 << '\n';
             return;
         }
     }
-
-    vector<vector<int>> V(2 * k);
 
     int dir[4][2] = {-1, 0, 1, 0, 0, -1, 0, 1};
     auto get_p = [&](int idx) -> vector<array<int, 2>> {
@@ -297,47 +293,52 @@ void solve() {
         return res;
     };
 
-    UnionFind uf(2 * k);
+    UnionFind uf(n * m);
 
+    vector<bool> self_cir(n * m);
+    vector<int> edge_num(n * m);
     for (int i = 0; i < k; i++) {
-        for (int j = i + 1; j < k; j++) {
-            auto p1 = get_p(i);
-            auto p2 = get_p(j);
-            for (int i2 = 0; i2 < 2; i2++) {
-                for (int j2 = 0; j2 < 2; j2++) {
-                    if (p1[i2] == p2[j2]) {
-                        // 相等, 那么就是互斥, 那么选了 2 * i + i2 就要选 2 * j + j2 ^ 1;
-                       
-                        if (p1[i2] != p2[j2 ^ 1]) {
-                            uf.unite(2 * i + i2, 2 * j + (j2 ^ 1));
-                        }
-                        debug(2 * i + i2, 2 * j + (j2 ^ 1), i, j, i2, j2);
-                        uf.unite(2 * j + j2, 2 * i + (i2 ^ 1));
-                        debug(2 * j + j2, 2 * i + (i2 ^ 1), i, j, i2, j2);
-                    }
-                }
-            }
+        auto p = get_p(i);
+        int idx1 = p[0][0] * m + p[0][1];
+        int idx2 = p[1][0] * m + p[1][1];
+
+        if (p[0] == p[1]) {
+            self_cir[idx1] = 1;
+            edge_num[idx1] += 2;
+        } else {
+            edge_num[idx1]++;
+            edge_num[idx2]++;
+            uf.unite(idx1, idx2);
         }
     }
 
-    for (int i = 0; i < k; i++) {
-        if (uf.same(2 * i, 2 * i + 1)) {
-            debug(i);
+    Mint ans = 1;
+    auto groups = uf.groups();
+
+    for (auto it : groups) {
+        int sz = it.size();
+        int edge_num_cnt = 0;
+        bool have_self_cir = false;
+        for (auto u : it) {
+            edge_num_cnt += edge_num[u];
+            have_self_cir |= self_cir[u];
+        }
+        edge_num_cnt /= 2;
+
+        if (edge_num_cnt > sz) {
             cout << 0 << '\n';
             return;
+        } else if (edge_num_cnt == sz) {
+            if (have_self_cir) {
+                ans *= 1;
+            } else {
+                ans *= 2;
+            }
+        } else {
+            ans *= sz;
         }
-
     }
-
-
-    auto g = uf.groups();
-    int g_sz = g.size();
-    debug(g_sz);
-    g_sz /= 2;
-
-
-    cout << power(Mint(2), g_sz) << '\n';
-
+    cout << ans << '\n';
 }
 
 int main() {

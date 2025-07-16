@@ -12,3 +12,4 @@ work.bat
 compile_commands.json
 
 diff/
+tmp.cpp
