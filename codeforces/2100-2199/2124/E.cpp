@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 
+#include <queue>
+
 using namespace std;
 
 #ifdef LOCAL
@@ -23,64 +25,78 @@ struct fast_ios {
 void solve() {
     int n;
     cin >> n;
-    vector<long long> a(n + 1);
-    long long sum = 0;
-    for (int i = 1; i <= n; i++) {
+    vector<long long> a(n);
+    vector<long long> sum(n);
+    for (int i = 0; i < n; i++) {
         cin >> a[i];
-        sum += a[i];
+        sum[i] = a[i];
+        if (i) {
+            sum[i] += sum[i - 1];
+        }
     }
-    if (sum % 2) {
+    if (sum[n - 1] % 2) {
         cout << -1 << '\n';
         return;
     }
 
-    long long sum2 = 0;
-    bool f = false;
-    for (int i = 1; i <= n; i++) {
-        sum2 += a[i];
-        if (sum == sum2 * 2) {
-            f = true;
-            break;
-        }
-    }
-    if (f) {
-        cout << 1 << '\n';
-        for (int i = 1; i <= n; i++) {
-            cout << a[i] << ' ';
-        }
-        cout << '\n';
-        return;
-    }
-
-    for (int i = 1; i <= n; i++) {
-        if (a[i] > sum / 2) {
+    long long half = sum[n - 1] / 2;
+    for (int i = 0; i < n; i++) {
+        if (a[i] > half) {
             cout << -1 << '\n';
             return;
         }
     }
 
-    sum2 = 0;
-    int i;
-    for (i = 1; i <= n; i++) {
-        sum2 += a[i];
-        if (sum2 >= sum - sum2) {
+    int p = 0;
+    for (int i = 0; i < n; i++) {
+        if (sum[i] > half) {
+            p = i;
             break;
         }
     }
+    // [0, p - 1] <= half
 
-    long long diff = sum2 - (sum - sum2);
-
-    diff /= 2;
-
-    vector<int> V;
-    for (int j = 1; j <= i; j++) {
-        if (a[j] >= diff) {
-            V.push_back(j);
+    if (sum[p - 1] == half) {
+        cout << 1 << '\n';
+        for (int i = 0; i < n; i++) {
+            cout << a[i] << ' ';
         }
+        cout << '\n';
+        return;
     }
+    cout << 2 << '\n';
+    long long sum1 = sum[p - 1];
+    long long sum2 = sum[p] - sum[p - 1];
+    long long sum3 = sum[n - 1] - sum[p];
+    // [0, p - 1]
 
-    
+    // (sum1 - w) + (sum3 - w) = sum2
 
+    // [0, p - 1] 减掉 sum1, sum2 减掉 sum1 - w, sum3 减掉 w
+    long long w = (sum1 + sum3 - sum2) / 2;
+
+    for (int i = 0; i < p; i++) {
+        cout << a[i] << ' ';
+    }
+    cout << sum1 - w << ' ';
+    long long need = w;
+    for (int i = p + 1; i < n; i++) {
+        long long have = a[i];
+        long long use = min(have, need);
+        cout << use << ' ';
+        a[i] -= use;
+        need -= use;
+    }
+    cout << '\n';
+
+    for (int i = 0; i < p; i++) {
+        cout << 0 << ' ';
+    }
+    cout << sum3 - w << ' ';
+    for (int i = p + 1; i < n; i++) {
+        cout << a[i] << ' ';
+    }
+    cout << '\n';
 }
 
 int main() {

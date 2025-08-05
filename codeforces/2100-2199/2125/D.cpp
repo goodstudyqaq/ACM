@@ -223,7 +223,7 @@ ModType& md = VarMod::value;
 using Mint = Modular<VarMod>;
 */
 
-constexpr int md = 1e9 + 7;
+constexpr int md = 998244353;
 using Mint = Modular<std::integral_constant<decay<decltype(md)>::type, md>>;
 
 vector<Mint> fact(1);
@@ -255,25 +255,28 @@ Mint A(int n, int k) {
 }
 
 void solve() {
-    int a, b, k;
-    cin >> a >> b >> k;
-
-    auto work = [&](int n, int k) -> long long {
-        return 1LL * k * (n - 1) + 1;
-    };
-
-    long long n = work(a, k);
-    Mint up = 1, down = 1;
-
-    for (int i = 1; i <= a; i++) {
-        up *= (n - i + 1);
-        down *= i;
+    int n, m;
+    cin >> n >> m;
+    typedef array<int, 4> a4;
+    vector<a4> V(n);
+    vector<vector<int>> idx(m + 1);
+    Mint no_chose = 1;
+    for (int i = 0; i < n; i++) {
+        cin >> V[i][0] >> V[i][1] >> V[i][2] >> V[i][3];
+        idx[V[i][1]].push_back(i);
+        no_chose *= (Mint(1) - Mint(V[i][2]) / Mint(V[i][3]));
     }
-
-    Mint tmp = up / down * k;
-    tmp = tmp * (b - 1) + 1;
-    cout << Mint(n) << ' ' << tmp << '\n';
-
+    vector<Mint> dp(m + 1);
+    dp[0] = no_chose;
+    for (int i = 1; i <= m; i++) {
+        for (auto j : idx[i]) {
+            int l = V[j][0];
+            Mint p = Mint(V[j][2]) / Mint(V[j][3]);
+            Mint q = Mint(1) - p;
+            dp[i] += dp[l - 1] * p / q;
+        }
+    }
+    cout << dp[m] << '\n';
 }
 
 int main() {
@@ -281,8 +284,8 @@ int main() {
     freopen("./data.in", "r", stdin);
 #endif
 
-    int T;
-    cin >> T;
+    int T = 1;
+    // cin >> T;
     while (T--) {
         solve();
     }

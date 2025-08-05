@@ -38,9 +38,11 @@ void solve() {
 
     for (int i = q - 1; i >= 0; i--) {
         auto [x, y, z] = query[i];
-
         big[x] = max(big[x], big[z]);
         big[y] = max(big[y], big[z]);
+        if (x != z && y != z) {
+            big[z] = 0;
+        }
     }
     auto a = big;
 

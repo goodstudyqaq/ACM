@@ -223,7 +223,7 @@ ModType& md = VarMod::value;
 using Mint = Modular<VarMod>;
 */
 
-constexpr int md = 1e9 + 7;
+constexpr int md = 998244353;
 using Mint = Modular<std::integral_constant<decay<decltype(md)>::type, md>>;
 
 vector<Mint> fact(1);
@@ -255,25 +255,48 @@ Mint A(int n, int k) {
 }
 
 void solve() {
-    int a, b, k;
-    cin >> a >> b >> k;
+    int n, x;
+    cin >> n >> x;
+    // 1 2 3 ... n
 
-    auto work = [&](int n, int k) -> long long {
-        return 1LL * k * (n - 1) + 1;
-    };
+    long long sum = 1LL * n * (n + 1) / 2;
 
-    long long n = work(a, k);
-    Mint up = 1, down = 1;
-
-    for (int i = 1; i <= a; i++) {
-        up *= (n - i + 1);
-        down *= i;
+    if (sum > x + 1) {
+        cout << 0 << endl;
+        return;
     }
+    /*
+    1. n 个不同的数，最小的数为 1，和为 i 的方案数
+    -> n - 1 个不同的数，和为 i - n 的方案数
+    */
 
-    Mint tmp = up / down * k;
-    tmp = tmp * (b - 1) + 1;
-    cout << Mint(n) << ' ' << tmp << '\n';
+    // dp[i][j] i 个不同的数，和为 j 的方案数
+    /*
+    dp[i][j] = dp[i][j - i] + dp[i - 1][j - i]
+    1. i 个数全部 +1
+    2. i - 1 个数全部 +1，并且新加一个 1
+    */
 
+    vector<vector<Mint>> dp(n, vector<Mint>(x + 2));
+    dp[0][0] = 1;
+    for (int i = 1; i <= n - 1; i++) {
+        for (int j = i; j <= x + 1; j++) {
+            dp[i][j] = dp[i][j - i] + dp[i - 1][j - i];
+        }
+    }
+    // debug(dp);
+
+    Mint ans = 0;
+    // debug(dp[n - 1]);
+    // 1 2 -> 2 1 -> 3 2
+    for (int i = 0; i + n <= x + 1; i++) {
+        // 和为 i + n
+        int sum = i + n;
+        int mx = sum - 1;
+        mx = max(mx, 1);
+        ans += dp[n - 1][i] * (x - mx + 1);
+    }
+    cout << ans << '\n';
 }
 
 int main() {

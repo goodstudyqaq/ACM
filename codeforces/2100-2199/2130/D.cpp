@@ -23,34 +23,31 @@ struct fast_ios {
 void solve() {
     int n;
     cin >> n;
-    vector<int> p(n);
-    for (int i = 0; i < n; i++) {
+    vector<int> p(n + 1);
+    vector<int> idx(n + 1);
+    for (int i = 1; i <= n; i++) {
         cin >> p[i];
+        idx[p[i]] = i;
     }
 
-    long long ans = 0;
+    int ans = 0;
+    for (int i = 1; i <= n; i++) {
+        int _idx = idx[i];
 
-    auto work = [&](int l, int r) {
-        int sz = r - l + 1;
-        vector<int> dp(sz);
-
-        for (int i = l; i <= r; i++) {
-            dp[i - l] = 1;
-            for (int j = l; j < i; j++) {
-                if (p[i] < p[j]) {
-                    dp[i - l] = max(dp[i - l], dp[j - l] + 1);
-                }
-            }
+        int res1 = 0;
+        for (int j = 1; j < _idx; j++) {
+            if (p[j] < i) continue;
+            res1++;
         }
-        return dp[sz - 1];
-    };
 
-    for (int i = 0; i < n; i++) {
-        for (int j = i; j < n; j++) {
-            ans += work(i, j);
+        int res2 = 0;
+        for (int j = _idx + 1; j <= n; j++) {
+            if (p[j] < i) continue;
+            res2++;
         }
+        ans += min(res1, res2);
     }
-    cout << ans << endl;
+    cout << ans << '\n';
 }
 
 int main() {

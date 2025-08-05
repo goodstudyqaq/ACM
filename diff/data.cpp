@@ -1,5 +1,8 @@
 #include <bits/stdc++.h>
 
+#include <algorithm>
+#include <numeric>
+
 using namespace std;
 
 #ifdef LOCAL
@@ -40,16 +43,28 @@ int main() {
 #ifdef LOCAL
     freopen("./data.in", "w", stdout);
 #endif
-    cout << 1 << endl;
-    int n = 10, m = rnd(10) + 1;
-    int k = rnd(n * m + 1);
-    cout << n << ' ' << m << ' ' << k << '\n';
-    for (int i = 0; i < n; i++) {
-        cout << rnd(100) << ' ';
-    }
-    cout << endl;
-    for (int i = 0; i < m; i++) {
-        cout << rnd(100) << ' ';
-    }
-    cout << endl;
+    cout << 76 << endl;
+    int n = 6;
+    vector<int> p(n);
+
+    iota(p.begin(), p.end(), 1);   
+    auto check = [&]() {
+        for (int i = 0;  i + 2 < n; i++) {
+            if (max(p[i], p[i + 1]) < p[i + 2]) return false;
+        }
+        return true;
+    };
+    int num = 0;
+    do {
+        if (check()) {
+            num++;
+            cout << n << endl;
+            for (int i = 0; i < n; i++) {
+                cout << p[i] << ' ';
+            }
+            cout << '\n';
+        }
+
+    } while (next_permutation(p.begin(), p.end()));
+    cout << num << endl;
 }

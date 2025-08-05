@@ -23,34 +23,20 @@ struct fast_ios {
 void solve() {
     int n;
     cin >> n;
-    vector<int> p(n);
+    vector<int> b(n);
     for (int i = 0; i < n; i++) {
-        cin >> p[i];
+        cin >> b[i];
     }
-
-    long long ans = 0;
-
-    auto work = [&](int l, int r) {
-        int sz = r - l + 1;
-        vector<int> dp(sz);
-
-        for (int i = l; i <= r; i++) {
-            dp[i - l] = 1;
-            for (int j = l; j < i; j++) {
-                if (p[i] < p[j]) {
-                    dp[i - l] = max(dp[i - l], dp[j - l] + 1);
-                }
-            }
+    int val = b[0];
+    for (int i = 1; i < n; i++) {
+        if (b[i] >= 2 * val) {
+            cout << "NO\n";
+            return;
         }
-        return dp[sz - 1];
-    };
-
-    for (int i = 0; i < n; i++) {
-        for (int j = i; j < n; j++) {
-            ans += work(i, j);
-        }
+        val = min(val, b[i]);
     }
-    cout << ans << endl;
+    cout << "YES\n";
+
 }
 
 int main() {

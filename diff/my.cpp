@@ -1,7 +1,5 @@
 #include <bits/stdc++.h>
 
-#include <queue>
-
 using namespace std;
 
 #ifdef LOCAL
@@ -23,44 +21,38 @@ struct fast_ios {
 } fast_ios_;
 
 void solve() {
-    int n, m, k;
-    cin >> n >> m >> k;
-    vector<int> a(n), b(m);
+    int n;
+    cin >> n;
+    vector<int> p(n);
     for (int i = 0; i < n; i++) {
-        cin >> a[i];
+        cin >> p[i];
     }
-    for (int i = 0; i < m; i++) {
-        cin >> b[i];
-    }
-    priority_queue<pii> Q;
-    for (int i = 0; i < n; i++) {
-        int mx = 0;
-        for (int j = 0; j < m; j++) {
-            int v = a[i] & b[j];
-            mx = max(mx, a[i] - v);
-        }
-        Q.push({mx, a[i]});
-    }
-
-    while (k--) {
-        auto it = Q.top();
-        Q.pop();
-
-        int now = it.second - it.first;
-
-        int mx = 0;
-        for (int j = 0; j < m; j++) {
-            int v = now & b[j];
-            mx = max(mx, now - v);
-        }
-        Q.push({mx, now});
-    }
-
+    int val = n;
     long long ans = 0;
-    while (!Q.empty()) {
-        ans += Q.top().second;
-        Q.pop();
+    int now = 0;
+    vector<int> vis(n);
+    while (now < n) {
+        while (now < n && p[now] != val) {
+            now++;
+        }
+        if (now == n) break;
+        vis[now] = 1;
+        val--;
+        now++;
     }
+
+    for (int i = 0; i < n; i++) {
+        if (vis[i]) {
+            ans += 1LL * (i + 1) * (n - i);
+        } else {
+            if (i + 1 < n && vis[i + 1] == 0 && p[i] > p[i + 1]) {
+                ans += 2LL * (i + 1);
+            } else {
+                ans += 1LL * (i + 1);
+            }
+        }
+    }
+
     cout << ans << '\n';
 }
 

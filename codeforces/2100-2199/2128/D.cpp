@@ -27,30 +27,41 @@ void solve() {
     for (int i = 0; i < n; i++) {
         cin >> p[i];
     }
-
-    long long ans = 0;
-
-    auto work = [&](int l, int r) {
-        int sz = r - l + 1;
-        vector<int> dp(sz);
-
-        for (int i = l; i <= r; i++) {
-            dp[i - l] = 1;
-            for (int j = l; j < i; j++) {
-                if (p[i] < p[j]) {
-                    dp[i - l] = max(dp[i - l], dp[j - l] + 1);
-                }
+    vector<int> dp(n);
+    vector<int> pre(n);
+    dp[0] = 1;
+    pre[0] = -1;
+    for (int i = 1; i < n; i++) {
+        if (p[i] < p[i - 1]) {
+            dp[i] = dp[i - 1] + 1;
+            pre[i] = i - 1;
+        } else {
+            if (i - 2 >= 0) {
+                dp[i] = dp[i - 2] + 1;
+                pre[i] = i - 2;
+            } else {
+                dp[i] = 1;
+                pre[i] = -1;
             }
         }
-        return dp[sz - 1];
-    };
+    }
+    long long ans = 0;
+
+    int now = n - 1;
+    vector<int> vis(n);
+    while (now != -1) {
+        vis[now] = 1;
+        ans += 1LL * (now + 1) * (n - now);
+        now = pre[now];
+    }
 
     for (int i = 0; i < n; i++) {
-        for (int j = i; j < n; j++) {
-            ans += work(i, j);
+        if (vis[i] == 0) {
+            ans += i + 1;
         }
     }
-    cout << ans << endl;
+    cout << ans << '\n';
+
 }
 
 int main() {
