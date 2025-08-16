@@ -32,9 +32,8 @@ void solve() {
     vector<long long> dp(n, -1);
 
     function<long long(int)> dfs = [&](int i) -> long long {
-        if (dp[i] != -1) return dp[i];
         if (i == -1) return 0;
-
+        if (dp[i] != -1) return dp[i];
         long long mi = a[i];
         int idx = i;
         long long res = numeric_limits<long long>::max() / 2;
@@ -44,7 +43,7 @@ void solve() {
                 idx = j;
             }
             int num = i - idx;
-            res = min(res, dfs(j - 1) + i - idx + (num + 1) * mi + num);
+            res = min(res, dfs(j - 1) + i - idx + (i - j + 1) * mi + i - j);
         }
         return dp[i] = res;
     };
