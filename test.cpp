@@ -1,7 +1,5 @@
 #include <bits/stdc++.h>
 
-#include <cstdio>
-
 using namespace std;
 
 #ifdef LOCAL
@@ -10,102 +8,50 @@ using namespace std;
 #define debug(...) 42
 #endif
 
-typedef long long ll;
-typedef pair<int, int> pii;
-typedef pair<ll, ll> pll;
 
-// struct fast_ios {
-//     fast_ios() {
-//         cin.tie(nullptr);
-//         ios::sync_with_stdio(false);
-//         cout << fixed << setprecision(10);
-//     };
-// } fast_ios_;
-
-void solve() {
-    int n, k;
-    cin >> n >> k;
-    auto ask = [&](int idx) {
-        cout << "? " << idx << '\n';
-        fflush(stdout);
-        int res;
-        cin >> res;
-        return res;
+struct fast_ios {
+    fast_ios() {
+        cin.tie(nullptr);
+        ios::sync_with_stdio(false);
+        cout << fixed << setprecision(10);
     };
-    auto out1 = [&]() {
-        cout << "! -1" << endl;
-        fflush(stdout);
-    };
-    auto out2 = [&](int l, int r) {
-        cout << "! " << l << ' ' << r << endl;
-        fflush(stdout);
-    };
+} fast_ios_;
 
-    vector<int> pre(k + 1);
-    for (int i = 1; i <= k; i++) {
-        pre[i] = ask(i);
-    }
 
-    vector<int> suf(k + 1);
-    for (int i = 1; i <= k; i++) {
-        suf[i] = ask(n - k + i);
+int floatFloat2Int(unsigned uf) {
+  int sign = (uf >> 31) & 1;
+  int exp = (uf >> 23) & 0xff;
+  int fra = uf ^ (sign << 31) ^ (exp << 23);
+  int inf = 0x80 << 24;
+  int bias = 127;
+  exp -= bias;
+  debug(exp);
+  if (exp < 0) {
+    return 0;
+  } else if(exp == 0) {
+    return 1 + (sign << 31);
+  } else if (exp > 31) {
+    return inf;
+  } else if (exp == 31) {
+    if (sign == 1 && fra == 0) {
+      return 1 << 31;
+    } else {
+      return inf;
     }
-
-    bool eq = true;
-    int idx = -1;
-    for (int i = 1; i <= k; i++) {
-        if (pre[i] != suf[i]) {
-            idx = i;
-            eq = false;
-            break;
-        }
-    }
-    if (eq) {
-        if (n == 2 * k) {
-            out2(k, k);
-        } else {
-            out1();
-        }
-        return;
-    }
-
-    int t = (n - 1) / k + 1;
-
-    // [2, t - 1]
-
-    int l = 2, r = t - 1;
-    int ans = -1;
-    while (l <= r) {
-        int m = l + r >> 1;
-        int idx2 = (m - 1) * k + idx;
-        int val = ask(idx2);
-        if (val == pre[idx]) {
-            ans = m;
-            l = m + 1;
-        } else {
-            r = m - 1;
-        }
-    }
-    int start = (ans - 1) * k + idx + 1;
-    int end = ans * k;
-    for (int i = start; i <= end; i++) {
-        int val = ask(i);
-        if (val != pre[i - (ans - 1) * k]) {
-            out2(i, n - i);
-            return;
-        }
-    }
+  } else if (exp <= 23) {
+    fra += 1 << 23;
+    return (fra >> (23 - exp)) + (sign << 31);
+  } else {
+    fra += 1 << 23;
+    return (fra << (exp - 23)) + (sign << 31);
+  }
 }
 
 int main() {
-    // #ifdef LOCAL
-    //     freopen("./data.in", "r", stdin);
-    // #endif
+#ifdef LOCAL
+    freopen("./data.in", "r", stdin);
+#endif
+  debug(floatFloat2Int(0xbf800000));
 
-    int T;
-    cin >> T;
-    while (T--) {
-        solve();
-    }
-    return 0;
+
 }
