@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 
-#include <limits>
-#include <random>
+#include "./graph/connected-components/two-edge-connected-components.hpp"
 
 using namespace std;
 
@@ -22,7 +21,6 @@ struct fast_ios {
         cout << fixed << setprecision(10);
     };
 } fast_ios_;
-
 template <typename T>
 T inverse(T a, T m) {
     T u = 0, v = 1;
@@ -257,108 +255,69 @@ Mint A(int n, int k) {
     return fact[n] * inv_fact[n - k];
 }
 
-typedef unsigned long long ULL;
-ULL Seed_Pool[] = {911, 146527, 19260817, 91815541};
+void solve() {
+    int n, m, v;
+    cin >> n >> m >> v;
 
-struct Hash {
-    ULL Seed1, Seed2;
-    vector<string> s;
-    vector<Mint> base1, base2;
-    vector<vector<Mint>> sum;
-    vector<int> perm;
-    int char_size, margin;
-    Hash() {}
-
-    Hash(ULL Seed1, ULL Seed2, const vector<string>& s, int char_size, int margin) : Seed1(Seed1), Seed2(Seed2), s(s), char_size(char_size), margin(margin) {
-        int n = s.size(), m = s[0].size();
-        base1.resize(n + 1);
-        base2.resize(m + 1);
-        sum.resize(n + 1, vector<Mint>(m + 1));
-        perm.resize(char_size);
-        iota(perm.begin(), perm.end(), 0);
-
-        // std::random_device rd;
-        // std::mt19937 g(rd());
-        // shuffle(perm.begin(), perm.end(), g);
-        indexInit();
+    TwoEdgeConnectedComponents<> g(n);
+    vector<int> weight(n);
+    for (int i = 0; i < n; i++) {
+        cin >> weight[i];
     }
 
-    void indexInit() {
-        base1[0] = 1;
-        base2[0] = 1;
-        int n = s.size();
-        for (int i = 1; i <= n; i++) {
-            base1[i] = base1[i - 1] * Seed1;
-        }
-        int m = s[0].size();
-        for (int i = 1; i <= m; i++) {
-            base2[i] = base2[i - 1] * Seed2;
-        }
+    g.read(m);
+    g.build();
 
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= m; j++) {
-                sum[i][j] = sum[i][j - 1] + sum[i - 1][j] - sum[i - 1][j - 1] + Mint(perm[s[i - 1][j - 1] - margin]) * base1[i - 1] * base2[j - 1];
+    // 偶数环可以选 [0, v - 1], 奇数环只能是 0
+    // 同一个连通分量里面的点值一定要一样
+
+    auto& groups = g.group;
+    Mint ans = 1;
+    vector<int> color(n, -1);
+    for (auto group : groups) {
+        int w = -1;
+        for (auto u : group) {
+            if (weight[u] != -1) {
+                if (w != -1 && weight[u] != w) {
+                    cout << 0 << '\n';
+                    return;
+                }
+                w = weight[u];
             }
         }
-    }
 
-    Mint getHash(int x1, int y1, int x2, int y2) {
-        int n = s.size();
-        int m = s[0].size();
-        x1++, y1++, x2++, y2++;
-        Mint res = sum[x2][y2] - sum[x1 - 1][y2] - sum[x2][y1 - 1] + sum[x1 - 1][y1 - 1];
-        return res * base1[n - x1] * base2[m - y1];
-    }
-};
-
-void solve() {
-    int n, m;
-    cin >> n >> m;
-    vector<string> s(n);
-    for (int i = 0; i < n; i++) {
-        cin >> s[i];
-    }
-    vector<string> s2(n, string(m, ' '));
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            s2[i][j] = s[n - i - 1][m - j - 1];
+        set<int> S;
+        for (auto u : group) {
+            S.insert(u);
         }
-    }
+        bool have_odd = false;
 
-    Hash h1(Seed_Pool[0], Seed_Pool[1], s, 26, 'a');
-    Hash h2(Seed_Pool[0], Seed_Pool[1], s2, 26, 'a');
-    // debug("after hash");
+        function<void(int, int, int)> dfs = [&](int u, int pre, int c) {
+            color[u] = c;
+            for (auto v : g[u]) {
+                if (v == pre) continue;
+                if (S.count(v) == 0) continue;
+                if (color[v] != -1) {
+                    if (color[v] == color[u]) {
+                        have_odd = true;
+                        return;
+                    }
+                } else {
+                    dfs(v, u, c ^ 1);
+                }
+            }
+        };
+        dfs(*S.begin(), -1, 0);
 
-    long long inf = numeric_limits<long long>::max() / 2;
-    long long ans = inf;
-
-    auto work = [&](int x1, int y1, int x2, int y2) {
-        Mint tmp1 = h1.getHash(x1, y1, x2, y2);
-        Mint tmp2 = h2.getHash(n - x2 - 1, m - y2 - 1, n - x1 - 1, m - y1 - 1);
-
-        if (tmp1 == tmp2) {
-            int x_len = x2 - x1 + 1;
-            int x_left = n - x_len;
-
-            int y_len = y2 - y1 + 1;
-            int y_left = m - y_len;
-
-            long long x = x_len + 2 * x_left;
-            long long y = y_len + 2 * y_left;
-
-            long long area = x * y;
-            long long res = area - n * m;
-            // debug(x1, y1, x2, y2, res, x, y, y_len, y_left);
-            ans = min(ans, res);
-        }
-    };
-
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            work(0, 0, i, j);
-            work(0, j, i, m - 1);
-            work(i, 0, n - 1, j);
-            work(i, j, n - 1, m - 1);
+        if (have_odd) {
+            if (w != -1 && w != 0) {
+                cout << 0 << '\n';
+                return;
+            }
+        } else {
+            if (w == -1) {
+                ans *= v;
+            }
         }
     }
     cout << ans << '\n';
