@@ -1,7 +1,5 @@
 #include <bits/stdc++.h>
 
-#include <algorithm>
-
 using namespace std;
 
 #ifdef LOCAL
@@ -9,6 +7,10 @@ using namespace std;
 #else
 #define debug(...) 42
 #endif
+
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
 
 struct fast_ios {
     fast_ios() {
@@ -18,23 +20,24 @@ struct fast_ios {
     };
 } fast_ios_;
 
+void solve() {
+    long long k, x;
+    cin >> k >> x;
+    for (int i = 0; i < k; i++) {
+        x *= 2;
+    }
+    cout << x << '\n';
+}
+
 int main() {
 #ifdef LOCAL
     freopen("./data.in", "r", stdin);
 #endif
 
-    int maxn = 100;
-    vector<int> cnt(maxn + 1);
-    vector<int> ans(maxn + 1);
-    for (int i = 1; i <= maxn; i++) {
-        for (int j = i + 1; j <= maxn; j++) {
-            int v1 = (j + i - 1) / i;
-            int v2 = (j + v1 - 1) / v1;
-            if (v2 == i) {
-                ans[v1]++;
-            }
-
-        }
+    int T;
+    cin >> T;
+    while (T--) {
+        solve();
     }
-    debug(ans[51]);
+    return 0;
 }
