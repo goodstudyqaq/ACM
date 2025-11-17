@@ -43,28 +43,12 @@ int main() {
 #ifdef LOCAL
     freopen("./data.in", "w", stdout);
 #endif
-    cout << 76 << endl;
-    int n = 6;
-    vector<int> p(n);
-
-    iota(p.begin(), p.end(), 1);   
-    auto check = [&]() {
-        for (int i = 0;  i + 2 < n; i++) {
-            if (max(p[i], p[i + 1]) < p[i + 2]) return false;
-        }
-        return true;
-    };
-    int num = 0;
-    do {
-        if (check()) {
-            num++;
-            cout << n << endl;
-            for (int i = 0; i < n; i++) {
-                cout << p[i] << ' ';
-            }
-            cout << '\n';
-        }
-
-    } while (next_permutation(p.begin(), p.end()));
-    cout << num << endl;
+    cout << 1 << '\n';
+    int n = 10;
+    cout << n << '\n';
+    for (int i = 0; i < n; i++) {
+        int val = rnd(n) + 1;
+        cout << val << ' ';
+    }
+    cout << '\n';
 }

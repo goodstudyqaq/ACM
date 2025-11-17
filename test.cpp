@@ -17,41 +17,40 @@ struct fast_ios {
     };
 } fast_ios_;
 
+__global__ void upper_triangle_rowwise(
+    const float* __restrict__ a, int n,
+    const float* __restrict__ b, int m,
+    float* __restrict__ out_sum)     // single-element device buffer
+{
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    if (x >= n) return;
 
-int floatFloat2Int(unsigned uf) {
-  int sign = (uf >> 31) & 1;
-  int exp = (uf >> 23) & 0xff;
-  int fra = uf ^ (sign << 31) ^ (exp << 23);
-  int inf = 0x80 << 24;
-  int bias = 127;
-  exp -= bias;
-  debug(exp);
-  if (exp < 0) {
-    return 0;
-  } else if(exp == 0) {
-    return 1 + (sign << 31);
-  } else if (exp > 31) {
-    return inf;
-  } else if (exp == 31) {
-    if (sign == 1 && fra == 0) {
-      return 1 << 31;
-    } else {
-      return inf;
+    // 每个线程处理一整行 x，只取 y > x 的元素
+    // Every 
+    float local = 0.0f;
+    float ax = a[x];
+    for (int y = x + 1; y < m; ++y) {
+        local += ax * b[y];
     }
-  } else if (exp <= 23) {
-    fra += 1 << 23;
-    return (fra >> (23 - exp)) + (sign << 31);
-  } else {
-    fra += 1 << 23;
-    return (fra << (exp - 23)) + (sign << 31);
-  }
+
+    atomicAdd(out_sum, local);
 }
 
 int main() {
 #ifdef LOCAL
     freopen("./data.in", "r", stdin);
 #endif
-  debug(floatFloat2Int(0xbf800000));
 
+    vector<int> a;
+    vector<int> b;
+    int n = a.size();
+    int m = b.size();
+    int sum = 0;
+    for (int x = 0; x < n; x++) {
+        for (int y = x + 1; y < m; y++) {
+            sum += a[x] * b[y];
+        }
+    }
+    
 
 }

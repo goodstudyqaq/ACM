@@ -1,0 +1,68 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#ifdef LOCAL
+#include "copypaste/debug.h"
+#else
+#define debug(...) 42
+#endif
+
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
+
+struct fast_ios {
+    fast_ios() {
+        cin.tie(nullptr);
+        ios::sync_with_stdio(false);
+        cout << fixed << setprecision(10);
+    };
+} fast_ios_;
+
+void solve() {
+    int n, k;
+    cin >> n >> k;
+    vector<int> cnt(n + 1), sum(n + 1);
+    for (int i = 0; i < n; i++) {
+        int a;
+        cin >> a;
+        cnt[a]++;
+    }
+    for (int i = 1; i <= n; i++) {
+        sum[i] = sum[i - 1] + cnt[i];
+    }
+
+    int ans = 1;
+    for (int i = 1; i <= n; i++) {
+        int small_num = sum[i - 1];
+        if (small_num > k) {
+            break;
+        }
+        // [i + 1, 4i) 都是不行的
+        int r = min(4 * i - 1, n);
+        int tmp = sum[r] - sum[i];
+
+        for (int j = i + i; j <= n && j < 4 * i; j += i) {
+            tmp -= cnt[j];
+        }
+        tmp += small_num;
+        if (tmp <= k) {
+            ans = i;
+        }
+    }
+    cout << ans << '\n';
+}
+
+int main() {
+#ifdef LOCAL
+    freopen("./data.in", "r", stdin);
+#endif
+
+    int T;
+    cin >> T;
+    while (T--) {
+        solve();
+    }
+    return 0;
+}

@@ -42,7 +42,7 @@ void solve() {
     for (int i = ed - 1; i >= 0; i--) {
         int sz = V[i].size();
         vector<int> tmp;
-        for (int j = 0; j < sz; j++) {
+        for (int j = sz - 1; j >= 0; j--) {
             int loc = V[i][j];
             auto it = S.lower_bound(loc);
             if (it == S.end()) {
@@ -56,7 +56,6 @@ void solve() {
         for (auto it : tmp) {
             S.insert(it);
         }
-        // debug(i, ans);
     }
     cout << ans << '\n';
 }
