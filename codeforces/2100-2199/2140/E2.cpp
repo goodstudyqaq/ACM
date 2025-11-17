@@ -1,12 +1,5 @@
 #include <bits/stdc++.h>
 
-<<<<<<< HEAD
-#include "graph/graph-template.hpp"
-#include "graph/others/low-link.hpp"
-=======
-#include "./graph/connected-components/two-edge-connected-components.hpp"
-
->>>>>>> 58204d6e7606536c9f2909d17b3be46cfdf1f9b9
 using namespace std;
 
 #ifdef LOCAL
@@ -26,61 +19,27 @@ struct fast_ios {
         cout << fixed << setprecision(10);
     };
 } fast_ios_;
-<<<<<<< HEAD
 
-template <typename T = int>
-struct BiConnectedComponents : LowLink<T> {
-   public:
-    using LowLink<T>::LowLink;
-    using LowLink<T>::g;
-    using LowLink<T>::dfn;
-    using LowLink<T>::low;
+template <class T>
+auto vect(const T& v, int n) { return vector<T>(n, v); }
+template <class T, class... D>
+auto vect(const T& v, int n, D... m) {
+    return vector<decltype(vect(v, m...))>(n, vect(v, m...));
+}
 
-    vector<vector<Edge<T>>> bc;
+template <typename T>
+static constexpr T inf = numeric_limits<T>::max() / 2;
+mt19937_64 mrand(random_device{}());
+long long rnd(long long x) { return mrand() % x; }
+int lg2(long long x) { return sizeof(long long) * 8 - 1 - __builtin_clzll(x); }
 
-    void build() override {
-        LowLink<T>::build();
-        vis.assign(g.size(), 0);
-        for (int i = 0; i < g.size(); i++) {
-            if (vis[i] == 0) {
-                dfs(i, -1);
-            }
-        }
-    }
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
 
-    explicit BiConnectedComponents(const Graph<T> &g) : Graph<T>(g) {}
+typedef pair<int, int> pii;
+typedef tree<pii, null_type, less<pii>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
 
-   private:
-    vector<int> vis;
-    vector<Edge<T>> tmp;
-
-    void dfs(int u, int pre) {
-        vis[u] = 1;
-        bool beet = false;  // beet 检查是否有跟父亲的重边
-        for (auto &v : g[u]) {
-            if (v == pre && exchange(beet, true) == false) continue;
-            if (!vis[v] || dfn[v] < dfn[u]) {  // dfn[v] < dfn[u] 感觉只有跟父亲有重边时会加进来
-                tmp.emplace_back(v);
-            }
-
-            if (!vis[v]) {
-                dfs(v, u);
-                if (low[v] >= dfn[u]) {
-                    bc.emplace_back();
-                    while (true) {
-                        auto e = tmp.back();
-                        bc.back().emplace_back(e);
-                        tmp.pop_back();
-                        if (v.idx == e.idx) break;
-                    }
-                }
-            }
-        }
-    }
-};
-
-void solve() {
-=======
 template <typename T>
 T inverse(T a, T m) {
     T u = 0, v = 1;
@@ -284,7 +243,7 @@ ModType& md = VarMod::value;
 using Mint = Modular<VarMod>;
 */
 
-constexpr int md = 998244353;
+constexpr int md = 1e9 + 7;
 using Mint = Modular<std::integral_constant<decay<decltype(md)>::type, md>>;
 
 vector<Mint> fact(1);
@@ -316,72 +275,70 @@ Mint A(int n, int k) {
 }
 
 void solve() {
-    int n, m, v;
-    cin >> n >> m >> v;
-
-    TwoEdgeConnectedComponents<> g(n);
-    vector<int> weight(n);
-    for (int i = 0; i < n; i++) {
-        cin >> weight[i];
+    int n, m;
+    cin >> n >> m;
+    int k;
+    cin >> k;
+    vector<int> c(k);
+    for (int i = 0; i < k; i++) {
+        cin >> c[i];
+        c[i]--;
     }
 
-    g.read(m);
-    g.build();
+    if (m == 1) {
+        cout << 1 << '\n';
+        return;
+    }
 
-    // 偶数环可以选 [0, v - 1], 奇数环只能是 0
-    // 同一个连通分量里面的点值一定要一样
+    const int LIMIT = 1 << n;
+    auto dp = vect(0, LIMIT, 2);
+    // 第二位表示状态，0表示 1，1 表示 2.第三位表示当前是谁 0 表示 Alice 取 max，1 表示 Bob 取 min
+    dp[0][0] = 1;
+    dp[0][1] = 1;
+    dp[1][0] = 2;
+    dp[1][1] = 2;
 
-    auto& groups = g.group;
-    Mint ans = 1;
-    vector<int> color(n, -1);
-    for (auto group : groups) {
-        int w = -1;
-        for (auto u : group) {
-            if (weight[u] != -1) {
-                if (w != -1 && weight[u] != w) {
-                    cout << 0 << '\n';
-                    return;
-                }
-                w = weight[u];
+    for (int i = 2; i <= n; i++) {
+        auto ndp = vect(0, LIMIT, 2);
+        int LIMIT2 = 1 << i;
+        for (int j = 0; j < LIMIT2; j++) {
+            int& res0 = ndp[j][0];
+            res0 = 1;
+            int& res1 = ndp[j][1];
+            res1 = 2;
+            for (int p = 0; p < k; p++) {
+                if (c[p] >= i) break;
+                int low = ((1 << c[p]) - 1) & j;
+                int high = (j >> (c[p] + 1)) << c[p];
+                res0 = max(res0, dp[low + high][1]);
+                res1 = min(res1, dp[low + high][0]);
             }
         }
+        dp = ndp;
+    }
 
-        set<int> S;
-        for (auto u : group) {
-            S.insert(u);
-        }
-        bool have_odd = false;
-
-        function<void(int, int, int)> dfs = [&](int u, int pre, int c) {
-            color[u] = c;
-            for (auto v : g[u]) {
-                if (v == pre) continue;
-                if (S.count(v) == 0) continue;
-                if (color[v] != -1) {
-                    if (color[v] == color[u]) {
-                        have_odd = true;
-                        return;
-                    }
-                } else {
-                    dfs(v, u, c ^ 1);
-                }
-            }
-        };
-        dfs(*S.begin(), -1, 0);
-
-        if (have_odd) {
-            if (w != -1 && w != 0) {
-                cout << 0 << '\n';
-                return;
-            }
-        } else {
-            if (w == -1) {
-                ans *= v;
-            }
+    vector<int> cnt(n + 1);
+    for (int i = 0; i < LIMIT; i++) {
+        if (dp[i][0] == 1) {
+            int one = __builtin_popcount(i);
+            cnt[one]++;
         }
     }
-    cout << ans << '\n';
->>>>>>> 58204d6e7606536c9f2909d17b3be46cfdf1f9b9
+
+    vector<Mint> ans(m + 1);
+
+    for (int i = 1; i <= m; i++) {
+        for (int j = 0; j <= n; j++) {
+            ans[i] += cnt[j] * power(Mint(i), n - j) * power(Mint(m - i), j);
+        }
+    }
+
+    Mint res = 0;
+    for (int i = m; i >= 1; i--) {
+        ans[i] -= ans[i - 1];
+        res += ans[i] * i;
+    }
+    cout << res << '\n';
 }
 
 int main() {

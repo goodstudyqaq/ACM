@@ -1,12 +1,7 @@
 #include <bits/stdc++.h>
 
-<<<<<<< HEAD
-#include "graph/graph-template.hpp"
-#include "graph/others/low-link.hpp"
-=======
-#include "./graph/connected-components/two-edge-connected-components.hpp"
+#include <vector>
 
->>>>>>> 58204d6e7606536c9f2909d17b3be46cfdf1f9b9
 using namespace std;
 
 #ifdef LOCAL
@@ -26,61 +21,6 @@ struct fast_ios {
         cout << fixed << setprecision(10);
     };
 } fast_ios_;
-<<<<<<< HEAD
-
-template <typename T = int>
-struct BiConnectedComponents : LowLink<T> {
-   public:
-    using LowLink<T>::LowLink;
-    using LowLink<T>::g;
-    using LowLink<T>::dfn;
-    using LowLink<T>::low;
-
-    vector<vector<Edge<T>>> bc;
-
-    void build() override {
-        LowLink<T>::build();
-        vis.assign(g.size(), 0);
-        for (int i = 0; i < g.size(); i++) {
-            if (vis[i] == 0) {
-                dfs(i, -1);
-            }
-        }
-    }
-
-    explicit BiConnectedComponents(const Graph<T> &g) : Graph<T>(g) {}
-
-   private:
-    vector<int> vis;
-    vector<Edge<T>> tmp;
-
-    void dfs(int u, int pre) {
-        vis[u] = 1;
-        bool beet = false;  // beet 检查是否有跟父亲的重边
-        for (auto &v : g[u]) {
-            if (v == pre && exchange(beet, true) == false) continue;
-            if (!vis[v] || dfn[v] < dfn[u]) {  // dfn[v] < dfn[u] 感觉只有跟父亲有重边时会加进来
-                tmp.emplace_back(v);
-            }
-
-            if (!vis[v]) {
-                dfs(v, u);
-                if (low[v] >= dfn[u]) {
-                    bc.emplace_back();
-                    while (true) {
-                        auto e = tmp.back();
-                        bc.back().emplace_back(e);
-                        tmp.pop_back();
-                        if (v.idx == e.idx) break;
-                    }
-                }
-            }
-        }
-    }
-};
-
-void solve() {
-=======
 template <typename T>
 T inverse(T a, T m) {
     T u = 0, v = 1;
@@ -284,7 +224,7 @@ ModType& md = VarMod::value;
 using Mint = Modular<VarMod>;
 */
 
-constexpr int md = 998244353;
+constexpr int md = 1e9 + 7;
 using Mint = Modular<std::integral_constant<decay<decltype(md)>::type, md>>;
 
 vector<Mint> fact(1);
@@ -315,73 +255,220 @@ Mint A(int n, int k) {
     return fact[n] * inv_fact[n - k];
 }
 
+template <class T>
+auto vect(const T& v, int n) { return vector<T>(n, v); }
+template <class T, class... D>
+auto vect(const T& v, int n, D... m) {
+    return vector<decltype(vect(v, m...))>(n, vect(v, m...));
+}
+
+template <typename T>
+static constexpr T inf = numeric_limits<T>::max() / 2;
+mt19937_64 mrand(random_device{}());
+long long rnd(long long x) { return mrand() % x; }
+int lg2(long long x) { return sizeof(long long) * 8 - 1 - __builtin_clzll(x); }
+
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+
+typedef pair<int, int> pii;
+typedef tree<pii, null_type, less<pii>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+
+#include <assert.h>
+
+#include <array>
+#include <vector>
+
+// 多维动态大小数组，可以用于DP等场景。
+template <typename T, int dimensions>
+class md_vector;
+
+template <int dimensions>
+int md_size(const array<int, dimensions>& dsize) {
+    int base = 1;
+    for (int i = 0; i < dimensions; i++) {
+        base *= dsize[i];
+    }
+    return base;
+}
+
+template <typename T, int dimensions, int idx_dimensions>
+class md_vector_index {
+   public:
+    md_vector_index(md_vector<T, dimensions>& vec, int base = 0) : vector_(vec), base_(base) {
+    }
+
+    auto operator[](int v) {
+        assert(v < vector_.dsize_[idx_dimensions - 1]);
+        return md_vector_index<T, dimensions, idx_dimensions + 1>(vector_, (base_ + v) * vector_.dsize_[idx_dimensions]);
+    }
+
+   private:
+    md_vector<T, dimensions>& vector_;
+    int base_;
+};
+
+template <typename T, int dimensions>
+class md_vector_index<T, dimensions, dimensions> {
+   public:
+    md_vector_index(md_vector<T, dimensions>& vec, int base = 0) : vector_(vec), base_(base) {
+    }
+
+    T& operator[](int v) {
+        return vector_.data_[base_ + v];
+    }
+
+    md_vector<T, dimensions>& vector_;
+    int base_;
+};
+
+template <typename T, int dimensions>
+class md_vector {
+   public:
+    md_vector() {}
+    md_vector(md_vector<T, dimensions>& other) : data_(other.data_), dsize_(other.dsize_) {
+    }
+
+    md_vector(array<int, dimensions> dsize, T default_value = T())
+        : dsize_(dsize), data_(md_size<dimensions>(dsize), default_value) {
+    }
+
+    md_vector& operator=(md_vector<T, dimensions>&& other) {
+        data_ = other.data_;
+        dsize_ = other.dsize_;
+        return *this;
+    }
+
+    auto operator[](int v) {
+        return md_vector_index<T, dimensions, 1>(*this)[v];
+    }
+
+    T& operator[](array<int, dimensions> idx) {
+        int base = 0;
+        for (int i = 0; i < dimensions; i++) {
+            base *= dsize_[i];
+            base += idx[i];
+        }
+        return data_[base];
+    }
+
+    vector<T> data_;
+    array<int, dimensions> dsize_;
+};
+
+template <typename T, int dimensions>
+istream& operator>>(istream& in, md_vector<T, dimensions>& vec) {
+    return in >> vec.data_;
+}
+
+template <typename T, int dimensions>
+void make_md_presum(md_vector<T, dimensions>& vec) {
+    int diff = 1, base = 0;
+    for (int currD = dimensions - 1; currD >= 0; currD--) {
+        base = diff * vec.dsize_[currD];
+        for (int i = 0; i + diff < vec.data_.size(); i++) {
+            if (i % base + diff < base) {
+                vec.data_[i + diff] += vec.data_[i];
+            }
+        }
+        diff = base;
+    }
+}
+
+template <typename T, int dimensions, int idx_dimensions>
+string to_string(md_vector_index<T, dimensions, idx_dimensions>& vec) {
+    int sz = vec.vector_.dsize_[idx_dimensions - 1];
+    string s = "{";
+    for (int i = 0; i < sz; i++) {
+        s += to_string(vec[i]);
+        if (i != sz - 1) {
+            s += ", ";
+        }
+    }
+    s += "}";
+    return s;
+}
+
+template <typename T, int dimensions>
+string to_string(md_vector<T, dimensions>& vec) {
+    int sz = vec.dsize_[0];
+    string s = "{";
+    for (int i = 0; i < sz; i++) {
+        auto it = vec[i];
+        s += to_string(it);
+        if (i != sz - 1) {
+            s += ", ";
+        }
+    }
+    s += "}";
+    return s;
+}
+
+template <typename T>
+struct MDBIT {
+#define lowbit(x) x & -x
+    const int n, m;
+    md_vector<T, 2> a;
+    // [1, n]
+    MDBIT(int n, int m) : n(n), m(m) {
+        a = md_vector<T, 2>({n + 1, m + 1});
+    }
+    void add(int x, int y, T v) {
+        for (int p = x; p <= n; p += lowbit(p)) {
+            for (int q = y; q <= m; q += lowbit(q)) {
+                a[p][q] += v;
+            }
+        }
+    }
+
+    // [1, x]
+    T query(int x, int y) {
+        T res = 0;
+        for (int p = x; p > 0; p -= lowbit(p)) {
+            for (int q = y; q > 0; q -= lowbit(q)) {
+                res += a[p][q];
+            }
+        }
+        return res;
+    }
+
+    T range_query(int x1, int y1, int x2, int y2) {
+        T res = query(x2, y2) - query(x1 - 1, y2) - query(x2, y1 - 1) + query(x1 - 1, y1 - 1);
+        return res;
+    }
+};
+
 void solve() {
-    int n, m, v;
-    cin >> n >> m >> v;
-
-    TwoEdgeConnectedComponents<> g(n);
-    vector<int> weight(n);
+    int n;
+    cin >> n;
+    vector<int> a(n);
     for (int i = 0; i < n; i++) {
-        cin >> weight[i];
+        cin >> a[i];
+    }
+    int offset = 1;
+
+    MDBIT<Mint> md_bit(n + 2, n + 2);
+    md_bit.add(0 + offset, 0 + offset, Mint(1));
+
+    for (int i = 0; i < n; i++) {
+        // auto ndp = dp;
+        int val = a[i];
+        // 选它
+        for (int j = 0; j <= val; j++) {
+            // 更新 dp[j][val]
+            Mint tmp = md_bit.range_query(j + offset, 0 + offset, j + offset, val + offset);
+            md_bit.add(j + offset, val + offset, tmp);
+        }
+
+        for (int j = val + 1; j <= n; j++) {
+            Mint tmp = md_bit.range_query(0 + offset, j + offset, val + offset, j + offset);
+            md_bit.add(val + offset, j + offset, tmp);
+        }
     }
 
-    g.read(m);
-    g.build();
-
-    // 偶数环可以选 [0, v - 1], 奇数环只能是 0
-    // 同一个连通分量里面的点值一定要一样
-
-    auto& groups = g.group;
-    Mint ans = 1;
-    vector<int> color(n, -1);
-    for (auto group : groups) {
-        int w = -1;
-        for (auto u : group) {
-            if (weight[u] != -1) {
-                if (w != -1 && weight[u] != w) {
-                    cout << 0 << '\n';
-                    return;
-                }
-                w = weight[u];
-            }
-        }
-
-        set<int> S;
-        for (auto u : group) {
-            S.insert(u);
-        }
-        bool have_odd = false;
-
-        function<void(int, int, int)> dfs = [&](int u, int pre, int c) {
-            color[u] = c;
-            for (auto v : g[u]) {
-                if (v == pre) continue;
-                if (S.count(v) == 0) continue;
-                if (color[v] != -1) {
-                    if (color[v] == color[u]) {
-                        have_odd = true;
-                        return;
-                    }
-                } else {
-                    dfs(v, u, c ^ 1);
-                }
-            }
-        };
-        dfs(*S.begin(), -1, 0);
-
-        if (have_odd) {
-            if (w != -1 && w != 0) {
-                cout << 0 << '\n';
-                return;
-            }
-        } else {
-            if (w == -1) {
-                ans *= v;
-            }
-        }
-    }
+    Mint ans = md_bit.range_query(0 + offset, 0 + offset, n + offset, n + offset);
     cout << ans << '\n';
->>>>>>> 58204d6e7606536c9f2909d17b3be46cfdf1f9b9
 }
 
 int main() {

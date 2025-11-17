@@ -1,12 +1,5 @@
 #include <bits/stdc++.h>
 
-<<<<<<< HEAD
-#include "graph/graph-template.hpp"
-#include "graph/others/low-link.hpp"
-=======
-#include "./graph/connected-components/two-edge-connected-components.hpp"
-
->>>>>>> 58204d6e7606536c9f2909d17b3be46cfdf1f9b9
 using namespace std;
 
 #ifdef LOCAL
@@ -26,61 +19,7 @@ struct fast_ios {
         cout << fixed << setprecision(10);
     };
 } fast_ios_;
-<<<<<<< HEAD
 
-template <typename T = int>
-struct BiConnectedComponents : LowLink<T> {
-   public:
-    using LowLink<T>::LowLink;
-    using LowLink<T>::g;
-    using LowLink<T>::dfn;
-    using LowLink<T>::low;
-
-    vector<vector<Edge<T>>> bc;
-
-    void build() override {
-        LowLink<T>::build();
-        vis.assign(g.size(), 0);
-        for (int i = 0; i < g.size(); i++) {
-            if (vis[i] == 0) {
-                dfs(i, -1);
-            }
-        }
-    }
-
-    explicit BiConnectedComponents(const Graph<T> &g) : Graph<T>(g) {}
-
-   private:
-    vector<int> vis;
-    vector<Edge<T>> tmp;
-
-    void dfs(int u, int pre) {
-        vis[u] = 1;
-        bool beet = false;  // beet 检查是否有跟父亲的重边
-        for (auto &v : g[u]) {
-            if (v == pre && exchange(beet, true) == false) continue;
-            if (!vis[v] || dfn[v] < dfn[u]) {  // dfn[v] < dfn[u] 感觉只有跟父亲有重边时会加进来
-                tmp.emplace_back(v);
-            }
-
-            if (!vis[v]) {
-                dfs(v, u);
-                if (low[v] >= dfn[u]) {
-                    bc.emplace_back();
-                    while (true) {
-                        auto e = tmp.back();
-                        bc.back().emplace_back(e);
-                        tmp.pop_back();
-                        if (v.idx == e.idx) break;
-                    }
-                }
-            }
-        }
-    }
-};
-
-void solve() {
-=======
 template <typename T>
 T inverse(T a, T m) {
     T u = 0, v = 1;
@@ -316,72 +255,45 @@ Mint A(int n, int k) {
 }
 
 void solve() {
-    int n, m, v;
-    cin >> n >> m >> v;
-
-    TwoEdgeConnectedComponents<> g(n);
-    vector<int> weight(n);
+    int n;
+    cin >> n;
+    vector<int> a(n);
     for (int i = 0; i < n; i++) {
-        cin >> weight[i];
+        cin >> a[i];
+    }
+    debug(a);
+
+    int half = (n + 1) / 2;
+
+    int cnt = 0;
+    for (int i = 0; i < half; i++) {
+        cnt += a[i];
+    }
+    if (cnt != n) {
+        cout << 0 << '\n';
+        return;
+    }
+    for (int i = half; i < n; i++) {
+        if (a[i]) {
+            cout << 0 << '\n';
+            return;
+        }
     }
 
-    g.read(m);
-    g.build();
-
-    // 偶数环可以选 [0, v - 1], 奇数环只能是 0
-    // 同一个连通分量里面的点值一定要一样
-
-    auto& groups = g.group;
     Mint ans = 1;
-    vector<int> color(n, -1);
-    for (auto group : groups) {
-        int w = -1;
-        for (auto u : group) {
-            if (weight[u] != -1) {
-                if (w != -1 && weight[u] != w) {
-                    cout << 0 << '\n';
-                    return;
-                }
-                w = weight[u];
-            }
-        }
-
-        set<int> S;
-        for (auto u : group) {
-            S.insert(u);
-        }
-        bool have_odd = false;
-
-        function<void(int, int, int)> dfs = [&](int u, int pre, int c) {
-            color[u] = c;
-            for (auto v : g[u]) {
-                if (v == pre) continue;
-                if (S.count(v) == 0) continue;
-                if (color[v] != -1) {
-                    if (color[v] == color[u]) {
-                        have_odd = true;
-                        return;
-                    }
-                } else {
-                    dfs(v, u, c ^ 1);
-                }
-            }
-        };
-        dfs(*S.begin(), -1, 0);
-
-        if (have_odd) {
-            if (w != -1 && w != 0) {
-                cout << 0 << '\n';
-                return;
-            }
-        } else {
-            if (w == -1) {
-                ans *= v;
-            }
-        }
+    int now;
+    if (n % 2 == 0) {
+        now = 2;
+    } else {
+        now = 1;
+    }
+    for (int i = half - 1; i >= 0; i--) {
+        int need = a[i];
+        ans *= C(now, now - need);
+        now -= need;
+        now += 2;
     }
     cout << ans << '\n';
->>>>>>> 58204d6e7606536c9f2909d17b3be46cfdf1f9b9
 }
 
 int main() {
