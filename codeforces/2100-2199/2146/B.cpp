@@ -11,6 +11,7 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
+typedef array<int, 2> a2;
 
 struct fast_ios {
     fast_ios() {
@@ -23,51 +24,45 @@ struct fast_ios {
 void solve() {
     int n, m;
     cin >> n >> m;
+    vector<vector<int>> S(n);
+    set<int> all;
     vector<int> cnt(m + 1);
-    vector<vector<int>> V(n);
     for (int i = 0; i < n; i++) {
         int l;
         cin >> l;
-        V[i].resize(l);
         for (int j = 0; j < l; j++) {
-            cin >> V[i][j];
-            cnt[V[i][j]]++;
+            int a;
+            cin >> a;
+            all.insert(a);
+            S[i].push_back(a);
+            cnt[a]++;
         }
     }
 
-    bool ok = true;
-    for (int i = 1; i <= m; i++) {
-        if (cnt[i] == 0) {
-            ok = false;
-            break;
-        }
-    }
-    if (!ok) {
+    if (all.size() != m) {
         cout << "NO\n";
         return;
     }
 
-    auto check = [&](int idx) {
+    int res = 0;
+    for (int i = 0; i < n; i++) {
+        int sz = S[i].size();
         bool ok = true;
-        for (auto v : V[idx]) {
-            if (cnt[v] == 1) {
-                return false;
+        for (int j = 0; j < sz; j++) {
+            if (cnt[S[i][j]] == 1) {
+                ok = false;
+                break;
             }
         }
-        return true;
-    };
-
-    int ok_num = 0;
-    for (int i = 0; i < n; i++) {
-        if (check(i)) {
-            ok_num++;
-        }
-        if (ok_num == 2) {
-            cout << "YES\n";
-            return;
+        if (ok) {
+            res++;
         }
     }
-    cout << "NO\n";
+    if (res >= 2) {
+        cout << "YES\n";
+    } else {
+        cout << "NO\n";
+    }
 }
 
 int main() {

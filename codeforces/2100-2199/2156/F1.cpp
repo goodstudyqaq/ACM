@@ -29,22 +29,28 @@ void solve() {
         loc[a[i]] = i;
     }
 
+    auto work = [&](int x, int y, int z) {
+        a[x] -= 2;
+        a[y] += 1;
+        a[z] += 1;
+        loc[a[x]] = x;
+        loc[a[y]] = y;
+        loc[a[z]] = z;
+    };
+
     while (true) {
         bool change = false;
         // debug(loc);
-        for (int i = n; i >= 1; i--) {
-            int val = a[i];
-            if (val >= 3 && loc[val - 1] > i && loc[val - 2] > i) {
-                int l1 = loc[val - 1];
-                int l2 = loc[val - 2];
-                a[i] -= 2;
-                a[l1]++;
-                a[l2]++;
-                loc[a[i]] = i;
-                loc[a[l1]] = l1;
-                loc[a[l2]] = l2;
+        for (int val = 3; val <= n; val++) {
+            int loc1 = loc[val];
+            int loc2 = loc[val - 1];
+            int loc3 = loc[val - 2];
+            if (loc1 < loc2 && loc1 < loc3) {
+                int a = loc1;
+                int b = min(loc2, loc3);
+                int c = max(loc2, loc3);
+                work(a, b, c);
                 change = true;
-                break;
             }
         }
         if (!change) break;

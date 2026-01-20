@@ -24,70 +24,33 @@ void solve() {
     long long x, y, k;
     cin >> x >> y >> k;
 
-    // 每次去掉 y, 2y ...
-
-    if (k < y) {
-        cout << k << '\n';
-        return;
-    }
-
-    long long l = 1, r = 1e12;
-
-
-
-
-    auto check = [&](long long val) -> pll {
-        bool ok = false;
-        long long times = x;
-        while (times) {
-            if (val < y) break;
-            long long tmp2 = val % y;
-            long long remove = val / y;
-            // 大于等于 tmp 都是 remove 的代价
-            long long tmp_times = tmp2 / remove;
-            long long real_times = min(times, tmp_times);
-            times -= real_times;
-            val -= real_times * remove;
-            if (times == 0) break;
-            if (val % y == 0) {
-                ok = true;
-            }
-            val -= val / y;
-            times--;
-        }
-        return {val, ok};
-    };
-    // check(10);
-
-    auto it = check(r);
-
-    if (it.first < k) {
+    if (y == 1) {
         cout << -1 << '\n';
         return;
     }
 
-    while (l <= r) {
-        ll mid = l + r >> 1;
-        pll ans = check(mid);
-        // debug(l, r, mid, ans);
-        if (ans.second == 1) {
-            if (ans.first < k) {
-                l = mid + 1;
-            } else {
-                r = mid - 1;
-            }
-        } else {
-            if (ans.first == k) {
-                cout << mid << '\n';
-                return;
-            } else if (ans.first < k) {
-                l = mid + 1;
-            } else {
-                r = mid - 1;
-            }
+    const ll limit = 1e12;
+
+    while (x) {
+        ll jump = (k - 1) / (y - 1);
+        if (jump == 0) break;
+        ll r = ((k - 1) / (y - 1) + 1) * (y - 1);
+
+        ll dis = r - k;
+
+        ll tmp = dis / jump + 1;
+
+        ll mi = min(tmp, x);
+        x -= mi;
+
+        if (k > limit - jump * mi) {
+            cout << -1 << '\n';
+            return;
         }
+        k += jump * mi;
     }
-    cout << -1 << '\n';
+
+    cout << k << '\n';
 }
 
 int main() {
